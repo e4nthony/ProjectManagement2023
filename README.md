@@ -6,3 +6,4 @@ neoray hagag
 
 - Stav Sharabi
 - adar katzir
+- Ido Hazan
