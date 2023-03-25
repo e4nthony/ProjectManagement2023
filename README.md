@@ -8,3 +8,4 @@ Project Management Course 2023 - SCE
 - adar katzir
 - Ido Hazan
 - neoray hagag
+- Anthony Epshtein
