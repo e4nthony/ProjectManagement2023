@@ -23,7 +23,7 @@ jobs:
           command: npm run lint
       - run: 
           name: CD - Deploy web server
-          command: curl ""
+          command: curl "https://api.render.com/deploy/srv-cgil267dvk4vd547lm70?key=zXtl5KeQBKE"
       
 
 # Invoke jobs via workflows
