@@ -1,9 +1,30 @@
-link to our website: https://projectmanagement2023.onrender.com
----------------------------------------------------------------
+# Project Management Course 2023 - SCE
 
+## Link to our server:
+https://projectmanagement2023.onrender.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+\
+\
+\
+\
+\.
+
+## Team:
 - Stav Sharabi
-- adar katzir
+- Adar Katzir
 - Ido Hazan
-- neoray hagag
+- Neoray Hagag
 - Anthony Epshtein
 - Maor Hadad
