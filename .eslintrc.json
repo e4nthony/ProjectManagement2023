@@ -18,7 +18,11 @@
     ],
     "rules": {
         "indent": ["error", 4],
-        "linebreak-style": ["error", "windows"],
+        /**
+         * shuts down linebreak-style check,
+         * circle ci runs on linux (LF), we work on windows (CRLF)
+         */
+        "linebreak-style": 0 , 
         "no-console": ["off"],
         "prefer-template": ["off"]
     }
