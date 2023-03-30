@@ -17,5 +17,9 @@
         "react"
     ],
     "rules": {
+        "indent": ["error", 4],
+        "linebreak-style": ["error", "windows"],
+        "no-console": ["off"],
+        "prefer-template": ["off"]
     }
 }
