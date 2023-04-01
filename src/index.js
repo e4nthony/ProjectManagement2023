@@ -1,15 +1,15 @@
-import express from 'express';
+const express = require('express');
 const app = express();
 
 /** For request/response functionality in func. (middleware) */
-import bodyParser from 'body-parser';
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const port = 4001;  // const port = process.env.port || 4000;
+const port = 3080;  // alter // const port = process.env.port || 4000;
 
 /** --- Routes --- */
-import default_route from './routes/default_route.js';
+const default_route = require('./routes/default_route.js');
 /** 
  * Default route handler.
  * ( Mount the routesHandler as middleware at path '/' ).
