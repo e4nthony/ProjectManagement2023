@@ -40,9 +40,20 @@
          */
         "prefer-template": ["off"],
 
-        "import/newline-after-import": ["off"],
-        "no-multiple-empty-lines": ["off"],
-        "import/first": ["off"]
+
+
         
+
+        "no-multiple-empty-lines": ["off"],
+
+        /**
+         * newline-after-import - disabled. 
+         */
+        "import/newline-after-import": ["off"],
+
+        /**
+         * require imports at to of file - disabled. 
+         */
+        "import/first": ["off"]
     }
 }
