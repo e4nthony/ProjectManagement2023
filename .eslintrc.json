@@ -17,9 +17,7 @@
         "react"
     ],
     "rules": {
-        /**
-         * indentation : 4 spaces (tab) .
-         */
+        /** indentation : 4 spaces. (not tab). */
         "indent": ["error", 4],
 
         /**
@@ -29,9 +27,7 @@
          */
         "linebreak-style": 0 , 
 
-        /**
-         * remove warnings at console when runs ‘lint’ script.
-         */
+        /** remove warnings at console when runs ‘lint’ script. */
         "no-console": ["off"],
 
         /**
@@ -42,18 +38,34 @@
 
 
 
-        
+    
 
+
+
+
+
+        /** like that above? Nah, thanks. */
         "no-multiple-empty-lines": ["off"],
 
-        /**
-         * newline-after-import - disabled. 
-         */
+        /** No multi spaces in one row before comments - Ignore comments. Wanr about code. */
+        "no-multi-spaces": ["warn", { "ignoreEOLComments": true }],
+
+        /** Disallow trailing whitespace at the end of lines - disabled. */
+        "no-trailing-spaces": ["off"],
+        
+        /** force newline after import - disabled. */
         "import/newline-after-import": ["off"],
 
-        /**
-         * require imports at to of file - disabled. 
-         */
-        "import/first": ["off"]
+        /** require imports at to of file - disabled. */
+        "import/first": ["off"],
+
+        /** force CamelCase in name of files - disabled. */
+        "camelcase": ["off"],
+        
+        /** semicolons - warn about missing semicolons at the end of line; */
+        "semi": ["warn"]
+
+
+        
     }
 }
