@@ -18,17 +18,17 @@ app.listen(port, () => {
 
 
 
-//router
+// router
 // const express = require('express');
 const routesHandler = express.Router();
 app.use('/', routesHandler); // Mount the routesHandler as middleware at path '/'
 
 routesHandler.get('/hey', (req, res) => {
     const str = [{
-        "param1": "1",
-        "param2": "2",
-        "param3": "3",
-        "msg": "This in server default message."
+        param1: '1',
+        param2: '2',
+        param3: '3',
+        msg: 'This in server default message.',
     }];
     res.end(JSON.stringify(str));
 
@@ -44,13 +44,13 @@ routesHandler.get('/post', (req, res) => {
     res.send('Hello from the server. (post)');
 });
 
-////still works
+// //still works
 // app.get('/getparams', (req, res) => {
 //     const str = [{
-//         "param1": "1",
-//         "param2": "2",
-//         "param3": "3",
-//         "msg": "This is server default message."
+//         'param1': '1',
+//         'param2': '2',
+//         'param3': '3',
+//         'msg': 'This is server default message.'
 //     }];
 //     res.end(JSON.stringify(str));
 
