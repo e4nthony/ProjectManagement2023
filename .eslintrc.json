@@ -17,13 +17,27 @@
         "react"
     ],
     "rules": {
-        "indent": ["error", 4],
         /**
-         * shuts down linebreak-style check,
-         * circle ci runs on linux (LF), we work on windows (CRLF)
+         * indentation : 4 spaces (tab) .
+         */
+        "indent": ["error", 4],
+
+        /**
+         * linebreak-style check LF/CRLF - disabled.
+         * CircleCI runs on linux (LF), we work on windows (CRLF).
+         * Caused errors when runs ‘lint’ script on linux server(CircleCI).
          */
         "linebreak-style": 0 , 
+
+        /**
+         * remove warnings at console when runs ‘lint’ script.
+         */
         "no-console": ["off"],
+
+        /**
+         * string operators restrictions - disabled. 
+         * allows to use operator '+' with strings.
+         */
         "prefer-template": ["off"]
     }
 }
