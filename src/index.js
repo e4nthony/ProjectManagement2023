@@ -3,7 +3,7 @@ import express from 'express';
 const port = process.env.port || 3000;
 const app = express();
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
     console.log('A new request has arrived to index.js');
