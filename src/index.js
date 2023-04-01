@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 const port = 3080;  // alter // const port = process.env.port || 4000;
 
 /** --- Routes --- */
-const default_route = require('./routes/default_route.js');
+const default_route = require('./routes/default_route');
 /** 
  * Default route handler.
  * ( Mount the routesHandler as middleware at path '/' ).
