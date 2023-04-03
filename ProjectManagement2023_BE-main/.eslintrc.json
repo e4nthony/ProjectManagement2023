@@ -1,0 +1,59 @@
+{
+    "env": {
+        "browser": false,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb"
+    ],
+    "overrides": [
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        /**
+         * indentation : 4 spaces (tab) .
+         */
+        "indent": ["error", 4],
+
+        /**
+         * linebreak-style check LF/CRLF - disabled.
+         * CircleCI runs on linux (LF), we work on windows (CRLF).
+         * Caused errors when runs ‘lint’ script on linux server(CircleCI).
+         */
+        "linebreak-style": 0 , 
+
+        /**
+         * remove warnings at console when runs ‘lint’ script.
+         */
+        "no-console": ["off"],
+
+        /**
+         * string operators restrictions - disabled. 
+         * allows to use operator '+' with strings.
+         */
+        "prefer-template": ["off"],
+
+
+
+        
+
+        "no-multiple-empty-lines": ["off"],
+
+        /**
+         * newline-after-import - disabled. 
+         */
+        "import/newline-after-import": ["off"],
+
+        /**
+         * require imports at to of file - disabled. 
+         */
+        "import/first": ["off"]
+    }
+}
