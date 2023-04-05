@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+const { expect } = require('chai');
 
 // eslint-disable-next-line no-undef
 describe('Array', () => {
