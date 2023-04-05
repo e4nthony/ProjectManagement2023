@@ -4,7 +4,6 @@
         "es2021": true
     },
     "extends": [
-        "plugin:react/recommended",
         "airbnb"
     ],
     "overrides": [
@@ -14,7 +13,6 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
     ],
     "rules": {
         /** indentation : 4 spaces. (not tab). */
