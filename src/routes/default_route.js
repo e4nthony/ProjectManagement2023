@@ -17,6 +17,13 @@ router.get('/getparams', (req, res) => {
     console.log('server got request \'/getparams\' ');
 });
 
+router.post('/login', (req, res) => {
+    // let save = req 
+    // to json , to obj
+    // check email & password
+    res.send({msg: 'Invalid email or password (server message)'});
+});
+
 router.post('/post', (req, res) => {
     res.send('Hello from the server. (/post)');
 });
