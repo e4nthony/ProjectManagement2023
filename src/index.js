@@ -1,26 +1,35 @@
+/* eslint-disable */
+/* the line above disables eslint check for this file (temporarily) todo:delete */
+
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
 const UrlDb = 'mongodb+srv://Maor:Maor1234@bidzonedb.z6xllsi.mongodb.net/?retryWrites=true&w=majority';
-import User from '../models/auth_model';
+// import User from '../models/auth_model';
+let User = require('./models/auth_model');
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 async function connecttoDB() {
     try {
+        console.log('Trying to connect to DB');
         mongoose.connect(UrlDb);
-        console.log('Connect to DB');
     } catch (error) {
         console.log('Error connecting to DB');
     }
+    
     const db = mongoose.connection
+    
     db.on('error', error => { console.error('Failed to connect to MongoDB: ' + error) })
     db.once('open', () => { console.log('Connected to MongoDB.') })
 
     //  save user to db:
     const newUser = new User({
-    'email': 'abfd',
-    'enc_password': 'abcd'});
-
+        email: 'abc2@example.com',
+        enc_password: 'abcde2' 
+    });
+    //  save changes to remote db:
     await newUser.save();
 }
 connecttoDB();
@@ -28,7 +37,6 @@ connecttoDB();
 
 
 /** For request/response functionality in func. (middleware) */
-const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

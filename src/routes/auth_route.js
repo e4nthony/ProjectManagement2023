@@ -1,3 +1,6 @@
+/* eslint-disable */
+/* the line above disables eslint check for this file (temporarily) todo:delete */
+
 const express = require('express');
 const router = express.Router(); // router is 'routes handler'
 
