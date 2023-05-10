@@ -2,17 +2,30 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const UrlDb = 'mongodb+srv://Maor:Maor1234@bidzonedb.z6xllsi.mongodb.net/?retryWrites=true&w=majority';
+import User from '../models/auth_model';
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 async function connecttoDB() {
     try {
-        await mongoose.connect(UrlDb);
+        mongoose.connect(UrlDb);
         console.log('Connect to DB');
     } catch (error) {
         console.log('Error connecting to DB');
     }
+    const db = mongoose.connection
+    db.on('error', error => { console.error('Failed to connect to MongoDB: ' + error) })
+    db.once('open', () => { console.log('Connected to MongoDB.') })
+
+    //  save user to db:
+    const newUser = new User({
+    'email': 'abfd',
+    'enc_password': 'abcd'});
+
+    await newUser.save();
 }
 connecttoDB();
+
+
 
 /** For request/response functionality in func. (middleware) */
 const bodyParser = require('body-parser');
