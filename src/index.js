@@ -1,14 +1,14 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const UrlDb = "mongodb+srv://Maor:Maor1234@bidzonedb.z6xllsi.mongodb.net/?retryWrites=true&w=majority";
+const UrlDb = 'mongodb+srv://Maor:Maor1234@bidzonedb.z6xllsi.mongodb.net/?retryWrites=true&w=majority';
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 async function connecttoDB() {
     try {
         await mongoose.connect(UrlDb);
         console.log('Connect to DB');
-    }catch (error) {
+    } catch (error) {
         console.log('Error connecting to DB');
     }
 }
