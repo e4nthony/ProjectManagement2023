@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 
 const UrlDb = 'mongodb+srv://Maor:Maor1234@bidzonedb.z6xllsi.mongodb.net/?retryWrites=true&w=majority';
 // import User from '../models/auth_model';
-let User = require('./models/auth_model');
+let UserAuth = require('./models/auth_model');
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 async function connecttoDB() {
@@ -20,17 +20,41 @@ async function connecttoDB() {
     }
     
     const db = mongoose.connection
-    
+
     db.on('error', error => { console.error('Failed to connect to MongoDB: ' + error) })
     db.once('open', () => { console.log('Connected to MongoDB.') })
 
-    //  save user to db:
-    const newUser = new User({
-        email: 'abc2@example.com',
-        enc_password: 'abcde2' 
-    });
-    //  save changes to remote db:
-    await newUser.save();
+    
+
+
+
+    const Register = async () => {
+
+        //  save new user to db:
+        const newUser = new UserAuth({
+            email: 'abc3@example.com',
+            enc_password: 'abcde3' 
+        });
+
+        //  save changes to remote db:
+        await newUser.save();
+    }
+    Register();
+
+    const getAllUsers = async () => {
+        console.log('getting All Users from remote DB')
+    
+        try {
+            let users = {};
+    
+            users = await UserAuth.find()
+
+            console.log(String(users))
+        } catch (err) {
+        }
+    }
+    getAllUsers();
+
 }
 connecttoDB();
 
