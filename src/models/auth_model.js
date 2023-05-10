@@ -12,13 +12,4 @@ const userSchema = new Schema({
     }
 });
 
-// export default userSchema;
-module.exports = mongoose.model('User', userSchema);
-
-// md = mongoose.model('User', userSchema);
-// export default md;
-
-// module.exports = 
-
-// const AuthDataModel = model('User', userSchema);
-// export default AuthDataModel;
+module.exports = model('User', userSchema);
