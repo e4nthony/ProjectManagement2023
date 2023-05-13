@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 
 const UrlDb = 'mongodb+srv://Maor:Maor1234@bidzonedb.z6xllsi.mongodb.net/?retryWrites=true&w=majority';
 // import User from '../models/auth_model';
-let UserAuth = require('./models/auth_model');
+const UserAuth = require('./models/auth_model');
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 async function connecttoDB() {
@@ -61,18 +61,16 @@ connecttoDB();
 
 // Access-Control-Allow-Origin
 const cors = require("cors");
-app.use(
-    cors()
-    
-    // cors({
-    //     origin: "http://127.0.0.1:3000",
-    //     credentials: true,
-    // })
-
-);
+app.use( // todo double check the security of this cors params
+    cors({
+        "origin": "*",
+        "methods": "GET,POST,DELETE",
+        "preflightContinue": false,
+        "optionsSuccessStatus": 204
+      }));
 
 /** For request/response functionality in func. (middleware) */
-app.use(bodyParser.urlencoded({ extended: false }));
+        app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const port = 3080;  // alter // const port = process.env.port || 4000;

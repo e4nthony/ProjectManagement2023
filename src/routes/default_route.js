@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router(); // router is 'routes handler'
 
+const UserAuth = require('../models/auth_model'); // todo delete
+
 router.get('/', (req, res) => {
     res.send('Hello from the server. ( \'/\' )');
 });
@@ -25,7 +27,28 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/get_all_users_mails', (req, res) => {
-    res.send('pretend that here is list of emails2');
+
+    const getAllUsers = async () => {
+        console.log('getting All Users from remote DB')
+    
+        try {
+    
+            let users = {};
+    
+            users = await UserAuth.find()
+            console.log(users)
+            
+            res.send(users);
+        } catch (err) {
+            console.log('db unreacheble')
+            res.send('pretend that here is list of emails2');
+        }
+    }
+    getAllUsers();
+
+
+
+    
 });
 
 router.post('/post', (req, res) => {
