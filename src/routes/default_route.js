@@ -24,6 +24,10 @@ router.post('/login', (req, res) => {
     res.send({ msg: 'Invalid email or password (server message)' });
 });
 
+router.get('/get_all_users_mails', (req, res) => {
+    res.send('pretend that here is list of emails2');
+});
+
 router.post('/post', (req, res) => {
     res.send('Hello from the server. (/post)');
 });

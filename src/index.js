@@ -59,6 +59,17 @@ async function connecttoDB() {
 connecttoDB();
 
 
+// Access-Control-Allow-Origin
+const cors = require("cors");
+app.use(
+    cors()
+    
+    // cors({
+    //     origin: "http://127.0.0.1:3000",
+    //     credentials: true,
+    // })
+
+);
 
 /** For request/response functionality in func. (middleware) */
 app.use(bodyParser.urlencoded({ extended: false }));
