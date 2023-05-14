@@ -1,49 +1,28 @@
-// /* eslint-disable */
-// /* the line above disables eslint check for this file (temporarily) todo:delete */
+/* eslint-disable */
+/* the line above disables eslint check for this file (temporarily) todo:delete */
 
-// const express = require('express');
-// const router = express.Router(); // router is 'routes handler'
+const express = require('express');
+const router = express.Router(); // router is 'routes handler'
 
-// let tempdata = "";
+router.post('/register', (req, res) => {
+    // TODO: let save = req 
+    // TODO: to json , to obj
+    // TODO: check email & password
+    // TODO: add to db 
+    // TODO: send response that register is ok
+    res.send({ msg: 'default response from server \"auth\\register\" path' });
+});
 
+router.post('/login', (req, res) => {
+    // TODO: let save = req 
+    // TODO: to json , to obj
+    // TODO: check email & password
+    // TODO: send response 
+    res.send({ msg: 'default response from server \"auth\\login\" path' });
+});
 
-// router.get('/', (req, res) => {
-//     res.send('Hello from the server. ( \'/\' )');
-// });
-
-// router.get('/getparams', (req, res) => {
-//     const str = [{
-//         param1: '1',
-//         param2: '2',
-//         param3: '3',
-//         msg: 'This is server default message.',
-//     }];
-//     tempdata = JSON.stringify(str)
-
-//     res.end(JSON.stringify(str));
-
-//     console.log('server got request \'/getparams\' ');
-// });
-
-// router.get('/get_all_users_mails', (req, res) => {
-//     res.send('pretend that here is list of emails');
-// });
-
-
-// router.post('/post', (req, res) => {
-//     res.send('Hello from the server. (/post)');
-// });
-
-// router.post('/post1', (req, res) => {
-//     res.end('post1');
-// });
-
-// router.put('/put1', (req, res) => {
-//     res.send('put1');
-// });
-
-// /** 
-//  * Makes default_route usable as separate file. (requires import where used). 
-//  * ( 'router' is renamed to 'default_route' in index.js . ) 
-//  * */
-// module.exports = router;
+/** 
+ * Makes default_route usable as separate file. (requires import where used). 
+ * ( 'router' is renamed to 'default_route' in index.js . ) 
+ * */
+module.exports = router;

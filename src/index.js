@@ -59,9 +59,9 @@ async function connecttoDB() {
 connecttoDB();
 
 
-// Access-Control-Allow-Origin
+// Access-Control-Allow-Origin ENABLE
 const cors = require("cors");
-app.use( // todo double check the security of this cors params
+app.use( // todo double check the security of this CORS params
     cors({
         "origin": "*",
         "methods": "GET,POST,DELETE",
@@ -75,6 +75,7 @@ app.use(bodyParser.json());
 
 const port = 3080;  // alter // const port = process.env.port || 4000;
 
+
 /** --- Routes --- */
 const default_route = require('./routes/default_route');
 /** 
@@ -82,6 +83,15 @@ const default_route = require('./routes/default_route');
  * ( Mount the routesHandler as middleware at path '/' ).
  */ 
 app.use('/', default_route);
+
+const auth_route = require('./routes/auth_route');
+/** 
+ * Default route handler.
+ * ( Mount the routesHandler as middleware at path '/auth' ).
+ */ 
+app.use('/auth', auth_route);
+
+
 
 /** Make files in folder "public" accessible via url. Example: '/public/index.html' . */
 app.use('/public', express.static('public'));
