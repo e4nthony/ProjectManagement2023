@@ -5,10 +5,9 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
 const UrlDb = 'mongodb+srv://Maor:Maor1234@bidzonedb.z6xllsi.mongodb.net/?retryWrites=true&w=majority';
-// import User from '../models/auth_model';
-const UserAuth = require('./models/auth_model');
+//import{ getAllUsers } from 'src\Action\ActionDB.js';
+//const result =getAllUsers();
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 async function connecttoDB() {
@@ -23,50 +22,17 @@ async function connecttoDB() {
 
     db.on('error', error => { console.error('Failed to connect to MongoDB: ' + error) })
     db.once('open', () => { console.log('Connected to MongoDB.') })
-
-    
-
-
-
-    const Register = async () => {
-
-        //  save new user to db:
-        const newUser = new UserAuth({
-            email: 'abc3@example.com',
-            enc_password: 'abcde3' 
-        });
-
-        //  save changes to remote db:
-        await newUser.save();
-    }
-    Register();
-
-    const getAllUsers = async () => {
-        console.log('getting All Users from remote DB')
-    
-        try {
-            let users = {};
-    
-            users = await UserAuth.find()
-
-            console.log(String(users))
-        } catch (err) {
-        }
-    }
-    getAllUsers();
-
 }
 connecttoDB();
-
 
 // Access-Control-Allow-Origin
 const cors = require("cors");
 app.use( // todo double check the security of this cors params
     cors({
-        "origin": "*",
+        /**"origin": "*",
         "methods": "GET,POST,DELETE",
         "preflightContinue": false,
-        "optionsSuccessStatus": 204
+        "optionsSuccessStatus": 204*/
       }));
 
 /** For request/response functionality in func. (middleware) */
