@@ -26,7 +26,7 @@ async function connecttoDB() {
 connecttoDB();
 
 // Access-Control-Allow-Origin
-const cors = require("cors");
+const cors = require('cors');
 app.use( // todo double check the security of this cors params
     cors({
         /**"origin": "*",
