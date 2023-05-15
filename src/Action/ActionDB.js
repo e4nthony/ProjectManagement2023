@@ -5,14 +5,15 @@ const Register = async (req,res) => {
 
     //  save new user to db:
     const newUser = new UserAuth({
-        email: req.email,
-        userName: req.userName,
-        firstName: req.firstName,
-        lastName: req.lastName,
-        enc_password: req.enc_password,
-        date: req.date
+        email: req.body.email,
+        userName: req.body.userName,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        enc_password: req.body.enc_password,
+        date: req.body.date
 
     });
+    
 
     //  save changes to remote db
     await newUser.save();
