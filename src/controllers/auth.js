@@ -48,8 +48,6 @@ async function login(req, res) {
             return sendError(res, error_txt); //   Wrong password
         }
 
-        // res.set('Access-Control-Allow-Origin', '*');
-
         return res.status(200).send({ 'status': 'success' });
     } catch (err) {
         /**
