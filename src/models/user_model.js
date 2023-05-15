@@ -18,6 +18,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    enc_password: {
+        type: String,
+        required: true,
+    },
     date: {
         type: Date,
         required: true,

@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const UrlDb = 'mongodb+srv://Maor:Maor1234@bidzonedb.z6xllsi.mongodb.net/?retryWrites=true&w=majority';
 //import{ getAllUsers } from 'src\Action\ActionDB.js';
 //const result =getAllUsers();
-
+const UserAuth = require('./models/auth_model');
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 async function connecttoDB() {
     try {

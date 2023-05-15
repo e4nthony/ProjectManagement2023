@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const UserAuth = require('./models/auth_model');
-
+const UserAuthModel = require ('./models/user_model');
 const Register = async (req,res) => {
 
     //  save new user to db:
-    const newUser = new UserAuth({
+    const newUser = new UserAuthModel({
         email: req.body.email,
         userName: req.body.userName,
         firstName: req.body.firstName,
