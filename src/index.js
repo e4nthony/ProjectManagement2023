@@ -17,37 +17,80 @@ async function connecttoDB() {
     } catch (error) {
         console.log('Error connecting to DB');
     }
-    
+
     const db = mongoose.connection
 
     db.on('error', error => { console.error('Failed to connect to MongoDB: ' + error) })
     db.once('open', () => { console.log('Connected to MongoDB.') })
+
+
+
+
+
+    const Register = async () => {
+
+        //  save new user to db:
+        const newUser = new UserAuth({
+            email: 'abc3@example.com',
+            enc_password: 'abcde3'
+        });
+
+        //  save changes to remote db:
+        await newUser.save();
+    }
+    Register();
+
+    const getAllUsers = async () => {
+        console.log('getting All Users from remote DB')
+
+        try {
+            let users = {};
+
+            users = await UserAuth.find()
+
+            console.log(String(users))
+        } catch (err) {
+        }
+    }
+    getAllUsers();
+
 }
 connecttoDB();
 
-// Access-Control-Allow-Origin
+// Access-Control-Allow-Origin ENABLE
 const cors = require('cors');
-app.use( // todo double check the security of this cors params
+app.use( // todo double check the security of this CORS params
     cors({
-        /**"origin": "*",
+        "origin": "*",
         "methods": "GET,POST,DELETE",
         "preflightContinue": false,
-        "optionsSuccessStatus": 204*/
-      }));
+        "optionsSuccessStatus": 204
+    })
+);
 
 /** For request/response functionality in func. (middleware) */
-        app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const port = 3080;  // alter // const port = process.env.port || 4000;
+
 
 /** --- Routes --- */
 const default_route = require('./routes/default_route');
 /** 
  * Default route handler.
  * ( Mount the routesHandler as middleware at path '/' ).
- */ 
+ */
 app.use('/', default_route);
+
+const auth_route = require('./routes/auth_route');
+/** 
+ * Default route handler.
+ * ( Mount the routesHandler as middleware at path '/auth' ).
+ */ 
+app.use('/auth', auth_route);
+
+
 
 /** Make files in folder "public" accessible via url. Example: '/public/index.html' . */
 app.use('/public', express.static('public'));
