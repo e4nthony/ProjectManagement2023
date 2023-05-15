@@ -18,13 +18,13 @@ async function connecttoDB() {
     } catch (error) {
         console.log('Error connecting to DB');
     }
-    
+
     const db = mongoose.connection
 
     db.on('error', error => { console.error('Failed to connect to MongoDB: ' + error) })
     db.once('open', () => { console.log('Connected to MongoDB.') })
 
-    
+
 
 
 
@@ -33,7 +33,7 @@ async function connecttoDB() {
         //  save new user to db:
         const newUser = new UserAuth({
             email: 'abc3@example.com',
-            enc_password: 'abcde3' 
+            enc_password: 'abcde3'
         });
 
         //  save changes to remote db:
@@ -43,10 +43,10 @@ async function connecttoDB() {
 
     const getAllUsers = async () => {
         console.log('getting All Users from remote DB')
-    
+
         try {
             let users = {};
-    
+
             users = await UserAuth.find()
 
             console.log(String(users))
@@ -67,10 +67,11 @@ app.use( // todo double check the security of this CORS params
         "methods": "GET,POST,DELETE",
         "preflightContinue": false,
         "optionsSuccessStatus": 204
-      }));
+    })
+);
 
 /** For request/response functionality in func. (middleware) */
-        app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const port = 3080;  // alter // const port = process.env.port || 4000;
@@ -81,7 +82,7 @@ const default_route = require('./routes/default_route');
 /** 
  * Default route handler.
  * ( Mount the routesHandler as middleware at path '/' ).
- */ 
+ */
 app.use('/', default_route);
 
 const auth_route = require('./routes/auth_route');
