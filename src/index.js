@@ -61,7 +61,7 @@ connecttoDB();
 const cors = require('cors');
 app.use( // todo double check the security of this CORS params
     cors({
-        /**"origin": "*",
+        "origin": "*",
         "methods": "GET,POST,DELETE",
         "preflightContinue": false,
         "optionsSuccessStatus": 204
