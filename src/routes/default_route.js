@@ -1,7 +1,10 @@
+/* eslint-disable */
+/* the line above disables eslint check for this file (temporarily) todo:delete */
+
 const express = require('express');
 const router = express.Router(); // router is 'routes handler'
 
-const UserAuth = require('../models/auth_model'); // todo delete
+const auth_model = require('../models/auth_model'); // todo delete
 
 router.get('/', (req, res) => {
     res.send('Hello from the server. ( \'/\' )');
@@ -19,13 +22,6 @@ router.get('/getparams', (req, res) => {
     console.log('server got request \'/getparams\' ');
 });
 
-router.post('/login', (req, res) => {
-    // let save = req 
-    // to json , to obj
-    // check email & password
-    res.send({ msg: 'Invalid email or password (server message)' });
-});
-
 router.get('/get_all_users_mails', (req, res) => {
 
     const getAllUsers = async () => {
@@ -35,7 +31,7 @@ router.get('/get_all_users_mails', (req, res) => {
     
             let users = {};
     
-            users = await UserAuth.find()
+            users = await auth_model.find()
             console.log(users)
             
             res.send(users);
