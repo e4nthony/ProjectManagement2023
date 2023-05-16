@@ -6,12 +6,15 @@ const router = express.Router(); // router is 'routes handler'
 
 const auth_model = require('../models/auth_model'); // todo delete
 
-router.get('/authToken', validateToken, (req, res) => {
-    res.json(req.user);
-});
+const { validateToken } = require('../middlewares/AuthMiddleware');
+//import { validateToken } from '../middlewares/AuthMiddleware';
 
 router.get('/', (req, res) => {
     res.send('Hello from the server. ( \'/\' )');
+});
+
+router.get('/authToken', validateToken, (req, res) => {
+    res.json(req.user);
 });
 
 router.get('/getparams', (req, res) => {

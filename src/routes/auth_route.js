@@ -6,8 +6,6 @@ const router = express.Router(); // router is 'routes handler'
 
 /** auth controller */
 const auth = require('../controllers/auth');
-const { validateToken } = require('../middlewares/AuthMiddleware');
-
 
 router.post('/register', async (req, res) => {
     // TODO: let save = req 
