@@ -13,7 +13,7 @@ const statusERROR = 400     //  Bad Request / ERROR
 
 /** mongo db model */
 const auth_model = require('../models/auth_model')
-
+const { sign } = require('jsonwebtoken');
 
 function sendError(res, error_msg) {
     return res.status(200).send(false);
@@ -37,18 +37,21 @@ async function login(req, res) {
     //    else if (password == null) {
     //        return sendError(res, error_txt);   //   Epmty password
     //    }
-    function check_details() {
+
+    function check_details() { //will check details from DB
         if (email == tempUser.email && password == tempUser.password)
             return true;
         return false;
     }
+
     try {
         const userAuthData = await check_details();    //  findOne() mongodb's func.
         console.log("userAuthData: " + userAuthData);
         if (userAuthData) {
-            return res.status(200).send(email);
+            const accessToken = sign({ email, password }, 'AniMaccabiMiAtemBihlal');
+            return res.status(200).json(accessToken);
         }
-        return res.status(400).send(email);
+        return res.status(400).json({ error: error_txt });
         //        if (userAuthData == false) {
         //            return sendError(res, error_txt); //  Email not registered yet / not found
         //        }
