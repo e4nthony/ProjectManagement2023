@@ -46,7 +46,6 @@ async function login(req, res) {
 
     try {
         const userAuthData = await check_details();    //  findOne() mongodb's func.
-        console.log("userAuthData: " + userAuthData);
         if (userAuthData) {
             const accessToken = sign({ email, password }, 'AniMaccabiMiAtemBihlal');
             return res.status(200).json(accessToken);
@@ -98,5 +97,6 @@ async function login(req, res) {
     //
     //    // res.send({ msg: 'default response from server \"auth\\login\" path' });
 };
+
 
 module.exports = { login }

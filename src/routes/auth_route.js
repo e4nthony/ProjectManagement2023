@@ -5,7 +5,8 @@ const express = require('express');
 const router = express.Router(); // router is 'routes handler'
 
 /** auth controller */
-const auth = require('../controllers/auth')
+const auth = require('../controllers/auth');
+const { validateToken } = require('../middlewares/AuthMiddleware');
 
 
 router.post('/register', async (req, res) => {
@@ -19,6 +20,7 @@ router.post('/register', async (req, res) => {
 
 /** path login use func login from auth controller file */
 router.post('/login', auth.login);
+
 
 /** 
  * Makes default_route usable as separate file. (requires import where used). 
