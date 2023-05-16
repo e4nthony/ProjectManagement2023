@@ -19,6 +19,11 @@ function sendError(res, error_msg) {
     res.status(400).send({ 'error': error_msg });
 }
 
+async function register(req, res) {
+    
+}
+
+
 async function login(req, res) {
     const email = req.body.email;
     const password = req.body.password;
@@ -61,4 +66,4 @@ async function login(req, res) {
     // res.send({ msg: 'default response from server \"auth\\login\" path' });
 };
 
-module.exports = { login }
+module.exports = { login, register }

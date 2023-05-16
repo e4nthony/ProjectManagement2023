@@ -8,14 +8,7 @@ const router = express.Router(); // router is 'routes handler'
 const auth = require('../controllers/auth')
 
 
-router.post('/register', async (req, res) => {
-    // TODO: let save = req 
-    // TODO: to json , to obj
-    // TODO: check email & password
-    // TODO: add to db 
-    // TODO: send response that register is ok
-    res.send({ msg: 'default response from server \"auth\\register\" path' });
-});
+router.post('/register', auth.register);
 
 /** path login use func login from auth controller file */
 router.post('/login', auth.login);
