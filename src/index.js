@@ -27,18 +27,18 @@ async function connecttoDB() {
 
 
 
-    const Register = async () => {
-
-        //  save new user to db:
-        const newUser = new UserAuth({
-            email: 'abc3@example.com',
-            enc_password: 'abcde3'
-        });
-
-        //  save changes to remote db:
-        await newUser.save();
-    }
-    Register();
+    //    const Register = async () => {        //  save new user to db:
+    //    
+    //
+    //        const newUser = new UserAuth({
+    //            email: 'abc3@example.com',
+    //            enc_password: 'abcde3'
+    //        });        //  save changes to remote db:
+    //            
+    //
+    //        await newUser.save();
+    //    }
+    //Register();
 
     const getAllUsers = async () => {
         console.log('getting All Users from remote DB')
@@ -87,7 +87,7 @@ const auth_route = require('./routes/auth_route');
 /** 
  * Default route handler.
  * ( Mount the routesHandler as middleware at path '/auth' ).
- */ 
+ */
 app.use('/auth', auth_route);
 
 
