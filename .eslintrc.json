@@ -61,8 +61,10 @@
         "camelcase": ["off"],
         
         /** semicolons - warn about missing semicolons at the end of line; */
-        "semi": ["warn"]
+        "semi": ["warn"],
 
+        /** Require constructor names to begin with a capital letter - warn */
+        "new-cap": ["warn"]
 
         
     }

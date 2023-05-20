@@ -8,15 +8,16 @@
  * 5XX — Server Error
  */
 
-/* MongoDB models */
-const auth_model = require('../models/auth_model')
-const user_model = require('../models/user_model');
-
 /* Token */
 const jwt = require('jsonwebtoken');
 
+/* MongoDB models */
+const auth_model = require('../models/auth_model');
+const user_model = require('../models/user_model');
+
+
 /* Access Global Variables */
-require("dotenv").config();
+require('dotenv').config();
 
 /**
  * Checks user's registration data
@@ -33,14 +34,14 @@ async function register(req, res) {
             userName: req.body.userName,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            birth_date: req.body.birth_date
+            birth_date: req.body.birth_date,
         });
         await newUserInfo.save();   // saves changes to remote db
 
         /* User's Authentication Credentils */
         const newUserCredentils = new auth_model({
             email: req.body.email,
-            enc_password: req.body.enc_password
+            enc_password: req.body.enc_password,
         });
         await newUserCredentils.save();  // saves changes to remote db
 
@@ -48,6 +49,7 @@ async function register(req, res) {
         console.log('registeration error: ' + err);
         return res.status(400).send({ 'error': 'Registeration error, please try again later' });
     }
+    return
 }
 
 function sendLoginError(res, error_msg = 'Invalid email or password') {
@@ -100,6 +102,7 @@ async function login(req, res) {
 
     /* check password match to database password */
     // todo encrypt pass check
+    // todo FIX ERROR WHEN SENDING WRONG PASS and db returns null
     if (authData.enc_password != password)
         return sendError(res);  //   Password didn't match
 
