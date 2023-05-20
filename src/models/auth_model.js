@@ -1,4 +1,4 @@
-/* --- --- MongoDB Scheme - user_auth --- --- */
+/* --- --- MongoDB Scheme - user's authentication credentils --- --- */
 
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
@@ -17,4 +17,4 @@ const authSchema = new Schema({
 
 module.exports = model('user_auth', authSchema);
 
-/* verified 2023-05-20 19:00 */
+/* verified 2023-05-20 20:30 */

@@ -1,4 +1,4 @@
-/* --- --- Authentication Controller --- --- */
+/* --- --- Authentication Router --- --- */
 
 const express = require('express');
 const router = express.Router(); // router is 'routes handler'
@@ -12,4 +12,3 @@ router.post('/login', auth.login);          /* path '/login' use func login from
 
 module.exports = router;    /* Makes auth_route usable as separate file. (requires import where used). */
 
-/* inprogress - verified 2023-05-20 19:20 */

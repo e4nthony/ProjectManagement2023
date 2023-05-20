@@ -1,3 +1,5 @@
+/* --- --- Global Router --- --- */
+
 const express = require('express');
 const router = express.Router(); // router is 'routes handler'
 
