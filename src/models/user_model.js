@@ -20,7 +20,7 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    date: {
+    birth_date: {
         type: Date,
         required: true,
     },
@@ -28,4 +28,4 @@ const userSchema = new Schema({
 
 module.exports = model('user_info', userSchema);
 
-/* verified 2023-05-20 19:00 */
+/* verified 2023-05-20 19:30 */

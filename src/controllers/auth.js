@@ -35,7 +35,7 @@ async function register(req, res) {
         userName: req.body.userName,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        date: req.body.date
+        birth_date: req.body.birth_date
 
     });
      //  save changes to remote db
