@@ -13,15 +13,34 @@ const statusERROR = 400     //  Bad Request / ERROR
 
 /** mongo db model */
 const auth_model = require('../models/auth_model')
-
+const UserAuthModel = require ('../models/user_model');
 
 function sendError(res, error_msg) {
     res.status(400).send({ 'error': error_msg });
 }
 
+
 async function register(req, res) {
+    console.log(req.body);
+    const newUser = new UserAuthModel({
+        
+        
+        email: req.body.email,
+        userName: req.body.userName,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        //enc_password: req.body.enc_password,
+        date: req.body.date
+
+    });
     
+
+    //  save changes to remote db
+    await newUser.save();
 }
+
+    
+
 
 
 async function login(req, res) {

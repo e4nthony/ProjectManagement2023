@@ -7,8 +7,8 @@ const router = express.Router(); // router is 'routes handler'
 /** auth controller */
 const auth = require('../controllers/auth')
 
-
 router.post('/register', auth.register);
+
 
 /** path login use func login from auth controller file */
 router.post('/login', auth.login);

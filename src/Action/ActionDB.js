@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 const UserAuth = require('./models/auth_model');
-const UserAuthModel = require ('./models/user_model');
+const UserAuthModel = require ('../models/user_model');
+
+const db = mongoose.connection
 const Register = async (req,res) => {
 
     //  save new user to db:
     const newUser = new UserAuthModel({
-        email: req.body.email,
+        email: req.email,
         userName: req.body.userName,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -18,7 +20,7 @@ const Register = async (req,res) => {
     //  save changes to remote db
     await newUser.save();
 }
-//Register();
+
 
 const getAllUsers = async () => {
     console.log('getting All Users from remote DB')
