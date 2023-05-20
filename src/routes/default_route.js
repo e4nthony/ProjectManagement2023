@@ -1,6 +1,3 @@
-/* eslint-disable */
-/* the line above disables eslint check for this file (temporarily) todo:delete */
-
 const express = require('express');
 const router = express.Router(); // router is 'routes handler'
 
@@ -63,8 +60,5 @@ router.put('/put1', (req, res) => {     // DEBUG, EXAMPLE, todo delete
     res.send('put1');
 });
 
-/** 
- * Makes default_route usable as separate file. (requires import where used). 
- * ( 'router' is renamed to 'default_route' in index.js . ) 
- * */
-module.exports = router;
+
+module.exports = router;    /* Makes default_route usable as separate file. (requires import where used). */
