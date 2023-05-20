@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
-const userSchema = new Schema({
+const authSchema = new Schema({
     email: {
         type: String,
         required: true,
@@ -13,4 +13,4 @@ const userSchema = new Schema({
 
 });
 
-module.exports = model('AuthInfo', userSchema);
+module.exports = model('user_auth', authSchema);
