@@ -73,7 +73,7 @@ const auth_route = require('./routes/auth_route');
 /** 
  * Default route handler.
  * ( Mount the routesHandler as middleware at path '/auth' ).
- */ 
+ */
 app.use('/auth', auth_route);
 
 

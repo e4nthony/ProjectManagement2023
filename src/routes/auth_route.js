@@ -13,6 +13,7 @@ router.post('/register', auth.register);
 /** path login use func login from auth controller file */
 router.post('/login', auth.login);
 
+
 /** 
  * Makes default_route usable as separate file. (requires import where used). 
  * ( 'router' is renamed to 'default_route' in index.js . ) 
