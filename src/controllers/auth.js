@@ -24,7 +24,7 @@ require('dotenv').config();
  * and creates new user at database,
  * (creates user in two DB tables, Info and Auth Credentils).
  */
-async function register(req, res) {
+async function register (req, res) {
     try {
         console.log('server got register request: \n' + req.body);  // DEBUG
 
@@ -34,36 +34,34 @@ async function register(req, res) {
             userName: req.body.userName,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            birth_date: req.body.birth_date,
+            birth_date: req.body.birth_date
         });
         await newUserInfo.save();   // saves changes to remote db
 
         /* User's Authentication Credentils */
         const newUserCredentils = new auth_model({
             email: req.body.email,
-            enc_password: req.body.enc_password,
+            enc_password: req.body.enc_password
         });
         await newUserCredentils.save();  // saves changes to remote db
-
     } catch (err) {
         console.log('registeration error: ' + err);
-        return res.status(400).send({ 'error': 'Registeration error, please try again later' });
+        return res.status(400).send({ error: 'Registeration error, please try again later' });
     }
-    return
 }
 
-function sendLoginError(res, error_msg = 'Invalid email or password') {
-    return res.status(400).send({ 'error': error_msg });
+function sendLoginError (res, error_msg = 'Invalid email or password') {
+    return res.status(400).send({ error: error_msg });
 }
 
 /**
  * Checks user's credentials,
  * creates new token,
  * sending new token to client.
- * 
+ *
  * @returns ?response from Frontend?
  */
-async function login(req, res) {
+async function login (req, res) {
     let email = '';
     let password = '';
     try {
@@ -75,8 +73,7 @@ async function login(req, res) {
         /* check that data isn't empty */
         if (email == null) {
             return sendLoginError(res);   //   Epmty email
-        }
-        else if (password == null) {
+        } else if (password == null) {
             return sendLoginError(res);   //   Epmty password
         }
     } catch (err) {
@@ -91,7 +88,7 @@ async function login(req, res) {
     /* try connect to DB */
     try {
         console.log('sending \'find user by mail\' request to DB...'); // DEBUG
-        authData = await auth_model.findOne({ 'email': email });  //  findOne() mongodb's func.
+        authData = await auth_model.findOne({ email });  //  findOne() mongodb's func.
         console.log('DB results:\n' + JSON.stringify(authData, null, 2)); // DEBUG
     } catch (err) {
         /* server might lost connection with DB */
@@ -103,15 +100,14 @@ async function login(req, res) {
     /* check password match to database password */
     // todo encrypt pass check
     // todo FIX ERROR WHEN SENDING WRONG PASS and db returns null
-    if (authData.enc_password != password)
-        return sendError(res);  //   Password didn't match
+    if (authData.enc_password != password) { return sendError(res); }  //   Password didn't match
 
     /* generate token */
     console.log('generating token...');
     const accessToken = jwt.sign(
-        { 'email': 'email' },
+        { email: 'email' },
         process.env.ACCESS_TOKEN_SECRET,
-        { 'expiresIn': process.env.JWT_TOKEN_EXPIRATION }
+        { expiresIn: process.env.JWT_TOKEN_EXPIRATION }
     )
 
     console.log('token: ' + accessToken + ', sending to client...');

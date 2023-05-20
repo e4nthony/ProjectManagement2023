@@ -6,24 +6,24 @@ const { Schema, model } = mongoose;
 const userSchema = new Schema({
     email: {
         type: String,
-        required: true,
+        required: true
     },
     userName: {
         type: String,
-        required: true,
+        required: true
     },
     firstName: {
         type: String,
-        required: true,
+        required: true
     },
     lastName: {
         type: String,
-        required: true,
+        required: true
     },
     birth_date: {
         type: Date,
-        required: true,
-    },
+        required: true
+    }
 });
 
 module.exports = model('user_info', userSchema);

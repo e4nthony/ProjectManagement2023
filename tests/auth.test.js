@@ -21,7 +21,7 @@
 // // clear the DB
 // afterAll(async () => {
 //     await User.deleteOne();
-    
+
 //     // await mongoose.connection.close(); //?
 //     mongoose.connection.close();
 // })
@@ -45,8 +45,8 @@
 //         });
 //         expect(response.statusCode).toEqual(200); //no errors
 
-     
-    
+
+
 
 
 

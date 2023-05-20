@@ -6,7 +6,7 @@ const router = express.Router(); // router is 'routes handler'
 const auth_model = require('../models/auth_model'); // DEBUG, todo delete
 
 const { validateToken } = require('../middlewares/AuthMiddleware');
-//import { validateToken } from '../middlewares/AuthMiddleware';
+// import { validateToken } from '../middlewares/AuthMiddleware';
 
 router.get('/authToken', validateToken, (req, res) => {
     res.json(req.user);
@@ -23,7 +23,7 @@ router.get('/getparams', (req, res) => {    // DEBUG, EXAMPLE, todo delete
         param1: '1',
         param2: '2',
         param3: '3',
-        msg: 'This is server default message.',
+        msg: 'This is server default message.'
     }];
     res.end(JSON.stringify(str));
 
@@ -35,7 +35,6 @@ router.get('/get_all_users_mails', (req, res) => {  // DEBUG, todo delete
         console.log('getting All Users from remote DB')
 
         try {
-
             let users = {};
 
             users = await auth_model.find()
