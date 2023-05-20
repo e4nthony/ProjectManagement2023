@@ -1,3 +1,5 @@
+/* --- --- MongoDB Scheme - user_info --- --- */
+
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
@@ -25,3 +27,5 @@ const userSchema = new Schema({
 });
 
 module.exports = model('user_info', userSchema);
+
+/* verified 2023-05-20 19:00 */

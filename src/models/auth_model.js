@@ -1,3 +1,5 @@
+/* --- --- MongoDB Scheme - user_auth --- --- */
+
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
@@ -14,3 +16,5 @@ const authSchema = new Schema({
 });
 
 module.exports = model('user_auth', authSchema);
+
+/* verified 2023-05-20 19:00 */

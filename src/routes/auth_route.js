@@ -1,21 +1,17 @@
-/* eslint-disable */
-/* the line above disables eslint check for this file (temporarily) todo:delete */
+/* --- --- Authentication Controller --- --- */
 
 const express = require('express');
 const router = express.Router(); // router is 'routes handler'
-
-/** auth controller */
-const auth = require('../controllers/auth')
-
-router.post('/register', auth.register);
+const auth = require('../controllers/auth');
 
 
-/** path login use func login from auth controller file */
-router.post('/login', auth.login);
+router.post('/register', auth.register);    /* path '/register' use func register from 'auth' controller file */
 
+router.post('/login', auth.login);          /* path '/login' use func login from 'auth' controller file */
 
 /** 
  * Makes default_route usable as separate file. (requires import where used). 
- * ( 'router' is renamed to 'default_route' in index.js . ) 
  * */
 module.exports = router;
+
+/* inprogress - verified 2023-05-20 19:00 */
