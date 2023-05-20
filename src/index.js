@@ -5,9 +5,10 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const UrlDb = 'mongodb+srv://Maor:Maor1234@bidzonedb.z6xllsi.mongodb.net/?retryWrites=true&w=majority';
-//import{ getAllUsers } from 'src\Action\ActionDB.js';
-//const result =getAllUsers();
+
+require('dotenv').config()
+const UrlDb = process.env.DATABASE_URL;
+const port = process.env.PORT;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 async function connecttoDB() {
@@ -40,19 +41,19 @@ async function connecttoDB() {
     //    }
     //Register();
 
-    const getAllUsers = async () => {
-        console.log('getting All Users from remote DB')
+    // const getAllUsers = async () => {
+    //     console.log('getting All Users from remote DB')
 
-        try {
-            let users = {};
+    //     try {
+    //         let users = {};
 
-            users = await UserAuth.find()
+    //         users = await UserAuth.find()
 
-            console.log(String(users))
-        } catch (err) {
-        }
-    }
-    getAllUsers();
+    //         console.log(String(users))
+    //     } catch (err) {
+    //     }
+    // }
+    // getAllUsers();
 
 }
 connecttoDB();
@@ -72,7 +73,6 @@ app.use( // todo double check the security of this CORS params
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const port = 3080;  // alter // const port = process.env.port || 4000;
 
 
 /** --- Routes --- */

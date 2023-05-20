@@ -4,20 +4,19 @@
 const express = require('express');
 const router = express.Router(); // router is 'routes handler'
 
-const auth_model = require('../models/auth_model'); // todo delete
+const auth_model = require('../models/auth_model'); // DEBUG, todo delete
 
-const { validateToken } = require('../middlewares/AuthMiddleware');
-//import { validateToken } from '../middlewares/AuthMiddleware';
 
 router.get('/', (req, res) => {
-    res.send('Hello from the server. ( \'/\' )');
+    res.send('Hello from the server. ( \'/\' ) (get)');
 });
 
-router.get('/authToken', validateToken, (req, res) => {
-    res.json(req.user);
+router.post('/', (req, res) => {
+    res.send('Hello from the server. ( \'/\' ) (post)');
 });
 
-router.get('/getparams', (req, res) => {
+// DEBUG
+router.get('/getparams', (req, res) => {    
     const str = [{
         param1: '1',
         param2: '2',
@@ -29,6 +28,7 @@ router.get('/getparams', (req, res) => {
     console.log('server got request \'/getparams\' ');
 });
 
+// DEBUG
 router.get('/get_all_users_mails', (req, res) => {
 
     const getAllUsers = async () => {
@@ -54,21 +54,17 @@ router.get('/get_all_users_mails', (req, res) => {
 
 });
 
-router.post('/post', (req, res) => {
-    res.send('Hello from the server. (/post)');
-});
+// router.post('/post', (req, res) => {
+//     res.send('Hello from the server. (/post)');
+// });
 
-router.post('/post1', (req, res) => {
-    res.end('post1');
-});
+// router.post('/post1', (req, res) => {
+//     res.end('post1');
+// });
 
-router.put('/put1', (req, res) => {
-    res.send('put1');
-});
+// router.put('/put1', (req, res) => {
+//     res.send('put1');
+// });
 
-/** 
- * Makes default_route usable as separate file. (requires import where used). 
- * ( 'router' is renamed to 'default_route' in index.js . ) 
- * */
-
+/* Makes default_route usable as separate file. (requires import where used). */
 module.exports = router;

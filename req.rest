@@ -1,0 +1,62 @@
+### ------------Local - Debug Server----------------
+###
+POST http://localhost:3080/auth/login
+
+###
+POST http://127.0.0.1:3080/auth/login
+
+### requesrt to local debug server with new post info, from authorized user
+POST https://localhost:3080/postEditLaterURL
+Authorization: jwt validtokenhere
+Content-Type: application/json 
+
+{
+    "tittle": "This is post tittle, sended by authorized user.",
+    "author": "First_name Last_name",
+    "...": "..."
+}
+
+### requesrt to 
+GET http://127.0.0.1:3080/get_all_users_mails
+
+### ------------Real Request - Online Server----------------
+### request to real online server
+POST https://projectmanagement2023.onrender.com/
+
+### request to real online server LoginPage
+POST https://projectmanagement2023.onrender.com/auth/login
+
+### requesrt to real online server with new post info, from authorized user
+POST https://projectmanagement2023.onrender.com/postEditLaterURL
+Authorization: jwt validtokenhere
+Content-Type: application/json 
+
+{
+    "tittle": "This is post tittle, sended by authorized user.",
+    "author": "First_name Last_name",
+    "...": "..."
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###---------------------NOTES-----------------------------
