@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const UrlDb = 'mongodb+srv://Maor:Maor1234@bidzonedb.z6xllsi.mongodb.net/?retryWrites=true&w=majority';
 //import{ getAllUsers } from 'src\Action\ActionDB.js';
 //const result =getAllUsers();
-const UserAuth = require('./models/auth_model');
+const UserAuth = require('./models/AuthModel');
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 async function connecttoDB() {
     try {
@@ -62,14 +62,14 @@ const port = 3080;  // alter // const port = process.env.port || 4000;
 
 
 /** --- Routes --- */
-const default_route = require('./routes/default_route');
+const default_route = require('./routes/DefaultRoute');
 /** 
  * Default route handler.
  * ( Mount the routesHandler as middleware at path '/' ).
  */
 app.use('/', default_route);
 
-const auth_route = require('./routes/auth_route');
+const auth_route = require('./routes/AuthRoute');
 /** 
  * Default route handler.
  * ( Mount the routesHandler as middleware at path '/auth' ).

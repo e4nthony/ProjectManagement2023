@@ -12,8 +12,8 @@
 const jwt = require('jsonwebtoken');
 
 /* MongoDB models */
-const auth_model = require('../models/auth_model');
-const user_model = require('../models/user_model');
+const AuthModel = require('../models/AuthModel');
+const UserModel = require('../models/UserModel');
 
 
 /* Access Global Variables */
@@ -29,7 +29,7 @@ async function register (req, res) {
         console.log('server got register request: \n' + req.body);  // DEBUG
 
         /* User Info */
-        const newUserInfo = new user_model({
+        const newUserInfo = new UserModel({
             email: req.body.email,
             userName: req.body.userName,
             firstName: req.body.firstName,
@@ -39,7 +39,7 @@ async function register (req, res) {
         await newUserInfo.save();   // saves changes to remote db
 
         /* User's Authentication Credentils */
-        const newUserCredentils = new auth_model({
+        const newUserCredentils = new AuthModel({
             email: req.body.email,
             enc_password: req.body.enc_password
         });
@@ -88,7 +88,7 @@ async function login (req, res) {
     /* try connect to DB */
     try {
         console.log('sending \'find user by mail\' request to DB...'); // DEBUG
-        authData = await auth_model.findOne({ email });  //  findOne() mongodb's func.
+        authData = await AuthModel.findOne({ email });  //  findOne() mongodb's func.
         console.log('DB results:\n' + JSON.stringify(authData, null, 2)); // DEBUG
     } catch (err) {
         /* server might lost connection with DB */
@@ -100,7 +100,7 @@ async function login (req, res) {
     /* check password match to database password */
     // todo encrypt pass check
     // todo FIX ERROR WHEN SENDING WRONG PASS and db returns null
-    if (authData.enc_password != password) { return sendError(res); }  //   Password didn't match
+    if (authData.enc_password != password) { return sendLoginError(res); } ; //   Password didn't match
 
     /* generate token */
     console.log('generating token...');

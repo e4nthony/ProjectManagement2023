@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router(); // router is 'routes handler'
 
-const auth_model = require('../models/auth_model'); // DEBUG, todo delete
+const AuthModel = require('../models/AuthModel'); // DEBUG, todo delete
 
 const { validateToken } = require('../middlewares/AuthMiddleware');
 // import { validateToken } from '../middlewares/AuthMiddleware';
@@ -37,7 +37,7 @@ router.get('/get_all_users_mails', (req, res) => {  // DEBUG, todo delete
         try {
             let users = {};
 
-            users = await auth_model.find()
+            users = await AuthModel.find()
             console.log(users)
 
             res.send(users);
