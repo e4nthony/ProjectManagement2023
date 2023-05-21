@@ -28,105 +28,111 @@ async function encrypt_pass(pass = user1_password) {
     const salt = await bcrypt.genSalt(10);  // await must be inside func.
     return await bcrypt.hash(pass, salt);  // await must be inside func.
 }
-const user1_encryptedPassword = encrypt_pass();           // encrypted
+// const user1_encryptedPassword = encrypt_pass();           // encrypted
 
 const user1_firstName = 'Joe';
 const user1_lastName = 'Baker';
 const user1_username = 'warrior1717';
 const user1_dateOfBirth = '2000-05-01';
 
+let user1_accessToken = '';
+
+/* Connecting to the database before each test. */
+beforeEach(async () => {
+    // await mongoose.connect(process.env.DATABASE_URL);
+});
+
+/* Closing database connection after each test. */
+afterEach(async () => {
+    // await mongoose.connection.close();
+});
+
 // clear the DB
-beforeAll(async function () {
+beforeAll(async () => {
     await AuthModel.deleteOne();
     await UserModel.deleteOne();
 })
 
 // clear the DB
-afterAll(async function () {
+afterAll(async () => {
     await AuthModel.deleteOne();
     await UserModel.deleteOne();
 
-    mongoose.connection.close();
+    // mongoose.connection.close();
 })
 
-describe("Authentication Test", function () {
+describe("Authentication Test", () => {
 
-    test("Register - Invalid email", async function () {
-        const response = await supertest(index).post('/auth/register').send({
-            "email": 'ObviouslyNotValid@email.wrong',  // got unregistered email
-            "enc_password": user1_encryptedPassword,
-            "firstName": user1_firstName,
-            "lastName": user1_lastName,
-            "userName": user1_username,
-            "birth_date": user1_dateOfBirth
-        });
-        expect(response.statusCode).toEqual(400);  // error
-    })
-
-    test("Register - Invalid password", async function () {
-        const response = await supertest(index).post('/auth/register').send({
-            "email": user1_mail,
-            "enc_password": encrypt_pass(user1_password + '123'), // encrypt wrong pass
-            "firstName": user1_firstName,
-            "lastName": user1_lastName,
-            "userName": user1_username,
-            "birth_date": user1_dateOfBirth
-        });
-        expect(response.statusCode).toEqual(400);  // error
+    test("Connnect to MongoDB", async () => {
+        await mongoose.connect(process.env.DATABASE_URL);
     })
 
     // TODO FIX
-    test("Register - Valid data, Add new user", async function () {
+    test("Register - Valid data, Add new user", async () => {
+        const enc_password = await encrypt_pass(user1_password) // encrypt wrong pass
+
         const response = await supertest(index).post('/auth/register').send({
             "email": user1_mail,
-            "enc_password": user1_encryptedPassword,
+            "enc_password": enc_password,
             "firstName": user1_firstName,
             "lastName": user1_lastName,
             "userName": user1_username,
             "birth_date": user1_dateOfBirth
         });
-        // expect(response.statusCode).toEqual(200);  // ok
+        console.log(JSON.stringify(response));  // DEBUG
+        expect(response.statusCode).toBe(200);  // ok
         // expect(await response.statusCode).toEqual(200);  // ok
     })
 
+    test("Register - Invalid email", async () => {
+        const response = await supertest(index).post('/auth/register').send({
+            "email": user1_mail,  // got already registered email
+            "enc_password": await encrypt_pass(),
+            "firstName": user1_firstName,
+            "lastName": user1_lastName,
+            "userName": user1_username,
+            "birth_date": user1_dateOfBirth
+        });
+        console.log(JSON.stringify(response));  // DEBUG
+        expect(response.statusCode).toEqual(400);  // error
+    })
+
     // TODO FIX
-    test("Login - Valid password", async function () {
+    test("Login - Valid password", async () => {
         const response = await supertest(index).post('/auth/login').send({
             "email": user1_mail,
-            "password": user1_password
+            "raw_password": user1_password
         });
+        console.log(JSON.stringify(response));  // DEBUG
+        expect(response.statusCode).toBe(200);  // ok
 
-        expect(response.statusCode).toEqual(200);  // ok
-        // expect(await response.status).toEqual(200);  // ok
+        user1_accessToken = response.body.accessToken
+
+        expect(user1_accessToken == null).toEqual(false)  // ok
+
+    })
+
+    test("Login - Unregistered email", async () => {
+        const response = await supertest(index).post('/auth/login').send({
+            "email": 'ObviouslyNotValid@email.wrong',  // got unregistered email
+            "raw_password": user1_password
+        });
+        console.log(JSON.stringify(response));  // DEBUG
+        expect(response.statusCode).toBe(400);  // error - unregistered email
+
         const accessToken_temp = response.body.accessToken;
-
-        expect(accessToken_temp == null).toEqual(false)  // ok
-
-    })
-
-    test("Login - Unregistered email", async function () {
-        const response = await supertest(index).post('/auth/login').send({
-            "email": user1_mail + 'abc',
-            "password": user1_password
-        });
-        expect(response.statusCode).toEqual(400);  // error - unregistered email
-
-        const accessToken_temp = response.body.accesstoken;
         expect(accessToken_temp).toBeUndefined();
     })
 
-    test("Login - Invalid password", async function () {
+    test("Login - Invalid password", async () => {
         const response = await supertest(index).post('/auth/login').send({
             "email": user1_mail,
-            "password": user1_password + 'abc'
+            "raw_password": user1_password + 'abc'
         });
-        expect(response.statusCode).toEqual(400);  // error - wrong password
+        console.log(JSON.stringify(response));  // DEBUG
+        expect(response.statusCode).toBe(400);  // error - wrong password
 
         const accessToken_temp = response.body.accesstoken;
         expect(accessToken_temp).toBeUndefined();
     })
-    //error - wrong password 
-    //error - wrong password 
-    // error - wrong password
-    //error - wrong password
 })
