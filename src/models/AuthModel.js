@@ -15,6 +15,6 @@ const authSchema = new Schema({
 
 });
 
-module.exports = model('user_auth', authSchema);
+module.exports = model('user_auth', authSchema);  // user_auth - is name of table
 
 /* verified 2023-05-20 20:30 */

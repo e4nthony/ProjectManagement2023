@@ -28,7 +28,7 @@
         /* Ingore 'Require the use of === and !==' */
         "eqeqeq": 0,
         
-        /** force CamelCase in names - disabled. (wont work properly) */
+        /* force CamelCase in names - disabled. (wont work properly) */
         "camelcase": ["off"]
     }
 }

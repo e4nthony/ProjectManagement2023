@@ -29,7 +29,7 @@ require('dotenv').config();
  */
 async function register (req, res) {
     try {
-        console.log('server got register request: \n' + req.body);  // DEBUG
+        console.log('server got register request: \n' +  JSON.stringify(req.body, null, 2));  // DEBUG
 
         /* User Info */
         const newUserInfo = new UserModel({
@@ -47,9 +47,12 @@ async function register (req, res) {
             enc_password: req.body.enc_password
         });
         await newUserCredentils.save();  // saves changes to remote db
+
+        console.log('sending registeration complete message...');
+        return res.status(200).send({ msg: 'Registeration complete.' });
     } catch (err) {
         console.log('registeration error: ' + err);
-        return res.status(400).send({ error: 'Registeration error, please try again later' });
+        return res.status(400).send({ error: 'Registeration error, please try again later.' });
     }
 }
 
@@ -77,14 +80,23 @@ async function login (req, res) {
         console.log('server got login request: \n' + JSON.stringify(req.body)); // DEBUG
 
         email = req.body.email;
-        enc_password = req.body.enc_password;
+        // enc_password = req.body.enc_password;
+        raw_password = req.body.raw_password;
+
+        // /* check that data isn't empty */
+        // if (email == null) {
+        //     return sendLoginError(res);   //   Epmty email
+        // } else if (enc_password == null) {
+        //     return sendLoginError(res);   //   Epmty enc_password
+        // }
 
         /* check that data isn't empty */
         if (email == null) {
             return sendLoginError(res);   //   Epmty email
-        } else if (enc_password == null) {
-            return sendLoginError(res);   //   Epmty enc_password
+        } else if (raw_password == null) {
+            return sendLoginError(res);   //   Epmty raw_password
         }
+
     } catch (err) {
         console.log('login error: ' + err);
         return sendLoginError(res, 'Unexpected error');
@@ -112,7 +124,7 @@ async function login (req, res) {
 
 
     /* check password's hash match to database password's hash */
-    const is_match = await bcrypt.compare(enc_password, authData.enc_password)
+    const is_match = await bcrypt.compare(raw_password, authData.enc_password)
 
     if (is_match == false) {
         console.log('Hash didn\'t match, what means got wrong password, sending login error...');
@@ -120,7 +132,7 @@ async function login (req, res) {
     }
 
     /* generate token */
-    console.log('generating token...');
+    console.log('credentionls is valid, generating token...');
     const accessToken = jwt.sign(
         { email: 'email' },
         process.env.ACCESS_TOKEN_SECRET,

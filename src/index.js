@@ -27,14 +27,14 @@ async function connecttoDB() {
 
 
     const getAllUsers = async () => {
-        console.log('getting All Users from remote DB')
+        console.log('getting users from remote DB...')
 
         try {
             let users = {};
 
             users = await UserAuth.find()
 
-            console.log(String(users))
+            console.log('current users:' + String(users))
         } catch (err) {
         }
     }
@@ -115,3 +115,7 @@ app.listen(port, () => {
 //     console.log('A new request has arrived to index.js');
 //     res.send('Hello from the server main page');
 // });
+
+
+/* allow use tests */
+module.exports = app
