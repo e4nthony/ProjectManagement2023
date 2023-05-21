@@ -37,16 +37,6 @@ const user1_dateOfBirth = '2000-05-01';
 
 let user1_accessToken = '';
 
-/* Connecting to the database before each test. */
-beforeEach(async () => {
-    // await mongoose.connect(process.env.DATABASE_URL);
-});
-
-/* Closing database connection after each test. */
-afterEach(async () => {
-    // await mongoose.connection.close();
-});
-
 // clear the DB
 beforeAll(async () => {
     await AuthModel.deleteOne();
@@ -58,16 +48,11 @@ afterAll(async () => {
     await AuthModel.deleteOne();
     await UserModel.deleteOne();
 
-    // mongoose.connection.close();
+    mongoose.connection.close();
 })
 
 describe("Authentication Test", () => {
 
-    test("Connnect to MongoDB", async () => {
-        await mongoose.connect(process.env.DATABASE_URL);
-    })
-
-    // TODO FIX
     test("Register - Valid data, Add new user", async () => {
         const enc_password = await encrypt_pass(user1_password) // encrypt wrong pass
 
@@ -79,9 +64,7 @@ describe("Authentication Test", () => {
             "userName": user1_username,
             "birth_date": user1_dateOfBirth
         });
-        console.log(JSON.stringify(response));  // DEBUG
-        expect(response.statusCode).toBe(200);  // ok
-        // expect(await response.statusCode).toEqual(200);  // ok
+        expect(response.statusCode).toEqual(200);  // ok
     })
 
     test("Register - Invalid email", async () => {
@@ -93,18 +76,15 @@ describe("Authentication Test", () => {
             "userName": user1_username,
             "birth_date": user1_dateOfBirth
         });
-        console.log(JSON.stringify(response));  // DEBUG
         expect(response.statusCode).toEqual(400);  // error
     })
 
-    // TODO FIX
     test("Login - Valid password", async () => {
         const response = await supertest(index).post('/auth/login').send({
             "email": user1_mail,
             "raw_password": user1_password
         });
-        console.log(JSON.stringify(response));  // DEBUG
-        expect(response.statusCode).toBe(200);  // ok
+        expect(response.statusCode).toEqual(200);  // ok
 
         user1_accessToken = response.body.accessToken
 
@@ -117,8 +97,7 @@ describe("Authentication Test", () => {
             "email": 'ObviouslyNotValid@email.wrong',  // got unregistered email
             "raw_password": user1_password
         });
-        console.log(JSON.stringify(response));  // DEBUG
-        expect(response.statusCode).toBe(400);  // error - unregistered email
+        expect(response.statusCode).toEqual(400);  // error - unregistered email
 
         const accessToken_temp = response.body.accessToken;
         expect(accessToken_temp).toBeUndefined();
@@ -129,8 +108,7 @@ describe("Authentication Test", () => {
             "email": user1_mail,
             "raw_password": user1_password + 'abc'
         });
-        console.log(JSON.stringify(response));  // DEBUG
-        expect(response.statusCode).toBe(400);  // error - wrong password
+        expect(response.statusCode).toEqual(400);  // error - wrong password
 
         const accessToken_temp = response.body.accesstoken;
         expect(accessToken_temp).toBeUndefined();
