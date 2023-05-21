@@ -27,7 +27,7 @@ require('dotenv').config();
  * and creates new user at database,
  * (creates user in two DB tables, Info and Auth Credentils).
  */
-async function register(req, res) {
+async function register (req, res) {
     try {
         console.log('server got register request: \n' + req.body);  // DEBUG
 
@@ -53,7 +53,7 @@ async function register(req, res) {
     }
 }
 
-function sendLoginError(res, error_msg = 'Invalid email or password') {
+function sendLoginError (res, error_msg = 'Invalid email or password') {
     return res.status(400).send({ error: error_msg });
 }
 
@@ -64,7 +64,7 @@ function sendLoginError(res, error_msg = 'Invalid email or password') {
  *
  * @returns ?response from Frontend?
  */
-async function login(req, res) {
+async function login (req, res) {
     let email = '';
     let enc_password = '';
 
@@ -109,15 +109,15 @@ async function login(req, res) {
         return sendLoginError(res);
     }
 
-    
-    
+
+
     /* check password's hash match to database password's hash */
     const is_match = await bcrypt.compare(enc_password, authData.enc_password)
 
-    if (is_match == false) { 
+    if (is_match == false) {
         console.log('Hash didn\'t match, what means got wrong password, sending login error...');
-        return sendLoginError(res); 
-    }  
+        return sendLoginError(res);
+    }
 
     /* generate token */
     console.log('generating token...');
@@ -134,7 +134,7 @@ async function login(req, res) {
 /**
  * TODO
  */
-async function deleteaccount(req, res) {
+async function deleteaccount (req, res) {
     try {
         console.log('server got delete account request: \n' + req.body);  // DEBUG
 

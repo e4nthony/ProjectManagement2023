@@ -1,4 +1,4 @@
-/* --- --- MongoDB Scheme - user's authentication credentils --- --- */
+/* --- --- MongoDB Scheme - user's authentication credentials --- --- */
 
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
