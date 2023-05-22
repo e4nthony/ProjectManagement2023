@@ -42,15 +42,10 @@ async function register (req, res) {
         const email = req.body.email;
 
         /* try connect to DB */
-        try {
-            console.log('sending \'find user by mail\' request to DB...');
-            authData = await AuthModel.findOne({ email });  //  findOne() mongodb's func.
-            console.log('DB results:\n' + JSON.stringify(authData, null, 2));
-        } catch (err) {
-            /* server might lost connection with DB */
-            console.log('error: ' + err);
-            return sendRegisterError(res, 'Unexpected error');
-        }
+        console.log('sending \'find user by mail\' request to DB...');
+        const authData = await AuthModel.findOne({ 'email' : email });  //  findOne() mongodb's func.
+        console.log('DB results:\n' + JSON.stringify(authData, null, 2));
+
 
         /* if user sends existing email */
         if (authData != null) {
@@ -78,8 +73,9 @@ async function register (req, res) {
         console.log('sending registeration complete message...');
         return res.status(200).send({ msg: 'Registeration complete.' });
     } catch (err) {
+        /* server might lost connection with DB */
         console.log('registeration error: ' + err);
-        return sendRegisterError(res);
+        return sendRegisterError(res, 'Unexpected error');
     }
 }
 
@@ -106,13 +102,9 @@ async function login (req, res) {
         // const enc_password = req.body.enc_password;
         const raw_password = req.body.raw_password;
 
-
-        let authData
-
         /* try connect to DB */
-
         console.log('sending \'find user by mail\' request to DB...');
-        authData = await AuthModel.findOne({ email });  //  findOne() mongodb's func.
+        const authData = await AuthModel.findOne({ 'email' : email });  //  findOne() mongodb's func.
         console.log('DB results:\n' + JSON.stringify(authData, null, 2));
 
         /* if user sends unexisting email - DB returns null */
@@ -120,8 +112,6 @@ async function login (req, res) {
             console.log('User not found in DB, sending login error...');
             return sendLoginError(res);
         }
-
-
 
         /* check password's hash match to database password's hash */
         const is_match = await bcrypt.compare(raw_password, authData.enc_password)
@@ -140,7 +130,7 @@ async function login (req, res) {
         );
 
         console.log('token: ' + accessToken + ', sending it to client...');
-        return res.status(200).send({ 'accessToken' : accessToken });
+        return res.status(200).send({ accessToken });
     } catch (err) {
         /* server might lost connection with DB */
         console.log('error: ' + err);
