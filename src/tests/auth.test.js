@@ -23,12 +23,11 @@ const user1_mail = 'example@gmail.com';
 
 const user1_password = 'validPassword#1';   // unencrypted
 
-/* generates hash of password: */
+/* generates hash of password */
 async function encrypt_pass(pass = user1_password) {
     const salt = await bcrypt.genSalt(10);  // await must be inside func.
     return await bcrypt.hash(pass, salt);  // await must be inside func.
 }
-// const user1_encryptedPassword = encrypt_pass();           // encrypted
 
 const user1_firstName = 'Joe';
 const user1_lastName = 'Baker';
@@ -36,6 +35,8 @@ const user1_username = 'warrior1717';
 const user1_dateOfBirth = '2000-05-01';
 
 let user1_accessToken = '';
+
+const delete_confirmation = 'deletemyaccount';
 
 // clear the DB
 beforeAll(async () => {
@@ -79,19 +80,6 @@ describe("Authentication Test", () => {
         expect(response.statusCode).toEqual(400);  // error
     })
 
-    test("Login - Valid password", async () => {
-        const response = await supertest(index).post('/auth/login').send({
-            "email": user1_mail,
-            "raw_password": user1_password
-        });
-        expect(response.statusCode).toEqual(200);  // ok
-
-        user1_accessToken = response.body.accessToken
-
-        expect(user1_accessToken == null).toEqual(false)  // ok
-
-    })
-
     test("Login - Unregistered email", async () => {
         const response = await supertest(index).post('/auth/login').send({
             "email": 'ObviouslyNotValid@email.wrong',  // got unregistered email
@@ -112,5 +100,45 @@ describe("Authentication Test", () => {
 
         const accessToken_temp = response.body.accesstoken;
         expect(accessToken_temp).toBeUndefined();
+    })
+
+    test("Login - Valid data", async () => {
+        const response = await supertest(index).post('/auth/login').send({
+            "email": user1_mail,
+            "raw_password": user1_password
+        });
+        expect(response.statusCode).toEqual(200);  // ok
+        user1_accessToken = response.body.accessToken
+    })
+
+    test("Is got token after successful Login", async () => {
+        expect(user1_accessToken == null).toEqual(false)  // ok
+    })
+
+    test("Delete account - Invalid Mail", async () => {
+        const response = await supertest(index).post('/auth/deleteaccount').send({
+            "email": 'ObviouslyNotValid@email.wrong2',  // got unregistered email
+            "raw_password": user1_password,
+            "delete_confirmation": delete_confirmation
+        });
+        expect(response.statusCode).toEqual(400);  // ok
+    })
+
+    test("Delete account - Invalid Password", async () => {
+        const response = await supertest(index).post('/auth/deleteaccount').send({
+            "email": user1_mail,
+            "raw_password": user1_password + 'abc',
+            "delete_confirmation": delete_confirmation
+        });
+        expect(response.statusCode).toEqual(400);  // ok
+    })
+
+    test("Delete account - Valid data", async () => {
+        const response = await supertest(index).post('/auth/deleteaccount').send({
+            "email": user1_mail,
+            "raw_password": user1_password,
+            "delete_confirmation": delete_confirmation
+        });
+        expect(response.statusCode).toEqual(200);  // ok
     })
 })
