@@ -43,7 +43,7 @@ async function register (req, res) {
 
         /* try connect to DB */
         console.log('sending \'find user by mail\' request to DB...');
-        const authData = await AuthModel.findOne({ 'email' : email });  //  findOne() mongodb's func.
+        const authData = await AuthModel.findOne({ email });  //  findOne() mongodb's func.
         console.log('DB results:\n' + JSON.stringify(authData, null, 2));
 
 
@@ -104,7 +104,7 @@ async function login (req, res) {
 
         /* try connect to DB */
         console.log('sending \'find user by mail\' request to DB...');
-        const authData = await AuthModel.findOne({ 'email' : email });  //  findOne() mongodb's func.
+        const authData = await AuthModel.findOne({ email });  //  findOne() mongodb's func.
         console.log('DB results:\n' + JSON.stringify(authData, null, 2));
 
         /* if user sends unexisting email - DB returns null */
