@@ -58,6 +58,7 @@ async function register (req, res) {
             console.log('User already in DB, sending login error...');
             return sendRegisterError(res);
         }
+        console.log('this email is free, saving new user to DB tables...');
 
         /* User Info */
         const newUserInfo = new UserModel({
