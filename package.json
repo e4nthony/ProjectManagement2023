@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "jest --detectOpenHandles --forceExit src/tests",
-    "testmocha": "mocha src/testsmocha/*spec.js --color",
+    "test": "jest --detectOpenHandles --forceExit --runInBand src/test",
+    "testauth": "jest --detectOpenHandles --forceExit src/tests/auth.test.js",
+    "testpost": "jest --detectOpenHandles --forceExit src/tests/post.test.js",
+    "testmocha": "mocha src/testsmocha/*.spec.js --color",
     "lint": "eslint src/* --color"
   },
   "repository": {
