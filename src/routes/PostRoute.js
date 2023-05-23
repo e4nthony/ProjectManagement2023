@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router(); // router is 'routes handler'
 const post = require('../controllers/PostController');
-const AuthMiddleware = require('../middlewares/AuthMiddleware');
+// const AuthMiddleware = require('../middlewares/AuthMiddleware');
 
 router.post('/create',                  /* path '/create' use func create from 'post' controller file */
     // AuthMiddleware.validateToken, // with authorization todo enable
