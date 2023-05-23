@@ -62,20 +62,26 @@ const port = 3080;  // alter // const port = process.env.port || 4000;
 
 
 /** --- Routes --- */
-const default_route = require('./routes/DefaultRoute');
+const DefaultRoute = require('./routes/DefaultRoute');
 /** 
  * Default route handler.
  * ( Mount the routesHandler as middleware at path '/' ).
  */
-app.use('/', default_route);
+app.use('/', DefaultRoute);
 
-const auth_route = require('./routes/AuthRoute');
+const AuthRoute = require('./routes/AuthRoute');
 /** 
- * Default route handler.
+ * Authentication route handler.
  * ( Mount the routesHandler as middleware at path '/auth' ).
  */
-app.use('/auth', auth_route);
+app.use('/auth', AuthRoute);
 
+const PostRoute = require('./routes/PostRoute');
+/** 
+ * Post route handler.
+ * ( Mount the routesHandler as middleware at path '/post' ).
+ */
+app.use('/post', PostRoute);
 
 
 /** Make files in folder "public" accessible via url. Example: '/public/index.html' . */

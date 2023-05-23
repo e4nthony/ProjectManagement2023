@@ -4,12 +4,15 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const postSchema = new Schema({
+    /*
+     * _id - is a key (mongodb creates)
+     */
     post_tittle: {
         type: String,
         required: true
     },
     post_text: {
-        type: Date,
+        type: String,
         required: true
     },
     author_email: {
@@ -17,11 +20,11 @@ const postSchema = new Schema({
         required: true
     },
     starting_price: {       /* aka author's price */
-        type: Integer,
+        type: Number,
         required: true
     },
     current_price: {        /* aka highest price that users have offered */
-        type: Integer,
+        type: Number,
         required: true
     },
     leading_buyer_email: {  /* aka email of buyer who offered highest price for now */
@@ -29,9 +32,9 @@ const postSchema = new Schema({
         required: false
     },
     post_likes: {           /* saves count likes this post received */
-        type: Integer,
+        type: Number,
         required: true
-    },
+    }
 });
 
 module.exports = model('post', postSchema);
