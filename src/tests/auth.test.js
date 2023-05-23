@@ -19,7 +19,7 @@ const index = require('../index');
 
 /* --- --- */
 
-const user1_mail = 'example@gmail.com';
+const user1_email = 'example@gmail.com';
 
 const user1_password = 'validPassword#1';   // unencrypted
 
@@ -58,7 +58,7 @@ describe("Authentication Test", () => {
         const enc_password = await encrypt_pass(user1_password) // encrypt wrong pass
 
         const response = await supertest(index).post('/auth/register').send({
-            "email": user1_mail,
+            "email": user1_email,
             "enc_password": enc_password,
             "firstName": user1_firstName,
             "lastName": user1_lastName,
@@ -70,7 +70,7 @@ describe("Authentication Test", () => {
 
     test("Register - Invalid email", async () => {
         const response = await supertest(index).post('/auth/register').send({
-            "email": user1_mail,  // got already registered email
+            "email": user1_email,  // got already registered email
             "enc_password": await encrypt_pass(),
             "firstName": user1_firstName,
             "lastName": user1_lastName,
@@ -93,7 +93,7 @@ describe("Authentication Test", () => {
 
     test("Login - Invalid password", async () => {
         const response = await supertest(index).post('/auth/login').send({
-            "email": user1_mail,
+            "email": user1_email,
             "raw_password": user1_password + 'abc'
         });
         expect(response.statusCode).toEqual(400);  // error - wrong password
@@ -104,7 +104,7 @@ describe("Authentication Test", () => {
 
     test("Login - Valid data", async () => {
         const response = await supertest(index).post('/auth/login').send({
-            "email": user1_mail,
+            "email": user1_email,
             "raw_password": user1_password
         });
         expect(response.statusCode).toEqual(200);  // ok
@@ -126,7 +126,7 @@ describe("Authentication Test", () => {
 
     test("Delete account - Invalid Password", async () => {
         const response = await supertest(index).post('/auth/deleteaccount').send({
-            "email": user1_mail,
+            "email": user1_email,
             "raw_password": user1_password + 'abc',
             "delete_confirmation": delete_confirmation
         });
@@ -135,7 +135,7 @@ describe("Authentication Test", () => {
 
     test("Delete account - Valid data", async () => {
         const response = await supertest(index).post('/auth/deleteaccount').send({
-            "email": user1_mail,
+            "email": user1_email,
             "raw_password": user1_password,
             "delete_confirmation": delete_confirmation
         });

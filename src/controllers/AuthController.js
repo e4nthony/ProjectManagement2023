@@ -21,7 +21,7 @@ const UserModel = require('../models/UserModel');
 /* Access Global Variables */
 require('dotenv').config();
 
-function sendDefaultError (res, error_msg = ' Something went wrong.') {
+function sendDefaultError (res, error_msg = 'Something went wrong.') {
     return res.status(400).send({ error: error_msg });
 }
 
@@ -93,7 +93,7 @@ function sendLoginError (res, error_msg = 'Invalid email or password') {
 /**
  * Checks user's credentials,
  * creates new token,
- * sending new token to client.
+ * sends new token to client.
  *
  * @param {*} req Expected fields in body: email, raw_password.
  * @param {*} res
@@ -212,7 +212,7 @@ async function deleteAccount (req, res) {
         console.log('DB results:\n' + JSON.stringify(authData_epmty, null, 2));
 
         if (userData_epmty != null || authData_epmty != null) {
-            console.log('User still fount in one or both DB\'s tables after delete attempt, sending default error...');
+            console.log('User still found in one or both DB\'s tables after delete attempt, sending default error...');
             return sendDefaultError(res)
         }
 

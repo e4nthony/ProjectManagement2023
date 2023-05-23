@@ -62,4 +62,4 @@ router.put('/put1', (req, res) => {     // DEBUG, EXAMPLE, todo delete
 });
 
 
-module.exports = router;    /* Makes default_route usable as separate file. (requires import where used). */
+module.exports = router;    /* Makes DefaultRoute usable as separate file. (requires import where used). */

@@ -12,4 +12,4 @@ router.post('/login', auth.login);          /* path '/login' use func login from
 router.post('/deleteaccount', auth.deleteAccount);  /* path '/deleteaccount' use func deleteAccount from 'auth' controller file */
 
 
-module.exports = router;    /* Makes auth_route usable as separate file. (requires import where used). */
+module.exports = router;    /* Makes AuthRoute usable as separate file. (requires import where used). */
