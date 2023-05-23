@@ -89,11 +89,13 @@ app.use('/public', express.static('public'));
 
 
 
-app.listen(port, () => {
-    console.log('Server is up and runnig at : http://localhost:' + port); // TAG: debug
-});
 
 
+if (process.env.NODE_ENV !== 'test') {  // makes tests run correctly 
+    app.listen(port, () => {
+        console.log('Server is up and runnig at : http://localhost:' + port); // TAG: debug
+    });
+}
 
 
 
