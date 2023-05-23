@@ -3,67 +3,32 @@
         "browser": false,
         "es2021": true
     },
-    "extends": [
-        "airbnb"
-    ],
+    "extends": "standard",
     "overrides": [
     ],
     "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
+        /* standardx wont work with ecmaVersion: "latest" OR 13 */
+        "ecmaVersion": 12
     },
-    "plugins": [
-    ],
     "rules": {
-        /** indentation : 4 spaces. (not tab). */
+        /* indentation : 4 spaces. */
         "indent": ["error", 4],
 
-        /**
-         * linebreak-style check LF/CRLF - disabled.
-         * CircleCI runs on linux (LF), we work on windows (CRLF).
-         * Caused errors when runs ‘lint’ script on linux server(CircleCI).
-         */
-        "linebreak-style": 0 , 
+        /* disable check of semicolons at the end of line; 
+           standardx wont work with value 1 or 2,
+           and wont add ';' automatically when "semi" value is 0. */
+        "semi": 0,
 
-        /** remove warnings at console when runs ‘lint’ script. */
-        "no-console": ["off"],
+        /* allow multiple empty lines */
+        "no-multiple-empty-lines": 0,
 
-        /**
-         * string operators restrictions - disabled. 
-         * allows to use operator '+' with strings.
-         */
-        "prefer-template": ["off"],
-
-
-
-    
-
-
-
-
-
-        /** like that above? Nah, thanks. */
-        "no-multiple-empty-lines": ["off"],
-
-        /** No multi spaces in one row before comments - Ignore comments. Wanr about code. */
+        /* No multi spaces in one row before comments - Ignore comments. Wanr about code. */
         "no-multi-spaces": ["warn", { "ignoreEOLComments": true }],
 
-        /** Disallow trailing whitespace at the end of lines - disabled. */
-        "no-trailing-spaces": ["off"],
+        /* Ingore 'Require the use of === and !==' */
+        "eqeqeq": 0,
         
-        /** force newline after import - disabled. */
-        "import/newline-after-import": ["off"],
-
-        /** require imports at to of file - disabled. */
-        "import/first": ["off"],
-
-        /** force CamelCase in name of files - disabled. */
-        "camelcase": ["off"],
-        
-        /** semicolons - warn about missing semicolons at the end of line; */
-        "semi": ["warn"]
-
-
-        
+        /* force CamelCase in names - disabled. (wont work properly) */
+        "camelcase": ["off"]
     }
 }
