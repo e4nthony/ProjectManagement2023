@@ -42,6 +42,7 @@ const delete_confirmation = 'deletemyaccount';
 beforeAll(async () => {
     await AuthModel.deleteOne({user1_email});
     await UserModel.deleteOne({user1_email});
+    setTimeout(function() { console.log("sleeps"); }, 1000); // sleep 1000 milliseconds 
 })
 
 // clear the DB
