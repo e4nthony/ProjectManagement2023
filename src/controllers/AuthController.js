@@ -130,7 +130,7 @@ async function login (req, res) {
         }
 
         /* generate token */
-        console.log('credentionls is valid, generating token...');
+        console.log('credentials is valid, generating token...');
         const accessToken = jwt.sign(
             { email: 'email' },
             process.env.ACCESS_TOKEN_SECRET,
@@ -138,7 +138,7 @@ async function login (req, res) {
         );
 
         console.log('token: ' + accessToken + ', sending it to client...');
-        return res.status(200).send({ accessToken }); // todo  accessToken: accessToken
+        return res.status(200).send({ accessToken });
     } catch (err) {
         /* server might lost connection with DB */
         console.log('login error: ' + err);

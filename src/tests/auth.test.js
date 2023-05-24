@@ -42,6 +42,7 @@ const delete_confirmation = 'deletemyaccount';
 beforeAll(async () => {
     await AuthModel.deleteOne();
     await UserModel.deleteOne();
+    // setTimeout(function() { console.log("sleeps"); }, 1000); // sleep 1000 milliseconds 
 })
 
 // clear the DB
@@ -142,3 +143,4 @@ describe("Authentication Test", () => {
         expect(response.statusCode).toEqual(200);  // ok
     })
 })
+
