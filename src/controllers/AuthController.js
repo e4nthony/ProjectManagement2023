@@ -78,7 +78,7 @@ async function register (req, res) {
         await newUserCredentils.save();  // saves changes to remote db
 
         console.log('sending registeration complete message...');
-        return res.status(200).send({ 'msg': 'Registeration complete.' });
+        return res.status(200).send({ msg: 'Registeration complete.' });
     } catch (err) {
         /* server might lost connection with DB */
         console.log('registeration error: ' + err);
@@ -138,7 +138,7 @@ async function login (req, res) {
         );
 
         console.log('token: ' + accessToken + ', sending it to client...');
-        return res.status(200).send({ 'accessToken': accessToken });
+        return res.status(200).send({ accessToken });
     } catch (err) {
         /* server might lost connection with DB */
         console.log('login error: ' + err);
