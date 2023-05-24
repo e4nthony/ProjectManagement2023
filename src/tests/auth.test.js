@@ -40,14 +40,14 @@ const delete_confirmation = 'deletemyaccount';
 
 // clear the DB
 beforeAll(async () => {
-    await AuthModel.deleteOne();
-    await UserModel.deleteOne();
+    await AuthModel.deleteOne({user1_email});
+    await UserModel.deleteOne({user1_email});
 })
 
 // clear the DB
 afterAll(async () => {
-    await AuthModel.deleteOne();
-    await UserModel.deleteOne();
+    await AuthModel.deleteOne({user1_email});
+    await UserModel.deleteOne({user1_email});
 
     mongoose.connection.close();
 })

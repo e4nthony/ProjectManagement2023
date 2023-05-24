@@ -49,15 +49,15 @@ post1_starting_price = 1
 
 // clear the DB
 beforeAll(async () => {
-    await AuthModel.deleteOne();
-    await PostModel.deleteOne();
+    await AuthModel.deleteOne({user1_email});
+    await PostModel.deleteOne({user1_email});
 
 })
 
 // clear the DB
 afterAll(async () => {
-    await AuthModel.deleteOne();
-    await PostModel.deleteOne();
+    await AuthModel.deleteOne({user1_email});
+    await PostModel.deleteOne({user1_email});
 
     mongoose.connection.close();
 })
