@@ -49,15 +49,15 @@ post1_starting_price = 1
 
 // clear the DB
 beforeAll(async () => {
-    await AuthModel.deleteOne({user1_email});
-    await PostModel.deleteOne({user1_email});
-    setTimeout(function() { console.log("sleeps"); }, 1000); // sleep 1000 milliseconds 
+    await AuthModel.deleteOne();
+    await PostModel.deleteOne();
+    // setTimeout(function() { console.log("sleeps"); }, 1000); // sleep 1000 milliseconds 
 })
 
 // clear the DB
 afterAll(async () => {
-    await AuthModel.deleteOne({user1_email});
-    await PostModel.deleteOne({user1_email});
+    await AuthModel.deleteOne();
+    await PostModel.deleteOne();
 
     mongoose.connection.close();
 })
