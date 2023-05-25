@@ -1,26 +1,23 @@
-/* eslint-disable */
-/* the line above disables eslint check for this file (temporarily) todo:delete */
-
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-// const UrlDb = process.env.DATABASE_URL;
-const UrlDb = 'mongodb+srv://Maor:Maor1234@bidzonedb.z6xllsi.mongodb.net/?retryWrites=true&w=majority';
-// const port = process.env.port;
-const port = 3080;
+/* Access Global Variables */
+require('dotenv').config();
+const url_DB = process.env.DATABASE_URL;
+const port = process.env.PORT;
 
-const UserAuth = require('./models/AuthModel');  // MongoDB's Scheme of authentication. DEBUG, TODO delete?
+const AuthModel = require('./models/AuthModel');  // MongoDB's Scheme of authentication, (to print all users). DEBUG, todo delete?
 
 /**
- * Creates a MongoClient 
- * with a MongoClientOptions object to set the Stable API version 
- * */ 
-async function connecttoDB() {
+ * Creates a MongoClient
+ * with a MongoClientOptions object to set the Stable API version
+ * */
+async function connecttoDB () {
     try {
         console.log('Trying to connect to DB');
-        mongoose.connect(UrlDb);
+        mongoose.connect(url_DB);
     } catch (error) {
         console.log('Error connecting to DB');
     }
@@ -36,7 +33,7 @@ async function connecttoDB() {
     const getAllUsers = async () => {
         console.log('getting all users from remote DB...');
         try {
-            const users = await UserAuth.find();
+            const users = await AuthModel.find();
             console.log('current users:' + String(users)); // console.log('current users:' + JSON.stringify(users, null, 2)); // works same
         } catch (err) {
             console.log('error of getting all users from remote DB.' + err);
@@ -50,14 +47,14 @@ connecttoDB();
 /**
  * Enables Access-Control-Allow-Origin,
  * allows to server get requests from remote ip.
- * */ 
+ * */
 const cors = require('cors');
 app.use(    // todo double check the security of this CORS params
     cors({
-        "origin": "*",
-        "methods": "GET,POST,DELETE",
-        "preflightContinue": false,
-        "optionsSuccessStatus": 204
+        origin: '*',
+        methods: 'GET,POST,DELETE',
+        preflightContinue: false,
+        optionsSuccessStatus: 204
     })
 );
 
@@ -82,13 +79,11 @@ app.use('/post', PostRoute);    /* Post route handler.           - Mounts the 'r
 app.use('/public', express.static('public'));
 
 
-if (process.env.NODE_ENV !== 'test') {  /* allows to use tests - makes tests run correctly  */
-    
+if (process.env.NODE_ENV !== 'test') {  /* allows to use tests - makes tests run correctly - disables listner when runnig tests. */
     /* enables listener to server's port  */
-    app.listen(port, () => {    
+    app.listen(port, () => {
         console.log('Server is up and runnig at : http://localhost:' + port);
     });
-
 }
 
 
