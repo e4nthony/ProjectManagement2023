@@ -1,3 +1,5 @@
+/* --- --- Driver --- --- */
+
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -79,7 +81,7 @@ app.use('/post', PostRoute);    /* Post route handler.           - Mounts the 'r
 app.use('/public', express.static('public'));
 
 
-if (process.env.NODE_ENV !== 'test') {  /* allows to use tests - makes tests run correctly - disables listner when runnig tests. */
+if (process.env.NODE_ENV !== 'test') {  /* allows to use tests - makes tests run correctly - disables listener when runnig tests. */
     /* enables listener to server's port  */
     app.listen(port, () => {
         console.log('Server is up and runnig at : http://localhost:' + port);
