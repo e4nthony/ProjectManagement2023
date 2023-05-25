@@ -101,7 +101,7 @@ function sendLoginError (res, error_msg = 'Invalid email or password') {
  */
 async function login (req, res) {
     try {
-        console.log('server got login request: \n' + JSON.stringify(req.body));
+        console.log('server got login request: \n' + JSON.stringify(req.body, null, 2));
 
         if (!req.body.email || !req.body.raw_password) {
             console.log('got corrupted request, sending login error...');
@@ -161,7 +161,7 @@ function sendDeleteError (res, error_msg = 'Unable to delete account, please try
  */
 async function deleteAccount (req, res) {
     try {
-        console.log('server got delete account request: \n' + JSON.stringify(req.body));
+        console.log('server got delete account request: \n' + JSON.stringify(req.body, null, 2));
 
         if (!req.body.email || !req.body.raw_password || !req.body.delete_confirmation) {
             console.log('got corrupted request, sending deleteaccount error...');
