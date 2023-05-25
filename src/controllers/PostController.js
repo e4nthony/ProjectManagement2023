@@ -271,4 +271,5 @@ module.exports = {
     get_all_posts_by_author,
     get_all_posts,
     get_20_newest_posts
+    // get_20_newest_posts_by_author,
 }

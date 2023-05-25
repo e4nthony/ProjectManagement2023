@@ -26,7 +26,6 @@ router.get('/get_all_posts',            /* path '/get_all_posts' use func get_al
 );
 
 router.get('/get_20_newest_posts',      /* path '/get_20_newest_posts' use func get_20_newest_posts from 'post' controller file */
-    // AuthMiddleware.validateToken, // with authorization todo enable
     post.get_20_newest_posts
 );
 
