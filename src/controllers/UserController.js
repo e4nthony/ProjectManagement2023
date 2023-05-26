@@ -44,7 +44,7 @@ async function get_user_info_by_email (req, res) {
         const user_info = await UserModel.find({ email: req.body.email });
         console.log('user_info: ' + JSON.stringify(user_info, null, 2));
 
-        if (!user_info) {
+        if (user_info.length == 0) {
             return res.status(404).send({ error: 'not found registered user with this email.' });
         }
 
