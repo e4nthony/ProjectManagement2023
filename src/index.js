@@ -74,7 +74,10 @@ const AuthRoute = require('./routes/AuthRoute');
 app.use('/auth', AuthRoute);    /* Authentication route handler. - Mounts the 'route handler' as middleware at path '/auth' . */
 
 const PostRoute = require('./routes/PostRoute');
-app.use('/post', PostRoute);    /* Post route handler.           - Mounts the 'route handler' as middleware at path '/post' . */
+app.use('/post', PostRoute);    /* User Route handler.           - Mounts the 'route handler' as middleware at path '/post' . */
+
+const UserRoute = require('./routes/UserRoute');
+app.use('/user', UserRoute);    /* User Route handler.           - Mounts the 'route handler' as middleware at path '/user' . */
 
 
 /* Make files in folder "public" accessible via url. Example: '/public/index.html' . */
