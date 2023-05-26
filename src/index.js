@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 /* Access Global Variables, depending on node_environment we set at 'start' script. */
-require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` }) //
 const url_DB = process.env.DATABASE_URL;
 const port = process.env.PORT;
 
