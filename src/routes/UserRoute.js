@@ -15,4 +15,13 @@ router.get('/get_all_users_infos',          /* path '/get_all_users_infos' use f
     user.get_all_users_infos
 );
 
+router.get('/get_seller_rating_by_email',      /* path '/get_seller_rating_by_email' use func get_user_info_by_email from 'user' controller file */
+    user.get_seller_rating_by_email
+);
+
+router.post('/update_seller_rating',      /* path '/update_seller_rating' use func update_seller_rating from 'user' controller file */
+    user.update_seller_rating
+);
+
+
 module.exports = router;    /* Makes PostRoute usable as separate file. (requires import where used). */

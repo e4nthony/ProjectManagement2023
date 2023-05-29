@@ -23,6 +23,10 @@ const userSchema = new Schema({
     birth_date: {
         type: Date,
         required: true
+    },
+    average_rating: {     /* average rating of user as seller (computed everytime that buyer rates this user) */
+        type: Number,
+        required: true
     }
 });
 
