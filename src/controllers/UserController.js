@@ -194,6 +194,12 @@ async function update_seller_rating (req, res) {
         /* --- compute average_rating --- */
         console.log('getting seller\'s rating by email from remote DB...');
         const seller_rating = await RatingModel.find({ email: req.body.email });
+        // const seller_rating = await RatingModel.aggregate([  //alter???????
+        //     {
+        //         "$project": { "_id": 0, "data": {
+        //             "$map": { "input": "$array", "as": "ar", "in": "$$ar.rating" } } }
+        //     }
+        // ])
         console.log('seller_rating: ' + JSON.stringify(seller_rating, null, 2));
 
         const rating_array = seller_rating.rating_array;
@@ -209,9 +215,9 @@ async function update_seller_rating (req, res) {
             { average_rating: new_average_rating }
         )
 
-        const new_field = { rating_array: { email: buyer_email, rating } };
+        const new_field = { email: buyer_email, rating };
 
-        /* push new average_rating value to 'rating' */
+        /* push new rating value to 'rating' */
         await RatingModel.updateOne(
             { email: seller_email },
             { $push: new_field }
