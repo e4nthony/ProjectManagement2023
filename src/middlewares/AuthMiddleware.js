@@ -8,7 +8,7 @@ const validateToken = (req, res, next) => {
     }
 
     try {
-        const validToken = verify(accessToken, 'AniMaccabiMiAtemBihlal');
+        const validToken = verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
 
         if (validToken) {
             return next();
