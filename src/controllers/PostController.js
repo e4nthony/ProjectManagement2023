@@ -210,7 +210,7 @@ async function get_all_posts_by_author (req, res) {
 async function get_all_posts (req, res) {
     try {
         console.log('server got get_all_posts get request: \n' + String(req));
-        
+
 
 
         console.log('getting all posts from remote DB...');
