@@ -35,7 +35,7 @@ function sendCreatePostError (res, error_msg = 'Create post error, please try ag
  */
 async function create (req, res) {
     try {
-        console.log('server got create post request: \n' + JSON.stringify(req.body, null, 2));
+        console.log('server got create post request: \n' + String(req.body));
 
         if (!req.body || !req.body.post_tittle || !req.body.post_text || !req.body.author_email || !req.body.starting_price) {
             console.log('got corrupted request, sending create post error...');
@@ -79,7 +79,7 @@ async function create (req, res) {
 //  */
 // async function update_post_by_id (req, res) {
 //     try {
-//         console.log('server got update post request: \n' + JSON.stringify(req.body, null, 2));
+//         console.log('server got update post request: \n' + String(req.body));
 
 //         if (!req.body || !req.body.id) {
 //             console.log('got corrupted request, sending create post error...');
@@ -133,7 +133,7 @@ async function create (req, res) {
  */
 async function get_post_by_id (req, res) {
     try {
-        console.log('server got get_post_by_id post request: \n' + JSON.stringify(req.body, null, 2));
+        console.log('server got get_post_by_id post request: \n' + String(req.body));
 
         if (!req.body || !req.body.post_id) {
             console.log('got corrupted request, sending create post error...');
@@ -142,7 +142,7 @@ async function get_post_by_id (req, res) {
 
         console.log('getting post by id from remote DB...');
         const a_post = await PostModel.find({ _id: req.body.post_id });
-        console.log('post: ' + JSON.stringify(a_post, null, 2));
+        console.log('post: ' + String(a_post));
 
         if (!a_post) {
             return res.status(404).send({ error: 'no post found.' });
@@ -171,7 +171,7 @@ async function get_post_by_id (req, res) {
  */
 async function get_all_posts_by_author (req, res) {
     try {
-        console.log('server got get_all_posts_by_author post request: \n' + JSON.stringify(req, null, 2));
+        console.log('server got get_all_posts_by_author post request: \n' + String(req));
 
         if (!req.body || !req.body.author_email) {
             console.log('got corrupted request, sending create post error...');
@@ -180,7 +180,7 @@ async function get_all_posts_by_author (req, res) {
 
         console.log('getting all posts from remote DB...');
         const posts = await PostModel.find({ author_email: req.body.author_email });
-        console.log('all posts: ' + JSON.stringify(posts, null, 2));
+        console.log('all posts: ' + String(posts));
 
         if (!posts) {
             return res.status(404).send({ error: 'no posts found.' });
@@ -209,11 +209,15 @@ async function get_all_posts_by_author (req, res) {
  */
 async function get_all_posts (req, res) {
     try {
-        console.log('server got get_all_posts get request: \n' + JSON.stringify(req, null, 2));
+        console.log('server got get_all_posts get request: \n' + String(req));
+        
+
 
         console.log('getting all posts from remote DB...');
         const posts = await PostModel.find();
-        console.log('all posts: ' + JSON.stringify(posts, null, 2));
+        console.log('all posts: ' + String(posts));
+
+
 
         if (!posts) {
             return res.status(404).send({ error: 'no posts found.' });
@@ -242,12 +246,12 @@ async function get_all_posts (req, res) {
  */
 async function get_20_newest_posts (req, res) {
     try {
-        console.log('server got get_all_posts get request: \n' + JSON.stringify(req, null, 2));
+        console.log('server got get_all_posts get request: \n' + String(req));
 
         console.log('getting get_20_newest_posts from remote DB...');
         /* finds 20 last records at DB */
         const posts = await PostModel.find({ $query: {}, $orderby: { $natural: -1 } }).limit(20);
-        console.log('get_20_newest_posts: ' + JSON.stringify(posts, null, 2));
+        console.log('get_20_newest_posts: ' + String(posts));
 
         if (!posts) {
             return res.status(404).send({ error: 'no posts found.' });

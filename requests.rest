@@ -1,38 +1,137 @@
-### Register - local
+### ---------- Auth Path - Alice ------------
+### Register
 POST http://localhost:3080/auth/register
 Content-Type: application/json 
 
 {
     "email": "example+alice@gmail.com",
-    "enc_password": "$2a$10$SvdYZv5Alws3WSMfF1pw8eYsiwvdFGBaC3Z.bwfOz5Dq0A9bAZiIO",
+    "enc_password": "$2a$10$EibSJ9JN16VgWJFhPlfVZOxMHdSJLuGU3bMfoyplJDRNsvBvcaV6e",
     "firstName": "Alice",
     "lastName": "Page",
     "userName": "alice5",
     "birth_date": "2000-01-01"
 }
 
-### Login - local
+### Login
 POST http://localhost:3080/auth/login
 Content-Type: application/json 
 
 {
     "email": "example+alice@gmail.com",
-    "raw_password": "validPassword#2"
+    "raw_password": "validPassword#1"
 }
 
-### Login - local
+### Delete Account
+POST http://localhost:3080/auth/deleteaccount
+Content-Type: application/json 
+
+{
+    "email": "example+alice@gmail.com",
+    "raw_password": "validPassword#1",
+    "delete_confirmation": "deletemyaccount"
+}
+
+### ---------- Auth Path - Bob ------------
+### Register
+POST http://localhost:3080/auth/register
+Content-Type: application/json 
+
+{
+    "email": "example+bob@gmail.com",
+    "enc_password": "$2a$10$SvdYZv5Alws3WSMfF1pw8eYsiwvdFGBaC3Z.bwfOz5Dq0A9bAZiIO",
+    "firstName": "Bob",
+    "lastName": "Carter",
+    "userName": "JustBob",
+    "birth_date": "2001-08-18"
+}
+
+### Login
 POST http://localhost:3080/auth/login
 Content-Type: application/json 
 
 {
-    "email": "example+1@gmail.com",
-    "raw_password": "validPassword#1"
+    "email": "example+bob@gmail.com",
+    "raw_password": "validPassword#2"
 }
 
-### Login - local
-GET http://127.0.0.1:3080/user/get_all_users_infos
+### Delete Account
+POST http://localhost:3080/auth/deleteaccount
+Content-Type: application/json 
 
-### Login - local
+{
+    "email": "example+bob@gmail.com",
+    "raw_password": "validPassword#2",
+    "delete_confirmation": "deletemyaccount"
+}
+
+
+### ---------- User Path ------------
+
+### get_all_users_infos 
+GET http://localhost:3080/user/get_all_users_infos
+
+### get_user_info_by_email - Alice
+POST http://localhost:3080/user/get_user_info_by_email
+Content-Type: application/json 
+
+{
+    "email": "example+alice@gmail.com"
+}
+
+### get_user_info_by_email - local - Bob 
+POST http://localhost:3080/user/get_user_info_by_email
+Content-Type: application/json 
+
+{
+    "email": "example+bob@gmail.com",
+}
+
+
+### ---------- Posts Path ------------
+
+### create - Alice
+POST http://localhost:3080/post/create
+Content-Type: application/json 
+
+{
+    "post_tittle": "post1_post_tittle",
+    "post_text": "post1_post_text",
+    "author_email": "example+alice@gmail.com",
+    "starting_price": 10
+}
+
+### get_all_posts
+GET http://localhost:3080/post/get_all_posts
+
+### get_all_posts_by_author - Alice
+POST http://localhost:3080/post/get_all_posts_by_author
+Content-Type: application/json 
+
+{
+    "email": "example+alice@gmail.com"
+}
+
+### get_post_by_id
+
+### get_20_newest_posts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### ---------- Notes ------------
+
+### get_user_info_by_email - local
 POST http://127.0.0.1:3080/user/get_user_info_by_email
 Content-Type: application/json 
 
