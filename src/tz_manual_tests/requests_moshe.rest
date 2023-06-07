@@ -1,0 +1,89 @@
+### ---------- Auth Path - Moshe ------------
+### Register
+POST http://localhost:3080/auth/register
+Content-Type: application/json 
+
+{
+    "email": "example+moshe@gmail.com",
+    "enc_password": "$2a$10$EibSJ9JN16VgWJFhPlfVZOxMHdSJLuGU3bMfoyplJDRNsvBvcaV6e",
+    "firstName": "Moshe",
+    "lastName": "Coen",
+    "userName": "moshe_98",
+    "birth_date": "2000-12-12"
+}
+
+### Login
+POST http://localhost:3080/auth/login
+Content-Type: application/json 
+
+{
+    "email": "example+moshe@gmail.com",
+    "raw_password": "validPassword#1"
+}
+
+### Delete Account
+POST http://localhost:3080/auth/deleteaccount
+Content-Type: application/json 
+
+{
+    "email": "example+moshe@gmail.com",
+    "raw_password": "validPassword#1",
+    "delete_confirmation": "deletemyaccount"
+}
+
+
+### ---------- User Path ------------
+### get_all_users_infos 
+GET http://localhost:3080/user/get_all_users_infos
+
+### get_user_info_by_email
+POST http://localhost:3080/user/get_user_info_by_email
+Content-Type: application/json 
+
+{
+    "email": "example+moshe@gmail.com"
+}
+
+### ---------- Posts Path ------------
+
+### create 
+POST http://localhost:3080/post/create
+Content-Type: application/json 
+
+{
+    "post_tittle": "The most expensive banana peel.",
+    "post_text": "Very long an beautiful explanation about my banana peel for sale. Then my neighbor's cat walk on keyboardd khi s drfgkluh dsfrvg kulh dsrg kul hsdrtfg ilug dfr tvliug sdrt g 87ilre54t !!!",
+    "author_email": "example+moshe@gmail.com",
+    "starting_price": 116
+}
+
+### get_all_posts
+GET http://localhost:3080/post/get_all_posts
+
+### get_all_posts_by_author
+POST http://localhost:3080/post/get_all_posts_by_author
+Content-Type: application/json 
+
+{
+    "email": "example+moshe@gmail.com"
+}
+
+### get_post_by_id
+### get_20_newest_posts
+
+
+
+
+
+
+
+
+### ---------- Notes ------------
+
+### get_user_info_by_email - local
+POST http://127.0.0.1:3080/user/get_user_info_by_email
+Content-Type: application/json 
+
+{
+    "email": "example+moshe@gmail.com"
+}
