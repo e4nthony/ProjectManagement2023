@@ -46,6 +46,7 @@ async function get_user_info_by_email (req, res) {
         }
 
         console.log('getting get user info by email from remote DB...');
+        console.log(req.body.email);
         const user_info = await UserModel.findOne({ email: String(req.body.email) });
         console.log('user_info: ' + JSON.stringify(user_info));
 
@@ -95,7 +96,8 @@ async function edit_info (req, res) {
         }
         console.log('this email is free, saving update user to DB tables...');
 
-        const update_info = await UserModel.findOneAndUpdate({ email: req.body.existEmail },
+        console.log('the email you try to find : ' + req.body.existEmail + req.body.firstName);
+        const data = await UserModel.findOneAndUpdate({ email: req.body.existEmail },
             {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -103,8 +105,7 @@ async function edit_info (req, res) {
                 userName: req.body.userName,
                 birth_date: req.body.birth_date
             });   // saves changes to remote db
-        console.log('update results:\n' + JSON.stringify(update_info, null, 2));
-
+        console.log(data);
         /* User's Authentication Credentils */
         const newUserCredentils = await AuthModel.findOneAndUpdate({ email: req.body.existEmail }, { email: req.body.email, enc_password: req.body.enc_password });  // saves changes to remote db
         console.log('update results:\n' + JSON.stringify(newUserCredentils, null, 2));
@@ -177,7 +178,6 @@ async function get_seller_rating_by_email (req, res) {
             return sendDefaultError(res);
         }
 
-        console.log('getting get user info by email from remote DB...');
         const user_info = await UserModel.find({ email: req.body.email });
         console.log('user_info: ' + JSON.stringify(user_info, null, 2));
 
