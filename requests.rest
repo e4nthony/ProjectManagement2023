@@ -111,6 +111,18 @@ Content-Type: application/json
     "email": "example+alice@gmail.com"
 }
 
+POST http://localhost:3080/user/edit_info
+Content-Type: application/json
+{
+     "email": "12@walla.com",
+      "existEmail": "eu@walla.com",
+      "enc_password": "$2a$10$qyb5xURTtGeC7m/byU1Rx.hmWBomYMhqhMDLHGRx5Odz.416zNjkC",
+      "firstName": "fanny",
+      "lastName": "lastName",
+      "userName": "username",
+      "birth_date": "2000-01-01"
+}
+
 ### get_post_by_id
 
 ### get_20_newest_posts
