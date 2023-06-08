@@ -11,7 +11,6 @@
 /* MongoDB models */
 const UserModel = require('../models/UserModel');
 const RatingModel = require('../models/RatingModel');
-const { findOneAndUpdate } = require('../models/AuthModel');
 const AuthModel = require('../models/AuthModel');
 /* Access Global Variables */
 require('dotenv').config();
@@ -37,7 +36,7 @@ function sendEditInfoError (res, error_msg = 'Edit Info error, please try again 
  * @param {*} res
  * @returns
  */
-async function get_user_info_by_email(req, res) {
+async function get_user_info_by_email (req, res) {
     try {
         console.log('server got get_user_info_by_email post request: \n' + JSON.stringify(req.body, null, 2));
 
@@ -47,7 +46,7 @@ async function get_user_info_by_email(req, res) {
         }
 
         console.log('getting get user info by email from remote DB...');
-        const user_info = await UserModel.findOne({ email : String(req.body.email) });
+        const user_info = await UserModel.findOne({ email: String(req.body.email) });
         console.log('user_info: ' + JSON.stringify(user_info));
 
         if (user_info.length == 0) {
@@ -74,8 +73,7 @@ async function get_user_info_by_email(req, res) {
  * @param {*} res
  * @returns
  */
-async function edit_info(req,res) {
-    console.log("adar in the server")
+async function edit_info (req, res) {
     try {
         console.log('server got edit info request: \n' + JSON.stringify(req.body, null, 2));
 
@@ -97,16 +95,18 @@ async function edit_info(req,res) {
         }
         console.log('this email is free, saving update user to DB tables...');
 
-        const update_info = await UserModel.findOneAndUpdate({email: req.body.existEmail},
-            {firstName:req.body.firstName,
-            lastName:req.body.lastName,
-            email:req.body.email,
-            userName:req.body.userName,
-            birth_date:req.body.birth_date,});   // saves changes to remote db
-            console.log('update results:\n' + JSON.stringify(update_info, null, 2));
+        const update_info = await UserModel.findOneAndUpdate({ email: req.body.existEmail },
+            {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                email: req.body.email,
+                userName: req.body.userName,
+                birth_date: req.body.birth_date
+            });   // saves changes to remote db
+        console.log('update results:\n' + JSON.stringify(update_info, null, 2));
 
         /* User's Authentication Credentils */
-        const newUserCredentils = await AuthModel.findOneAndUpdate({email:req.body.existEmail},{email:req.body.email,enc_password:req.body.enc_password});  // saves changes to remote db
+        const newUserCredentils = await AuthModel.findOneAndUpdate({ email: req.body.existEmail }, { email: req.body.email, enc_password: req.body.enc_password });  // saves changes to remote db
         console.log('update results:\n' + JSON.stringify(newUserCredentils, null, 2));
         console.log('sending Edit Info complete message...');
         return res.status(200).send({ msg: 'edit info complete.' });
@@ -302,5 +302,5 @@ module.exports = {
     get_all_users_infos,
     edit_info,
     get_seller_rating_by_email, // is needed? *included in get_user_info_by_email
-    update_seller_rating,
+    update_seller_rating
 }
