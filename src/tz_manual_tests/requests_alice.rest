@@ -1,4 +1,4 @@
-### ---------- Auth Path - Alice ------------
+### ---------- Auth Path - alice ------------
 ### Register
 POST http://localhost:3080/auth/register
 Content-Type: application/json 
@@ -31,46 +31,12 @@ Content-Type: application/json
     "delete_confirmation": "deletemyaccount"
 }
 
-### ---------- Auth Path - Bob ------------
-### Register
-POST http://localhost:3080/auth/register
-Content-Type: application/json 
-
-{
-    "email": "example+bob@gmail.com",
-    "enc_password": "$2a$10$SvdYZv5Alws3WSMfF1pw8eYsiwvdFGBaC3Z.bwfOz5Dq0A9bAZiIO",
-    "firstName": "Bob",
-    "lastName": "Carter",
-    "userName": "JustBob",
-    "birth_date": "2001-08-18"
-}
-
-### Login
-POST http://localhost:3080/auth/login
-Content-Type: application/json 
-
-{
-    "email": "example+bob@gmail.com",
-    "raw_password": "validPassword#2"
-}
-
-### Delete Account
-POST http://localhost:3080/auth/deleteaccount
-Content-Type: application/json 
-
-{
-    "email": "example+bob@gmail.com",
-    "raw_password": "validPassword#2",
-    "delete_confirmation": "deletemyaccount"
-}
-
 
 ### ---------- User Path ------------
-
 ### get_all_users_infos 
 GET http://localhost:3080/user/get_all_users_infos
 
-### get_user_info_by_email - Alice
+### get_user_info_by_email
 POST http://localhost:3080/user/get_user_info_by_email
 Content-Type: application/json 
 
@@ -78,32 +44,23 @@ Content-Type: application/json
     "email": "example+alice@gmail.com"
 }
 
-### get_user_info_by_email - local - Bob 
-POST http://localhost:3080/user/get_user_info_by_email
-Content-Type: application/json 
-
-{
-    "email": "example+bob@gmail.com",
-}
-
-
 ### ---------- Posts Path ------------
 
-### create - Alice
+### create 
 POST http://localhost:3080/post/create
 Content-Type: application/json 
 
 {
-    "post_tittle": "post1_post_tittle",
-    "post_text": "post1_post_text",
+    "post_tittle": "The computer's motherboard.",
+    "post_text": "Very long an beautiful explanation about my computer's motherboard for sale. Then my bestfriend's cat walk on keyboardd khi s drfgkluh dsfrvg kulh dsrg kul hsdrtfg ilug dfr tvliug sdrt g 87ilre54t !!!",
     "author_email": "example+alice@gmail.com",
-    "starting_price": 10
+    "starting_price": 200
 }
 
 ### get_all_posts
 GET http://localhost:3080/post/get_all_posts
 
-### get_all_posts_by_author - Alice
+### get_all_posts_by_author
 POST http://localhost:3080/post/get_all_posts_by_author
 Content-Type: application/json 
 
@@ -124,15 +81,7 @@ Content-Type: application/json
 }
 
 ### get_post_by_id
-
 ### get_20_newest_posts
-
-
-
-
-
-
-
 
 
 
@@ -148,5 +97,5 @@ POST http://127.0.0.1:3080/user/get_user_info_by_email
 Content-Type: application/json 
 
 {
-    "email": "example+1@gmail.com"
+    "email": "example+alice@gmail.com"
 }
