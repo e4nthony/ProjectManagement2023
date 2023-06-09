@@ -23,5 +23,9 @@ router.post('/update_seller_rating',      /* path '/update_seller_rating' use fu
     user.update_seller_rating
 );
 
+router.post('/edit_info',
+    user.edit_info
+);
+
 
 module.exports = router;    /* Makes PostRoute usable as separate file. (requires import where used). */

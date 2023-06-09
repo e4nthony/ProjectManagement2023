@@ -11,13 +11,17 @@
 /* MongoDB models */
 const UserModel = require('../models/UserModel');
 const RatingModel = require('../models/RatingModel');
-
+const AuthModel = require('../models/AuthModel');
 /* Access Global Variables */
 require('dotenv').config();
 
 
 function sendDefaultError (res, error_msg = 'Something went wrong.') {
     return res.status(400).send({ error: error_msg });
+}
+
+function sendEditInfoError (res, error_msg = 'Edit Info error, please try again later.') {
+    return sendDefaultError(res, error_msg);
 }
 
 /**
@@ -42,8 +46,9 @@ async function get_user_info_by_email (req, res) {
         }
 
         console.log('getting get user info by email from remote DB...');
-        const user_info = await UserModel.find({ email: req.body.email });
-        console.log('user_info: ' + JSON.stringify(user_info, null, 2));
+        console.log(req.body.email);
+        const user_info = await UserModel.findOne({ email: String(req.body.email) });
+        console.log('user_info: ' + JSON.stringify(user_info));
 
         if (user_info.length == 0) {
             return res.status(404).send({ error: 'not found registered user with this email.' });
@@ -55,6 +60,61 @@ async function get_user_info_by_email (req, res) {
         /* server might lost connection with DB */
         console.log('error - get_user_info_by_email from remote DB: ' + err);
         return sendDefaultError(res, 'Unexpected error');
+    }
+}
+/**
+ * update user's info by sending new  from DB (of registered user),
+ * sends response to client: user info of one user. (status 200 - if user found successfully)
+ *                                                  (status 400 - failed)
+ *                                                  (status 404 - not found registered user with this email)
+ *
+ * Sends fields: user_info.
+ *
+ * @param {*} req  Expected fields in body: email,exist email ,firs name ,last name ,date of birth ,password ,user name,.
+ * @param {*} res
+ * @returns
+ */
+async function edit_info (req, res) {
+    try {
+        console.log('server got edit info request: \n' + JSON.stringify(req.body, null, 2));
+
+        if (!req.body || !req.body.email || !req.body.enc_password || !req.body.firstName || !req.body.lastName || !req.body.userName || !req.body.birth_date) {
+            console.log('got corrupted request, sending edit info error...');
+            return sendEditInfoError(res);
+        }
+        const email = req.body.email;
+
+        /* try connect to DB */
+        console.log('sending \'find user by mail\' request to DB...');
+        const authData = await AuthModel.findOne({ email });  //  findOne() mongodb's func.
+        console.log('DB results:\n' + JSON.stringify(authData, null, 2));
+
+        /* if user sends existing email */
+        if (authData != null) {
+            console.log('User already in DB, sending login error...');
+            return sendEditInfoError(res);
+        }
+        console.log('this email is free, saving update user to DB tables...');
+
+        console.log('the email you try to find : ' + req.body.existEmail + req.body.firstName);
+        const data = await UserModel.findOneAndUpdate({ email: req.body.existEmail },
+            {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                email: req.body.email,
+                userName: req.body.userName,
+                birth_date: req.body.birth_date
+            });   // saves changes to remote db
+        console.log(data);
+        /* User's Authentication Credentils */
+        const newUserCredentils = await AuthModel.findOneAndUpdate({ email: req.body.existEmail }, { email: req.body.email, enc_password: req.body.enc_password });  // saves changes to remote db
+        console.log('update results:\n' + JSON.stringify(newUserCredentils, null, 2));
+        console.log('sending Edit Info complete message...');
+        return res.status(200).send({ msg: 'edit info complete.' });
+    } catch (err) {
+        /* server might lost connection with DB */
+        console.log('Edit Info error: ' + err);
+        return sendEditInfoError(res, 'Unexpected error');
     }
 }
 
@@ -118,7 +178,6 @@ async function get_seller_rating_by_email (req, res) {
             return sendDefaultError(res);
         }
 
-        console.log('getting get user info by email from remote DB...');
         const user_info = await UserModel.find({ email: req.body.email });
         console.log('user_info: ' + JSON.stringify(user_info, null, 2));
 
@@ -236,9 +295,12 @@ async function update_seller_rating (req, res) {
     }
 }
 
+
+
 module.exports = {
     get_user_info_by_email,
     get_all_users_infos,
+    edit_info,
     get_seller_rating_by_email, // is needed? *included in get_user_info_by_email
     update_seller_rating
 }
