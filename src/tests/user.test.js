@@ -62,8 +62,8 @@ beforeAll(async () => {
 
 // clear the DB
 afterAll(async () => {
-    // await AuthModel.deleteMany();
-    // await UserModel.deleteMany();
+    await AuthModel.deleteMany();
+    await UserModel.deleteMany();
 
     mongoose.connection.close();
 })
