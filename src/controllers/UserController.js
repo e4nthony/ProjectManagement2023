@@ -47,10 +47,11 @@ async function get_user_info_by_email (req, res) {
 
         console.log('getting get user info by email from remote DB...');
         console.log(req.body.email);
-        const user_info = await UserModel.findOne({ email: String(req.body.email) });
-        console.log('user_info: ' + JSON.stringify(user_info));
 
-        if (user_info.length == 0) {
+        const user_info = await UserModel.findOne({ email: req.body.email });
+        console.log('user_info: ' + JSON.stringify(user_info, null, 2));
+
+        if (!user_info) {
             return res.status(404).send({ error: 'not found registered user with this email.' });
         }
 
