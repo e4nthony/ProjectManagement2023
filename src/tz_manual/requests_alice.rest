@@ -52,7 +52,7 @@ Content-Type: application/json
 
 {
     "post_tittle": "The computer's motherboard.",
-    "post_text": "Very long an beautiful explanation about my computer's motherboard for sale. Then my bestfriend's cat walk on keyboardd khi s drfgkluh dsfrvg kulh dsrg kul hsdrtfg ilug dfr tvliug sdrt g 87ilre54t !!!",
+    "post_text": "Very long and beautiful explanation about my computer's motherboard for sale. Then my bestfriend's cat walk on keyboardd khi s drfgkluh dsfrvg kulh dsrg kul hsdrtfg ilug dfr tvliug sdrt g 87ilre54t !!!",
     "author_email": "example+alice@gmail.com",
     "starting_price": 200
 }
@@ -68,18 +68,6 @@ Content-Type: application/json
     "email": "example+alice@gmail.com"
 }
 
-POST http://localhost:3080/user/edit_info
-Content-Type: application/json
-{
-     "email": "12@walla.com",
-      "existEmail": "eu@walla.com",
-      "enc_password": "$2a$10$qyb5xURTtGeC7m/byU1Rx.hmWBomYMhqhMDLHGRx5Odz.416zNjkC",
-      "firstName": "fanny",
-      "lastName": "lastName",
-      "userName": "username",
-      "birth_date": "2000-01-01"
-}
-
 ### get_post_by_id
 ### get_20_newest_posts
 
@@ -91,11 +79,14 @@ Content-Type: application/json
 
 
 ### ---------- Notes ------------
-
-### get_user_info_by_email - local
-POST http://127.0.0.1:3080/user/get_user_info_by_email
-Content-Type: application/json 
-
+POST http://localhost:3080/user/edit_info
+Content-Type: application/json
 {
-    "email": "example+alice@gmail.com"
+     "email": "12@walla.com",
+      "existEmail": "eu@walla.com",
+      "enc_password": "$2a$10$qyb5xURTtGeC7m/byU1Rx.hmWBomYMhqhMDLHGRx5Odz.416zNjkC",
+      "firstName": "fanny",
+      "lastName": "lastName",
+      "userName": "username",
+      "birth_date": "2000-01-01"
 }

@@ -102,11 +102,3 @@ Content-Type: application/json
 
 
 ### ---------- Notes ------------
-
-### get_user_info_by_email - local
-POST http://127.0.0.1:3080/user/get_user_info_by_email
-Content-Type: application/json 
-
-{
-    "email": "example+bob@gmail.com"
-}

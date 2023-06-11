@@ -52,7 +52,7 @@ Content-Type: application/json
 
 {
     "post_tittle": "Very expensive pot. (Dave's)",
-    "post_text": "Very long an beautiful explanation. Then my girlfriend's cat walk on keyboardddddddd SHDF34bf 34f ertghrtbg56 ytyn 6563 n?sdf db srbn ns rteu7tgr f4f lhewraf kjbaerf oihaervv liuerv u!!!",
+    "post_text": "Very long and beautiful explanation. Then my girlfriend's cat walk on keyboardddddddd SHDF34bf 34f ertghrtbg56 ytyn 6563 n?sdf db srbn ns rteu7tgr f4f lhewraf kjbaerf oihaervv liuerv u!!!",
     "author_email": "example+dave@gmail.com",
     "starting_price": 970
 }
@@ -63,7 +63,7 @@ Content-Type: application/json
 
 {
     "post_tittle": "My ord scarf. (Dave's)",
-    "post_text": "Very long an beautiful explanation about my ord scarf. Buy it! It really warm!!!",
+    "post_text": "Very long and beautiful explanation about my ord scarf. Buy it! It really warm!!!",
     "author_email": "example+dave@gmail.com",
     "starting_price": 33
 }
@@ -98,11 +98,3 @@ Content-Type: application/json
 
 
 ### ---------- Notes ------------
-
-### get_user_info_by_email - local
-POST http://127.0.0.1:3080/user/get_user_info_by_email
-Content-Type: application/json 
-
-{
-    "email": "example+1@gmail.com"
-}
