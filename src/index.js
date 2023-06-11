@@ -9,8 +9,9 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 const url_DB = process.env.DATABASE_URL;
 const port = process.env.PORT;
-
 const AuthModel = require('./models/AuthModel');  // MongoDB's Scheme of authentication, (to print all users). DEBUG, todo delete?
+
+
 
 /**
  * Creates a MongoClient
@@ -79,6 +80,12 @@ app.use('/post', PostRoute);    /* User Route handler.           - Mounts the 'r
 const UserRoute = require('./routes/UserRoute');
 app.use('/user', UserRoute);    /* User Route handler.           - Mounts the 'route handler' as middleware at path '/user' . */
 
+/* chat */
+const ConversationRoute = require('./routes/Conversations');
+app.use('/conversation', ConversationRoute);
+
+const MessageRoute = require('./routes/Messages');
+app.use('/massage', MessageRoute);
 
 /* Make files in folder "public" accessible via url. Example: '/public/index.html' . */
 app.use('/public', express.static('public'));
