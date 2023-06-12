@@ -1,45 +1,11 @@
-const router = require('express').Router();
-const Conversation = require('../models/Conversation');
+const express = require('express');
+const router = express.Router(); // router is 'routes handler'
+const convo = require('../controllers/Conversation');
 
-// new conv
+router.get('/get_convo',          /* path '/get_all_users_infos' use func get_all_users_infos from 'user' controller file */
+    // AuthMiddleware.validateToken, // with authorization todo enable
+    convo.get_convo
+);
 
-router.post('/', async (req, res) => {
-    const newConversation = new Conversation({
-        members: [req.body.senderId, req.body.receiverId]
-    });
-
-    try {
-        const savedConversation = await newConversation.save();
-        res.status(200).json(savedConversation);
-    } catch (err) {
-        res.status(400).json(err);
-    }
-});
-
-// get conv of a user
-
-router.get('/:userId', async (req, res) => {
-    try {
-        const conversation = await Conversation.find({
-            members: { $in: [req.params.userId] }
-        });
-        res.status(200).json(conversation);
-    } catch (err) {
-        res.status(400).json(err);
-    }
-});
-
-// get conv includes two userId
-
-router.get('/find/:firstUserId/:secondUserId', async (req, res) => {
-    try {
-        const conversation = await Conversation.findOne({
-            members: { $all: [req.params.firstUserId, req.params.secondUserId] }
-        });
-        res.status(200).json(conversation)
-    } catch (err) {
-        res.status(400).json(err);
-    }
-});
 
 module.exports = router;

@@ -295,6 +295,19 @@ async function update_seller_rating (req, res) {
     }
 }
 
+// async function get_user (req, res) {
+//     const userId = req.query.userId;
+//     const userName = req.query.userName;
+//     try {
+//         const user = userId
+//             ? await UserModel.findById(userId)
+//             : await UserModel.findOne({ userName });
+//         const { enc_password, email, ...other } = user._doc;
+//         res.status(200).jason(other);
+//     } catch (error) {
+//         res.status(500).json(error);
+//     }
+// }
 
 
 module.exports = {

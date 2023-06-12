@@ -5,6 +5,10 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+/********************/
+
+
+
 /* Access Global Variables */
 require('dotenv').config();
 const url_DB = process.env.DATABASE_URL;
