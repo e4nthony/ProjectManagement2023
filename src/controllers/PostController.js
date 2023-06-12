@@ -14,11 +14,11 @@ const PostModel = require('../models/PostModel');
 /* Access Global Variables */
 // require('dotenv').config();
 
-function sendDefaultError (res, error_msg = 'Something went wrong.') {
+function sendDefaultError(res, error_msg = 'Something went wrong.') {
     return res.status(400).send({ error: error_msg });
 }
 
-function sendCreatePostError (res, error_msg = 'Create post error, please try again later.') {
+function sendCreatePostError(res, error_msg = 'Create post error, please try again later.') {
     return sendDefaultError(res, error_msg);
 }
 
@@ -33,11 +33,11 @@ function sendCreatePostError (res, error_msg = 'Create post error, please try ag
  * @param {*} res
  * @returns
  */
-async function create (req, res) {
+async function create(req, res) {
     try {
         console.log('server got create post request: \n' + String(req.body));
 
-        if (!req.body || !req.body.post_tittle || !req.body.post_text || !req.body.author_email || !req.body.starting_price) {
+        if (!req.body || !req.body.post_tittle || !req.body.post_text || !req.body.author_email || !req.body.starting_price || !req.body.expirationTime) {
             console.log('got corrupted request, sending create post error...');
             return sendCreatePostError(res);
         }
@@ -50,7 +50,8 @@ async function create (req, res) {
             starting_price: req.body.starting_price,    // (Integer)
             current_price: req.body.starting_price,     // (Integer)
             leading_buyer_email: null,
-            post_likes: 0                               // (Integer)
+            post_likes: 0,                               // (Integer)
+            expirationTime: req.body.expirationTime
         });
         await newPost.save();   // saves changes to remote db
 
@@ -131,7 +132,7 @@ async function create (req, res) {
  * @param {*} res
  * @returns
  */
-async function get_post_by_id (req, res) {
+async function get_post_by_id(req, res) {
     try {
         console.log('server got get_post_by_id post request: \n' + String(req.body));
 
@@ -169,7 +170,7 @@ async function get_post_by_id (req, res) {
  * @param {*} res
  * @returns
  */
-async function get_all_posts_by_author (req, res) {
+async function get_all_posts_by_author(req, res) {
     try {
         console.log('server got get_all_posts_by_author post request: \n' + String(req));
 
@@ -207,7 +208,7 @@ async function get_all_posts_by_author (req, res) {
  * @param {*} res
  * @returns
  */
-async function get_all_posts (req, res) {
+async function get_all_posts(req, res) {
     try {
         console.log('server got get_all_posts get request: \n' + String(req));
 
@@ -244,7 +245,7 @@ async function get_all_posts (req, res) {
  * @param {*} res
  * @returns
  */
-async function get_20_newest_posts (req, res) {
+async function get_20_newest_posts(req, res) {
     try {
         console.log('server got get_all_posts get request: \n' + String(req));
 

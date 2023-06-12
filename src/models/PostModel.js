@@ -34,6 +34,10 @@ const postSchema = new Schema({
     post_likes: {           /* saves count likes this post received */
         type: Number,
         required: true
+    },
+    expirationTime: {           /* saves expiration date and time of the post (used to calculate the timer) */
+        type: Date,
+        required: true
     }
 });
 
