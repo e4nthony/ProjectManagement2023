@@ -7,6 +7,10 @@ router.get('/get_message',
     message.get_message
 );
 
+router.post('/new_message',
+    message.new_message
+);
+
 
 module.exports = router;
 
