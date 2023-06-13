@@ -1,0 +1,104 @@
+### ---------- Auth Path - Dave ------------
+### Register
+POST http://localhost:3080/auth/register
+Content-Type: application/json 
+
+{
+    "email": "example+dave@gmail.com",
+    "enc_password": "$2a$10$EibSJ9JN16VgWJFhPlfVZOxMHdSJLuGU3bMfoyplJDRNsvBvcaV6e",
+    "firstName": "Dave",
+    "lastName": "Paul",
+    "userName": "dave_the_best",
+    "birth_date": "2000-06-06"
+}
+
+### Login
+POST http://localhost:3080/auth/login
+Content-Type: application/json 
+
+{
+    "email": "example+dave@gmail.com",
+    "raw_password": "validPassword#1"
+}
+
+### Delete Account
+POST http://localhost:3080/auth/deleteaccount
+Content-Type: application/json 
+
+{
+    "email": "example+dave@gmail.com",
+    "raw_password": "validPassword#1",
+    "delete_confirmation": "deletemyaccount"
+}
+
+
+### ---------- User Path ------------
+### get_all_users_infos 
+GET http://localhost:3080/user/get_all_users_infos
+
+### get_user_info_by_email
+POST http://localhost:3080/user/get_user_info_by_email
+Content-Type: application/json 
+
+{
+    "email": "example+dave@gmail.com"
+}
+
+### ---------- Posts Path ------------
+
+### create 
+POST http://localhost:3080/post/create
+Content-Type: application/json 
+
+{
+    "post_tittle": "Very expensive pot. (Dave's)",
+    "post_text": "Very long and beautiful explanation. Then my girlfriend's cat walk on keyboardddddddd SHDF34bf 34f ertghrtbg56 ytyn 6563 n?sdf db srbn ns rteu7tgr f4f lhewraf kjbaerf oihaervv liuerv u!!!",
+    "author_email": "example+dave@gmail.com",
+    "starting_price": 970,
+    "publication_time": "2023-06-13",
+    "expiration_time": "2023-08-13"
+}
+
+### create 
+POST http://localhost:3080/post/create
+Content-Type: application/json 
+
+{
+    "post_tittle": "My ord scarf. (Dave's)",
+    "post_text": "Very long and beautiful explanation about my ord scarf. Buy it! It really warm!!!",
+    "author_email": "example+dave@gmail.com",
+    "starting_price": 33,
+    "publication_time": "2023-06-13",
+    "expiration_time": "2023-08-13"
+}
+
+### get_all_posts
+GET http://localhost:3080/post/get_all_posts
+
+### get_all_posts_by_author
+POST http://localhost:3080/post/get_all_posts_by_author
+Content-Type: application/json 
+
+{
+    "email": "example+dave@gmail.com"
+}
+
+### get_post_by_id
+
+### get_20_newest_posts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### ---------- Notes ------------
