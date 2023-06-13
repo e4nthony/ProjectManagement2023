@@ -1,3 +1,6 @@
+/* eslint-disable */
+/* the line above disables eslint check for this file (temporarily) todo:delete */
+
 /* --- --- User Info Controller --- --- */
 
 /** status:

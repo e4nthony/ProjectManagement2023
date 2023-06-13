@@ -323,6 +323,10 @@ async function like (req, res) {
         console.log('post_info: ' + JSON.stringify(post_info, null, 2))
 
 
+        if (!post_info || !user_info2) {
+            return res.status(400).sendDefaultError();
+        }
+
         console.log('like is complete, sending status 200 to client...');
         return res.status(200).send({ msg: 'user ' + req.body.email + ' liked post ' + req.body.post_id + ' successfully.' });
     } catch (err) {

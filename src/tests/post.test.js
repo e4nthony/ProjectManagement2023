@@ -78,7 +78,9 @@ describe("Authentication Test", () => {
             "firstName": user1_firstName,
             "lastName": user1_lastName,
             "userName": user1_username,
-            "birth_date": user1_dateOfBirth
+            "birth_date": user1_dateOfBirth,
+            "publication_time": "2023-06-13T11:11:11.000Z",
+            "expiration_time": "2023-08-13T11:11:11.000Z"
         });
         expect(response1.statusCode).toEqual(200);  // ok
 
