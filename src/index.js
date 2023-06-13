@@ -89,7 +89,7 @@ const ConversationRoute = require('./routes/Conversations');
 app.use('/conversation', ConversationRoute);
 
 const MessageRoute = require('./routes/Messages');
-app.use('/massage', MessageRoute);
+app.use('/message', MessageRoute);
 
 /* Make files in folder "public" accessible via url. Example: '/public/index.html' . */
 app.use('/public', express.static('public'));

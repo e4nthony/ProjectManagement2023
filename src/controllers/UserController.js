@@ -62,6 +62,33 @@ async function get_user_info_by_email (req, res) {
         return sendDefaultError(res, 'Unexpected error');
     }
 }
+
+async function get_user_info_by_id (req, res) {
+    try {
+        console.log('server got get_user_info_by_id post request: \n' + JSON.stringify(req.body, null, 2));
+
+        if (!req.body || !req.body.id) {
+            console.log('got corrupted request, sending get_user_info_by_id error...');
+            return sendDefaultError(res);
+        }
+
+        console.log('getting get user info by id from remote DB...');
+        console.log(req.body.id);
+        const user_info = await UserModel.findOne({ id: req.body.id });
+        console.log('user_info: ' + JSON.stringify(user_info));
+
+        if (user_info.length == 0) {
+            return res.status(404).send({ error: 'not found registered user with this id.' });
+        }
+
+        console.log('get_user_info_by_id is complete, sending user info to client...');
+        return res.status(200).send({ user_info });
+    } catch (err) {
+        /* server might lost connection with DB */
+        console.log('error - get_user_info_by_id from remote DB: ' + err);
+        return sendDefaultError(res, 'Unexpected error');
+    }
+}
 /**
  * update user's info by sending new  from DB (of registered user),
  * sends response to client: user info of one user. (status 200 - if user found successfully)
@@ -315,5 +342,6 @@ module.exports = {
     get_all_users_infos,
     edit_info,
     get_seller_rating_by_email, // is needed? *included in get_user_info_by_email
-    update_seller_rating
+    update_seller_rating,
+    get_user_info_by_id
 }

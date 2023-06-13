@@ -27,6 +27,11 @@ router.post('/edit_info',
     user.edit_info
 );
 
+router.post('/get_user_info_by_id',      /* path '/get_user_info_by_id' use func get_user_info_by_id from 'user' controller file */
+    // AuthMiddleware.validateToken, // with authorization todo enable
+    user.get_user_info_by_id
+);
+
 
 
 
