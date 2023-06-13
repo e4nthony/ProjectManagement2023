@@ -27,5 +27,16 @@ router.post('/edit_info',
     user.edit_info
 );
 
+router.post('/follow',     
+    user.follow
+);
+
+router.post('/isfollowing',      
+    user.isfollowing
+);
+
+router.post('/unfollow',      
+    user.unfollow
+);
 
 module.exports = router;    /* Makes PostRoute usable as separate file. (requires import where used). */

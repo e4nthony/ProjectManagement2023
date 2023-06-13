@@ -27,7 +27,16 @@ const userSchema = new Schema({
     average_rating: {     /* average rating of user as seller (computed everytime that buyer rates this user) */
         type: Number,
         required: false
-    }
+    },
+    my_followers: {
+        type: Array,
+        required: false
+    },
+    i_following_to: {
+        type: Array,
+        required: false
+    },
+    
 });
 
 module.exports = model('user_info', userSchema);
