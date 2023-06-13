@@ -1,129 +1,106 @@
-/* eslint-disable */
-/* the line above disables eslint check for this file (temporarily) todo:delete */
+/* --- --- Driver --- --- */
 
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const UrlDb = 'mongodb+srv://Maor:Maor1234@bidzonedb.z6xllsi.mongodb.net/?retryWrites=true&w=majority';
-//import{ getAllUsers } from 'src\Action\ActionDB.js';
-//const result =getAllUsers();
-const UserAuth = require('./models/AuthModel');
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-async function connecttoDB() {
+
+/********************/
+
+
+
+/* Access Global Variables */
+require('dotenv').config();
+const url_DB = process.env.DATABASE_URL;
+const port = process.env.PORT;
+const AuthModel = require('./models/AuthModel');  // MongoDB's Scheme of authentication, (to print all users). DEBUG, todo delete?
+
+
+
+/**
+ * Creates a MongoClient
+ * with a MongoClientOptions object to set the Stable API version
+ * */
+async function connecttoDB () {
     try {
         console.log('Trying to connect to DB');
-        mongoose.connect(UrlDb);
+        mongoose.connect(url_DB);
     } catch (error) {
         console.log('Error connecting to DB');
     }
 
     const db = mongoose.connection
 
-    db.on('error', error => { console.error('Failed to connect to MongoDB: ' + error) })
-    db.once('open', () => { console.log('Connected to MongoDB.') })
+    db.on('error', error => { console.error('Failed to connect to MongoDB: ' + error) });
+    db.once('open', () => { console.log('Connected to MongoDB.') });
 
-
-
-
+    /**
+     * Prints to log all users stored in remote DB on server's startup. DEBUG, todo delete?
+     */
     const getAllUsers = async () => {
-        console.log('getting users from remote DB...')
-
+        console.log('getting all users from remote DB...');
         try {
-            let users = {};
-
-            users = await UserAuth.find()
-
-            console.log('current users:' + String(users))
+            const users = await AuthModel.find();
+            console.log('current users:' + String(users)); // console.log('current users:' + JSON.stringify(users, null, 2)); // works same
         } catch (err) {
+            console.log('error of getting all users from remote DB.' + err);
         }
     }
     getAllUsers();
-
 }
 connecttoDB();
 
-// Access-Control-Allow-Origin ENABLE
+
+/**
+ * Enables Access-Control-Allow-Origin,
+ * allows to server get requests from remote ip.
+ * */
 const cors = require('cors');
-app.use( // todo double check the security of this CORS params
+app.use(    // todo double check the security of this CORS params
     cors({
-        "origin": "*",
-        "methods": "GET,POST,DELETE",
-        "preflightContinue": false,
-        "optionsSuccessStatus": 204
+        origin: '*',
+        methods: 'GET,POST,DELETE',
+        preflightContinue: false,
+        optionsSuccessStatus: 204
     })
 );
 
-/** For request/response functionality in func. (middleware) */
+
+/* For request/response functionality in func. (middleware) */
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const port = 3080;  // alter // const port = process.env.port || 4000;
 
-
-/** --- Routes --- */
+/* --- Routes --- */
 const DefaultRoute = require('./routes/DefaultRoute');
-/** 
- * Default route handler.
- * ( Mount the routesHandler as middleware at path '/' ).
- */
-app.use('/', DefaultRoute);
+app.use('/', DefaultRoute);     /* Default route handler.        - Mounts the 'route handler' as middleware at path '/' . */
 
 const AuthRoute = require('./routes/AuthRoute');
-/** 
- * Authentication route handler.
- * ( Mount the routesHandler as middleware at path '/auth' ).
- */
-app.use('/auth', AuthRoute);
+app.use('/auth', AuthRoute);    /* Authentication route handler. - Mounts the 'route handler' as middleware at path '/auth' . */
 
 const PostRoute = require('./routes/PostRoute');
-/** 
- * Post route handler.
- * ( Mount the routesHandler as middleware at path '/post' ).
- */
-app.use('/post', PostRoute);
+app.use('/post', PostRoute);    /* User Route handler.           - Mounts the 'route handler' as middleware at path '/post' . */
 
+const UserRoute = require('./routes/UserRoute');
+app.use('/user', UserRoute);    /* User Route handler.           - Mounts the 'route handler' as middleware at path '/user' . */
 
-/** Make files in folder "public" accessible via url. Example: '/public/index.html' . */
+/* chat */
+const ConversationRoute = require('./routes/Conversations');
+app.use('/conversation', ConversationRoute);
+
+const MessageRoute = require('./routes/Messages');
+app.use('/message', MessageRoute);
+
+/* Make files in folder "public" accessible via url. Example: '/public/index.html' . */
 app.use('/public', express.static('public'));
 
 
-
-
-
-if (process.env.NODE_ENV !== 'test') {  // makes tests run correctly 
+if (process.env.NODE_ENV !== 'test') {  /* allows to use tests - makes tests run correctly - disables listener when runnig tests. */
+    /* enables listener to server's port  */
     app.listen(port, () => {
-        console.log('Server is up and runnig at : http://localhost:' + port); // TAG: debug
+        console.log('Server is up and runnig at : http://localhost:' + port);
     });
 }
 
 
-
-
-
-
-
-
-// ----------- Examples (old - no router) --------------
-
-// //still works
-// app.get('/getparams', (req, res) => {
-//     const str = [{
-//         'param1': '1',
-//         'param2': '2',
-//         'param3': '3',
-//         'msg': 'This is server default message.'
-//     }];
-//     res.end(JSON.stringify(str));
-//     console.log('server got request \'/getparams\'.');
-//     // res.send('Hello from the server main page');
-// });
-
-// app.get('/', (req, res) => {
-//     console.log('A new request has arrived to index.js');
-//     res.send('Hello from the server main page');
-// });
-
-
-/* allow use tests */
-module.exports = app
+module.exports = app    /* allows to use tests */

@@ -17,38 +17,41 @@ const UserModel = require('../models/UserModel');
 const index = require('../index');
 
 
-/* --- --- */
+/* --- --- User's credentials Params --- --- */
 
 const user1_email = 'example@gmail.com';
-
 const user1_password = 'validPassword#1';   // unencrypted
-
-/* generates hash of password */
-async function encrypt_pass(pass = user1_password) {
-    const salt = await bcrypt.genSalt(10);  // await must be inside func.
-    return await bcrypt.hash(pass, salt);  // await must be inside func.
-}
+let user1_enc_password;
 
 const user1_firstName = 'Joe';
 const user1_lastName = 'Baker';
 const user1_username = 'warrior1717';
 const user1_dateOfBirth = '2000-05-01';
 
-let user1_accessToken = '';
+let user1_accessToken;
 
 const delete_confirmation = 'deletemyaccount';
 
+/**
+ * generates hash of password
+ *  */
+async function encrypt_pass(pass) {
+    const salt = await bcrypt.genSalt(10);  // await must be inside func.
+    return await bcrypt.hash(pass, salt);  // await must be inside func.
+}
+
+
 // clear the DB
 beforeAll(async () => {
-    await AuthModel.deleteOne();
-    await UserModel.deleteOne();
+    await AuthModel.deleteMany();
+    await UserModel.deleteMany();
     // setTimeout(function() { console.log("sleeps"); }, 1000); // sleep 1000 milliseconds 
 })
 
 // clear the DB
 afterAll(async () => {
-    await AuthModel.deleteOne();
-    await UserModel.deleteOne();
+    await AuthModel.deleteMany();
+    await UserModel.deleteMany();
 
     mongoose.connection.close();
 })
@@ -56,11 +59,11 @@ afterAll(async () => {
 describe("Authentication Test", () => {
 
     test("Register - Valid data, Add new user", async () => {
-        const enc_password = await encrypt_pass(user1_password) // encrypt wrong pass
+        user1_enc_password = await encrypt_pass(user1_password)
 
         const response = await supertest(index).post('/auth/register').send({
             "email": user1_email,
-            "enc_password": enc_password,
+            "enc_password": user1_enc_password,
             "firstName": user1_firstName,
             "lastName": user1_lastName,
             "userName": user1_username,
@@ -70,9 +73,11 @@ describe("Authentication Test", () => {
     })
 
     test("Register - Invalid email", async () => {
+        user1_enc_password = await encrypt_pass(user1_password)
+
         const response = await supertest(index).post('/auth/register').send({
             "email": user1_email,  // got already registered email
-            "enc_password": await encrypt_pass(),
+            "enc_password": await encrypt_pass(user1_password),
             "firstName": user1_firstName,
             "lastName": user1_lastName,
             "userName": user1_username,
@@ -95,7 +100,7 @@ describe("Authentication Test", () => {
     test("Login - Invalid password", async () => {
         const response = await supertest(index).post('/auth/login').send({
             "email": user1_email,
-            "raw_password": user1_password + 'abc'
+            "raw_password": user1_password + 'abc' 
         });
         expect(response.statusCode).toEqual(400);  // error - wrong password
 

@@ -47,7 +47,9 @@ async function register (req, res) {
             return sendRegisterError(res);
         }
         const email = req.body.email;
+        const userName = req.body.userName;
 
+        /* --- check that email is free --- */
         /* try connect to DB */
         console.log('sending \'find user by mail\' request to DB...');
         const authData = await AuthModel.findOne({ email });  //  findOne() mongodb's func.
@@ -56,10 +58,26 @@ async function register (req, res) {
         /* if user sends existing email */
         if (authData != null) {
             console.log('User already in DB, sending login error...');
-            return sendRegisterError(res);
+            return sendRegisterError(res, 'User\'s email already in DB.');
         }
-        console.log('this email is free, saving new user to DB tables...');
+        console.log('this email is free');
 
+
+        /* --- check that username is free --- */
+        /* try connect to DB */
+        console.log('sending \'find user by username\' request to DB...');
+        const userData = await UserModel.findOne({ userName });  //  findOne() mongodb's func.
+        console.log('DB results:\n' + JSON.stringify(authData, null, 2));
+
+        /* if user sends existing username */
+        if (userData != null) {
+            console.log('username already in DB, sending login error...');
+            return sendRegisterError(res, 'Username already in DB.');
+        }
+        console.log('this username is free');
+
+
+        console.log('saving new user to DB tables...');
         /* User Info */
         const newUserInfo = new UserModel({
             email: req.body.email,
@@ -101,7 +119,7 @@ function sendLoginError (res, error_msg = 'Invalid email or password') {
  */
 async function login (req, res) {
     try {
-        console.log('server got login request: \n' + JSON.stringify(req.body));
+        console.log('server got login request: \n' + JSON.stringify(req.body, null, 2));
 
         if (!req.body.email || !req.body.raw_password) {
             console.log('got corrupted request, sending login error...');
@@ -161,7 +179,7 @@ function sendDeleteError (res, error_msg = 'Unable to delete account, please try
  */
 async function deleteAccount (req, res) {
     try {
-        console.log('server got delete account request: \n' + JSON.stringify(req.body));
+        console.log('server got delete account request: \n' + JSON.stringify(req.body, null, 2));
 
         if (!req.body.email || !req.body.raw_password || !req.body.delete_confirmation) {
             console.log('got corrupted request, sending deleteaccount error...');

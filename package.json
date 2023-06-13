@@ -9,6 +9,7 @@
     "testinfo": "jest --detectOpenHandles --forceExit --runInBand src/test",
     "testauth": "jest --detectOpenHandles --forceExit src/tests/auth.test.js",
     "testpost": "jest --detectOpenHandles --forceExit src/tests/post.test.js",
+    "testuser": "jest --detectOpenHandles --forceExit src/tests/user.test.js",
     "testmocha": "mocha src/testsmocha/*.spec.js --color",
     "lint": "eslint src/* --color"
   },

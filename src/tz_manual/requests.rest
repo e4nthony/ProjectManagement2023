@@ -1,0 +1,12 @@
+
+### ---------- User Path ------------
+
+### get_all_users_infos 
+GET http://localhost:3080/user/get_all_users_infos
+
+
+### ---------- Posts Path ------------
+
+### get_all_posts
+GET http://localhost:3080/post/get_all_posts
+

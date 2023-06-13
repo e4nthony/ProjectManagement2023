@@ -1,5 +1,8 @@
 const { verify } = require('jsonwebtoken');
 
+/* Access Global Variables */
+require('dotenv').config();
+
 const validateToken = (req, res, next) => {
     const accessToken = req.header('accessToken');
 
@@ -8,7 +11,7 @@ const validateToken = (req, res, next) => {
     }
 
     try {
-        const validToken = verify(accessToken, 'AniMaccabiMiAtemBihlal');
+        const validToken = verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
 
         if (validToken) {
             return next();

@@ -20,24 +20,27 @@ const index = require('../index');
 /* --- --- User's credentials Params --- --- */
 
 const user1_email = 'example@gmail.com';
-
 const user1_password = 'validPassword#1';   // unencrypted
-
-/* generates hash of password */
-async function encrypt_pass(pass = user1_password) {
-    const salt = await bcrypt.genSalt(10);  // await must be inside func.
-    return await bcrypt.hash(pass, salt);  // await must be inside func.
-}
+let user1_enc_password;
 
 const user1_firstName = 'Joe';
 const user1_lastName = 'Baker';
 const user1_username = 'warrior1717';
 const user1_dateOfBirth = '2000-05-01';
 
-let user1_accessToken = '';
+let user1_accessToken;
+
+/**
+ * generates hash of password 
+ *  */
+async function encrypt_pass(pass) {
+    const salt = await bcrypt.genSalt(10);  // await must be inside func.
+    return await bcrypt.hash(pass, salt);  // await must be inside func.
+}
 
 
 /* --- --- Post Params --- --- */
+
 post1_post_tittle = 'A Post Tittle'
 post1_post_text = 'Description of my great item to sale.'
 post1_author_email = user1_email
@@ -49,15 +52,16 @@ post1_starting_price = 1
 
 // clear the DB
 beforeAll(async () => {
-    await AuthModel.deleteOne();
-    await PostModel.deleteOne();
+    await AuthModel.deleteMany();
+    await PostModel.deleteMany();
     // setTimeout(function() { console.log("sleeps"); }, 1000); // sleep 1000 milliseconds 
 })
 
 // clear the DB
 afterAll(async () => {
-    await AuthModel.deleteOne();
-    await PostModel.deleteOne();
+    await AuthModel.deleteMany();
+    await PostModel.deleteMany();
+
 
     mongoose.connection.close();
 })
@@ -66,15 +70,17 @@ describe("Authentication Test", () => {
 
     /* need to do before posting a new post as authorized user. */
     test("Register & Login & get Token", async () => {
-        const enc_password = await encrypt_pass(user1_password) // encrypt wrong pass
+        user1_enc_password = await encrypt_pass(user1_password) // encrypt wrong pass
 
         const response1 = await supertest(index).post('/auth/register').send({
             "email": user1_email,
-            "enc_password": enc_password,
+            "enc_password": user1_enc_password,
             "firstName": user1_firstName,
             "lastName": user1_lastName,
             "userName": user1_username,
-            "birth_date": user1_dateOfBirth
+            "birth_date": user1_dateOfBirth,
+            "publication_time": "2023-06-13T11:11:11.000Z",
+            "expiration_time": "2023-08-13T11:11:11.000Z"
         });
         expect(response1.statusCode).toEqual(200);  // ok
 
