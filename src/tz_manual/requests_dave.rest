@@ -54,7 +54,9 @@ Content-Type: application/json
     "post_tittle": "Very expensive pot. (Dave's)",
     "post_text": "Very long and beautiful explanation. Then my girlfriend's cat walk on keyboardddddddd SHDF34bf 34f ertghrtbg56 ytyn 6563 n?sdf db srbn ns rteu7tgr f4f lhewraf kjbaerf oihaervv liuerv u!!!",
     "author_email": "example+dave@gmail.com",
-    "starting_price": 970
+    "starting_price": 970,
+    "publication_time": "2023-06-13",
+    "expiration_time": "2023-08-13"
 }
 
 ### create 
@@ -65,7 +67,9 @@ Content-Type: application/json
     "post_tittle": "My ord scarf. (Dave's)",
     "post_text": "Very long and beautiful explanation about my ord scarf. Buy it! It really warm!!!",
     "author_email": "example+dave@gmail.com",
-    "starting_price": 33
+    "starting_price": 33,
+    "publication_time": "2023-06-13",
+    "expiration_time": "2023-08-13"
 }
 
 ### get_all_posts

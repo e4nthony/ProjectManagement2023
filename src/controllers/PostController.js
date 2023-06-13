@@ -37,7 +37,7 @@ async function create(req, res) {
     try {
         console.log('server got create post request: \n' + String(req.body));
 
-        if (!req.body || !req.body.post_tittle || !req.body.post_text || !req.body.author_email || !req.body.starting_price || !req.body.expirationTime) {
+        if (!req.body || !req.body.post_tittle || !req.body.post_text || !req.body.author_email || !req.body.starting_price || !req.body.publication_time || !req.body.expiration_time) {
             console.log('got corrupted request, sending create post error...');
             return sendCreatePostError(res);
         }
@@ -51,7 +51,8 @@ async function create(req, res) {
             current_price: req.body.starting_price,     // (Integer)
             leading_buyer_email: null,
             post_likes: 0,                               // (Integer)
-            expirationTime: req.body.expirationTime
+            publication_time: req.body.publication_time,
+            expiration_time: req.body.expiration_time
         });
         await newPost.save();   // saves changes to remote db
 

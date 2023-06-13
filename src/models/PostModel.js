@@ -35,7 +35,11 @@ const postSchema = new Schema({
         type: Number,
         required: true
     },
-    expirationTime: {           /* saves expiration date and time of the post (used to calculate the timer) */
+    publication_time: {           /* saves date and time of when post was published */
+        type: Date,
+        required: true
+    },
+    expiration_time: {           /* saves expiration date and time of the post (used to calculate the timer) */
         type: Date,
         required: true
     }

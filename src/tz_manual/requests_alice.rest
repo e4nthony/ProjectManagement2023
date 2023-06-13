@@ -54,7 +54,9 @@ Content-Type: application/json
     "post_tittle": "The computer's motherboard.",
     "post_text": "Very long and beautiful explanation about my computer's motherboard for sale. Then my bestfriend's cat walk on keyboardd khi s drfgkluh dsfrvg kulh dsrg kul hsdrtfg ilug dfr tvliug sdrt g 87ilre54t !!!",
     "author_email": "example+alice@gmail.com",
-    "starting_price": 200
+    "starting_price": 200,
+    "publication_time": "2023-06-13",
+    "expiration_time": "2023-08-13"
 }
 
 ### get_all_posts

@@ -54,7 +54,9 @@ Content-Type: application/json
     "post_tittle": "Very cheap jewelerry. (Jessica's)",
     "post_text": "Very long and beautiful explanation about my beautiful cheap jewelerry. Then my cat walk on keyboardd kjaeriluhf3 4598y4wg59p8y4g p9y8 4g5089yu 4g5098 r5g0pu9 jr45p98 w4r9h8eup !!!",
     "author_email": "example+jessica@gmail.com",
-    "starting_price": 40
+    "starting_price": 40,
+    "publication_time": "2023-06-13",
+    "expiration_time": "2023-08-13"
 }
 
 ### get_all_posts
