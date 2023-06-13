@@ -116,6 +116,8 @@ describe("Authentication Test", () => {
             'post_text': post1_post_text,
             'author_email': post1_author_email,
             'starting_price': post1_starting_price,
+            "publication_time": "2023-06-13T11:11:11.000Z",
+            "expiration_time": "2025-08-13T11:11:11.000Z"
         });
         expect(response.statusCode).toEqual(200);  // ok
     })
