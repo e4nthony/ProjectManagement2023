@@ -29,6 +29,11 @@ router.get('/get_20_newest_posts',      /* path '/get_20_newest_posts' use func 
     post.get_20_newest_posts
 );
 
+router.post('/like',
+    post.like
+);
+
+
 // todo enable
 // router.post('/update', post.update);    /* path '/update' use func update from 'post' controller file */
 

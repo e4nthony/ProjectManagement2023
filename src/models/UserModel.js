@@ -35,8 +35,8 @@ const userSchema = new Schema({
     i_following_to: {
         type: Array,
         required: false
-    },
-    
+    }
+
 });
 
 module.exports = model('user_info', userSchema);

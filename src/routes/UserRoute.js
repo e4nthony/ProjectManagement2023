@@ -27,15 +27,15 @@ router.post('/edit_info',
     user.edit_info
 );
 
-router.post('/follow',     
+router.post('/follow',
     user.follow
 );
 
-router.post('/isfollowing',      
+router.post('/isfollowing',
     user.isfollowing
 );
 
-router.post('/unfollow',      
+router.post('/unfollow',
     user.unfollow
 );
 

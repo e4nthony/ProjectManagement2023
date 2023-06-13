@@ -308,13 +308,13 @@ async function update_seller_rating (req, res) {
  * sends response to client: user info of one user. (status 200 - if user followed successfully)
  *                                                  (status 400 - failed)
  *
- * Sends fields: user_info.
+ * Sends fields: msg.
  *
  * @param {*} req  Expected fields in body: active_user_email, target_email.
  * @param {*} res
  * @returns
  */
-async function follow(req, res) {
+async function follow (req, res) {
     try {
         console.log('server got follow post request: \n' + JSON.stringify(req.body, null, 2));
 
@@ -340,14 +340,14 @@ async function follow(req, res) {
 
 
         /* add following user to follower */
-        const data1 = await UserModel.findOneAndUpdate( {email: user_info_follower.email} , { $push: { i_following_to: user_info_target.email } } );   // saves changes to remote db
+        const data1 = await UserModel.findOneAndUpdate({ email: user_info_follower.email }, { $push: { i_following_to: user_info_target.email } });   // saves changes to remote db
 
 
         /* add follower to target */
-        const data2 = await UserModel.findOneAndUpdate( {email: user_info_target.email} , { $push: { my_followers: user_info_follower.email } } );   // saves changes to remote db
+        const data2 = await UserModel.findOneAndUpdate({ email: user_info_target.email }, { $push: { my_followers: user_info_follower.email } });   // saves changes to remote db
 
         console.log('follow is complete, sending status 200 to client...');
-        return res.status(200).send('user ' + user_info_follower.email + ' followed user ' + user_info_target.email + ' successfully.');
+        return res.status(200).send({ msg: 'user ' + user_info_follower.email + ' followed user ' + user_info_target.email + ' successfully.' });
     } catch (err) {
         /* server might lost connection with DB */
         console.log('error - get_user_info_by_email from remote DB: ' + err);
@@ -393,12 +393,12 @@ async function isfollowing (req, res) {
 
 
         /* target */
-        const data1 = await UserModel.findOne( {email: user_info_target.email} , { my_followers: user_info_follower.email } );   // saves changes to remote db
+        const data1 = await UserModel.findOne({ email: user_info_target.email }, { my_followers: user_info_follower.email });   // saves changes to remote db
         console.log('data1 from remote DB: ' + JSON.stringify(data1, null, 2));
 
-        
+
         console.log('isfollowing is complete, sending status 200 to client...');
-        if (!data1){
+        if (!data1) {
             return res.status(200).send({ isfollowing: false });
         }
         return res.status(200).send({ isfollowing: true });
@@ -416,13 +416,13 @@ async function isfollowing (req, res) {
  * sends response to client: user info of one user. (status 200 - if user unfollowed successfully)
  *                                                  (status 400 - failed)
  *
- * Sends fields: user_info.
+ * Sends fields: msg.
  *
  * @param {*} req  Expected fields in body: active_user_email, target_email.
  * @param {*} res
  * @returns
  */
-async function unfollow(req, res) {
+async function unfollow (req, res) {
     try {
         console.log('server got follow post request: \n' + JSON.stringify(req.body, null, 2));
 
@@ -448,14 +448,14 @@ async function unfollow(req, res) {
 
 
         /* add following user to follower */
-        const data1 = await UserModel.findOneAndUpdate( {email: user_info_follower.email} , { $pull: { i_following_to: user_info_target.email } } );   // saves changes to remote db
+        const data1 = await UserModel.findOneAndUpdate({ email: user_info_follower.email }, { $pull: { i_following_to: user_info_target.email } });   // saves changes to remote db
 
 
         /* add follower to target */
-        const data2 = await UserModel.findOneAndUpdate( {email: user_info_target.email} , { $pull: { my_followers: user_info_follower.email } } );   // saves changes to remote db
+        const data2 = await UserModel.findOneAndUpdate({ email: user_info_target.email }, { $pull: { my_followers: user_info_follower.email } });   // saves changes to remote db
 
         console.log('unfollow is complete, sending status 200 to client...');
-        return res.status(200).send('user ' + user_info_follower.email + ' unfollowed user ' + user_info_target.email + ' successfully.');
+        return res.status(200).send({ msg: 'user ' + user_info_follower.email + ' unfollowed user ' + user_info_target.email + ' successfully.' });
     } catch (err) {
         /* server might lost connection with DB */
         console.log('error - get_user_info_by_email from remote DB: ' + err);

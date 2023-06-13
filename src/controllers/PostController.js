@@ -10,15 +10,16 @@
 
 /* MongoDB model */
 const PostModel = require('../models/PostModel');
+const UserModel = require('../models/UserModel');
 
 /* Access Global Variables */
 // require('dotenv').config();
 
-function sendDefaultError(res, error_msg = 'Something went wrong.') {
+function sendDefaultError (res, error_msg = 'Something went wrong.') {
     return res.status(400).send({ error: error_msg });
 }
 
-function sendCreatePostError(res, error_msg = 'Create post error, please try again later.') {
+function sendCreatePostError (res, error_msg = 'Create post error, please try again later.') {
     return sendDefaultError(res, error_msg);
 }
 
@@ -33,7 +34,7 @@ function sendCreatePostError(res, error_msg = 'Create post error, please try aga
  * @param {*} res
  * @returns
  */
-async function create(req, res) {
+async function create (req, res) {
     try {
         console.log('server got create post request: \n' + String(req.body));
 
@@ -133,7 +134,7 @@ async function create(req, res) {
  * @param {*} res
  * @returns
  */
-async function get_post_by_id(req, res) {
+async function get_post_by_id (req, res) {
     try {
         console.log('server got get_post_by_id post request: \n' + String(req.body));
 
@@ -171,7 +172,7 @@ async function get_post_by_id(req, res) {
  * @param {*} res
  * @returns
  */
-async function get_all_posts_by_author(req, res) {
+async function get_all_posts_by_author (req, res) {
     try {
         console.log('server got get_all_posts_by_author post request: \n' + String(req));
 
@@ -209,7 +210,7 @@ async function get_all_posts_by_author(req, res) {
  * @param {*} res
  * @returns
  */
-async function get_all_posts(req, res) {
+async function get_all_posts (req, res) {
     try {
         console.log('server got get_all_posts get request: \n' + String(req));
 
@@ -246,7 +247,7 @@ async function get_all_posts(req, res) {
  * @param {*} res
  * @returns
  */
-async function get_20_newest_posts(req, res) {
+async function get_20_newest_posts (req, res) {
     try {
         console.log('server got get_all_posts get request: \n' + String(req));
 
@@ -270,6 +271,179 @@ async function get_20_newest_posts(req, res) {
 }
 
 
+
+/* --- --- Like --- --- */
+
+/**
+ * user(email) likes a post(post_id)
+ *
+ * sends response to client: user info of one user. (status 200 - if user liked successfully)
+ *                                                  (status 400 - failed)
+ *
+ * Sends fields:
+ *
+ * @param {*} req  Expected fields in body: post_id, email.
+ * @param {*} res
+ * @returns
+ */
+async function like (req, res) {
+    try {
+        console.log('server got follow post request: \n' + JSON.stringify(req.body, null, 2));
+
+        if (!req.body || !req.body.post_id || !req.body.email) {
+            console.log('got corrupted request, sending get_user_info_by_email error...');
+            return sendDefaultError(res);
+        }
+
+        /* check that user is registered */
+        console.log('getting get active_user_email info by email from remote DB...');
+        console.log(req.body.email);
+        const user_info = await UserModel.findOne({ email: req.body.email });
+        console.log('user_info: ' + JSON.stringify(user_info, null, 2));
+
+        if (!user_info) {
+            return res.status(400).send({ error: 'not found this user.' });
+        }
+
+
+        /* find post and update user */
+        console.log('getting get like info by post_id from remote DB...');
+        console.log(req.body.post_id);
+
+        const post_info = await PostModel.findOneAndUpdate({ _id: req.body.post_id }, { $push: { liked_by_emails: req.body.email } });
+        console.log('post_info: ' + JSON.stringify(post_info, null, 2));
+
+
+        /* find user and update post */
+        console.log('getting get like info by post_id from remote DB...');
+        console.log(req.body.post_id);
+
+
+        const user_info2 = await PostModel.findOneAndUpdate({ email: req.body.email }, { $push: { my_liked_posts: req.body.post_id } });
+        console.log('post_info: ' + JSON.stringify(post_info, null, 2))
+
+
+        console.log('like is complete, sending status 200 to client...');
+        return res.status(200).send({ msg: 'user ' + req.body.email + ' liked post ' + req.body.post_id + ' successfully.' });
+    } catch (err) {
+        /* server might lost connection with DB */
+        console.log('error - get_user_info_by_email from remote DB: ' + err);
+        return sendDefaultError(res, 'Unexpected error');
+    }
+}
+
+
+// /**
+//  * checks if a user(active_user_email) follows a seller(target_email).
+//  *
+//  * sends response to client: user info of one user. (status 200 - if user followed successfully)
+//  *                                                  (status 400 - failed)
+//  *
+//  * Sends fields: user_info.
+//  *
+//  * @param {*} req  Expected fields in body: post_id, email.
+//  * @param {*} res
+//  * @returns
+//  */
+// async function islikes (req, res) {
+//     try {
+//         console.log('server got isfollowing post request: \n' + JSON.stringify(req.body, null, 2));
+
+//         if (!req.body || !req.body.active_user_email || !req.body.target_email) {
+//             console.log('got corrupted request, sending get_user_info_by_email error...');
+//             return sendDefaultError(res);
+//         }
+
+//         console.log('getting get user_info_follower info by email from remote DB...');
+//         console.log(req.body.active_user_email);
+//         const user_info_follower = await UserModel.findOne({ email: req.body.active_user_email });
+//         console.log('user_info_follower: ' + JSON.stringify(user_info_follower, null, 2));
+
+//         console.log('getting get user_info_target info by email from remote DB...');
+//         console.log(req.body.target_email);
+//         const user_info_target = await UserModel.findOne({ email: req.body.target_email });
+//         console.log('user_info_target: ' + JSON.stringify(user_info_target, null, 2));
+
+//         if (!user_info_follower || !user_info_target) {
+//             return res.status(400).send({ error: 'not found registered user.' });
+//         }
+
+
+//         /* target */
+//         const data1 = await UserModel.findOne({ email: user_info_target.email }, { my_followers: user_info_follower.email });   // saves changes to remote db
+//         console.log('data1 from remote DB: ' + JSON.stringify(data1, null, 2));
+
+
+//         console.log('isfollowing is complete, sending status 200 to client...');
+//         if (!data1) {
+//             return res.status(200).send({ isfollowing: false });
+//         }
+//         return res.status(200).send({ isfollowing: true });
+//     } catch (err) {
+//         /* server might lost connection with DB */
+//         console.log('error - get_user_info_by_email from remote DB: ' + err);
+//         return sendDefaultError(res, 'Unexpected error');
+//     }
+// }
+
+// /**
+//  * user(email) likes a post(post_id)
+//  *
+//  * sends response to client: user info of one user. (status 200 - if user liked successfully)
+//  *                                                  (status 400 - failed)
+//  *
+//  * Sends fields: user_info.
+//  *
+//  * @param {*} req  Expected fields in body: post_id, email.
+//  * @param {*} res
+//  * @returns
+//  */
+// async function unlike(req, res) {
+//     try {
+//         console.log('server got follow post request: \n' + JSON.stringify(req.body, null, 2));
+
+//         if (!req.body || !req.body.post_id || !req.body.email) {
+//             console.log('got corrupted request, sending get_user_info_by_email error...');
+//             return sendDefaultError(res);
+//         }
+
+//         /* check that user is registered */
+//         console.log('getting get active_user_email info by email from remote DB...');
+//         console.log(req.body.email);
+//         const user_info = await UserModel.findOne({ email: req.body.email });
+//         console.log('user_info: ' + JSON.stringify(user_info, null, 2));
+
+//         if (!user_info) {
+//             return res.status(400).send({ error: 'not found this post.' });
+//         }
+
+
+//         /* find post and update post */
+//         console.log('getting get like info by post_id from remote DB...');
+//         console.log(req.body.post_id);
+
+//         const post_info = await PostModel.findOneAndUpdate({ _id: req.body.post_id }, { $pull: { liked_by_emails: req.body.email } });
+//         console.log('post_info: ' + JSON.stringify(post_info, null, 2));
+
+
+//         /* find post and update user */
+//         console.log('getting get like info by post_id from remote DB...');
+//         console.log(req.body.post_id);
+
+//         const post_info = await PostModel.findOneAndUpdate({ _id: req.body.post_id }, { $pull: { my_liked_posts: req.body.email } });
+//         console.log('post_info: ' + JSON.stringify(post_info, null, 2));
+
+
+
+//         console.log('like is complete, sending status 200 to client...');
+//         return res.status(200).send('user ' + user_info_follower.email + ' followed user ' + user_info_target.email + ' successfully.');
+//     } catch (err) {
+//         /* server might lost connection with DB */
+//         console.log('error - get_user_info_by_email from remote DB: ' + err);
+//         return sendDefaultError(res, 'Unexpected error');
+//     }
+// }
+
 module.exports = {
     create,
     // update_post_by_id,
@@ -277,6 +451,9 @@ module.exports = {
     get_post_by_id,
     get_all_posts_by_author,
     get_all_posts,
-    get_20_newest_posts
+    get_20_newest_posts,
     // get_20_newest_posts_by_author,
+    like
+    // unlike,
+    // unlike
 }
