@@ -143,7 +143,7 @@ async function get_post_by_id(req, res) {
         }
 
         console.log('getting post by id from remote DB...');
-        const a_post = await PostModel.find({ _id: req.body.post_id });
+        const a_post = await PostModel.find({ _id: req.body.post_id }).sort({ publication_time: -1 });
         console.log('post: ' + String(a_post));
 
         if (!a_post) {
@@ -181,7 +181,7 @@ async function get_all_posts_by_author(req, res) {
         }
 
         console.log('getting all posts from remote DB...');
-        const posts = await PostModel.find({ author_email: req.body.author_email });
+        const posts = await PostModel.find({ author_email: req.body.author_email }).sort({ publication_time: -1 });
         console.log('all posts: ' + String(posts));
 
         if (!posts) {
@@ -216,7 +216,7 @@ async function get_all_posts(req, res) {
 
 
         console.log('getting all posts from remote DB...');
-        const posts = await PostModel.find();
+        const posts = await PostModel.find().sort({ publication_time: -1 });
         console.log('all posts: ' + String(posts));
 
 
@@ -252,7 +252,8 @@ async function get_20_newest_posts(req, res) {
 
         console.log('getting get_20_newest_posts from remote DB...');
         /* finds 20 last records at DB */
-        const posts = await PostModel.find({ $query: {}, $orderby: { $natural: -1 } }).limit(20);
+        const posts = await PostModel.find().limit(20).sort({ publication_time: -1 });
+        // const posts = await PostModel.find({ $query: {}, $orderby: { $natural: -1 } }).limit(20);
         console.log('get_20_newest_posts: ' + String(posts));
 
         if (!posts) {
