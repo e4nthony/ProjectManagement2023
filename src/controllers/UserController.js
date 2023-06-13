@@ -47,10 +47,11 @@ async function get_user_info_by_email (req, res) {
 
         console.log('getting get user info by email from remote DB...');
         console.log(req.body.email);
-        const user_info = await UserModel.findOne({ email: String(req.body.email) });
-        console.log('user_info: ' + JSON.stringify(user_info));
 
-        if (user_info.length == 0) {
+        const user_info = await UserModel.findOne({ email: req.body.email });
+        console.log('user_info: ' + JSON.stringify(user_info, null, 2));
+
+        if (!user_info) {
             return res.status(404).send({ error: 'not found registered user with this email.' });
         }
 
@@ -62,6 +63,7 @@ async function get_user_info_by_email (req, res) {
         return sendDefaultError(res, 'Unexpected error');
     }
 }
+
 
 async function get_user_info_by_id (req, res) {
     try {
@@ -89,6 +91,7 @@ async function get_user_info_by_id (req, res) {
         return sendDefaultError(res, 'Unexpected error');
     }
 }
+
 /**
  * update user's info by sending new  from DB (of registered user),
  * sends response to client: user info of one user. (status 200 - if user found successfully)
@@ -180,7 +183,7 @@ async function get_all_users_infos (req, res) {
 }
 
 
-/* --- Rating --- */
+/* --- --- Rating --- --- */
 
 /**
  * gets user's rating (as seller) by email from DB,
@@ -220,6 +223,7 @@ async function get_seller_rating_by_email (req, res) {
         return sendDefaultError(res, 'Unexpected error');
     }
 }
+
 
 /**
  * sets/updates user's rating (as seller) by emails into DB,
@@ -336,6 +340,169 @@ async function update_seller_rating (req, res) {
 //     }
 // }
 
+/* --- --- Follow --- --- */
+
+/**
+ * follows a user(active_user_email) to seller(target_email)
+ *
+ * sends response to client: user info of one user. (status 200 - if user followed successfully)
+ *                                                  (status 400 - failed)
+ *
+ * Sends fields: user_info.
+ *
+ * @param {*} req  Expected fields in body: active_user_email, target_email.
+ * @param {*} res
+ * @returns
+ */
+async function follow(req, res) {
+    try {
+        console.log('server got follow post request: \n' + JSON.stringify(req.body, null, 2));
+
+        if (!req.body || !req.body.active_user_email || !req.body.target_email) {
+            console.log('got corrupted request, sending get_user_info_by_email error...');
+            return sendDefaultError(res);
+        }
+
+        console.log('getting get active_user_email info by email from remote DB...');
+        console.log(req.body.active_user_email);
+        const user_info_follower = await UserModel.findOne({ email: req.body.active_user_email });
+        console.log('user_info_follower: ' + JSON.stringify(user_info_follower, null, 2));
+
+        console.log('getting get active_user_email info by email from remote DB...');
+        console.log(req.body.target_email);
+        const user_info_target = await UserModel.findOne({ email: req.body.target_email });
+        console.log('user_info_target: ' + JSON.stringify(user_info_target, null, 2));
+
+
+        if (!user_info_follower || !user_info_target) {
+            return res.status(400).send({ error: 'not found registered user.' });
+        }
+
+
+        /* add following user to follower */
+        const data1 = await UserModel.findOneAndUpdate( {email: user_info_follower.email} , { $push: { i_following_to: user_info_target.email } } );   // saves changes to remote db
+
+
+        /* add follower to target */
+        const data2 = await UserModel.findOneAndUpdate( {email: user_info_target.email} , { $push: { my_followers: user_info_follower.email } } );   // saves changes to remote db
+
+        console.log('follow is complete, sending status 200 to client...');
+        return res.status(200).send('user ' + user_info_follower.email + ' followed user ' + user_info_target.email + ' successfully.');
+    } catch (err) {
+        /* server might lost connection with DB */
+        console.log('error - get_user_info_by_email from remote DB: ' + err);
+        return sendDefaultError(res, 'Unexpected error');
+    }
+}
+
+
+/**
+ * checks if a user(active_user_email) follows a seller(target_email).
+ *
+ * sends response to client: user info of one user. (status 200 - if user followed successfully)
+ *                                                  (status 400 - failed)
+ *
+ * Sends fields: user_info.
+ *
+ * @param {*} req  Expected fields in body: active_user_email, target_email.
+ * @param {*} res
+ * @returns
+ */
+async function isfollowing (req, res) {
+    try {
+        console.log('server got isfollowing post request: \n' + JSON.stringify(req.body, null, 2));
+
+        if (!req.body || !req.body.active_user_email || !req.body.target_email) {
+            console.log('got corrupted request, sending get_user_info_by_email error...');
+            return sendDefaultError(res);
+        }
+
+        console.log('getting get user_info_follower info by email from remote DB...');
+        console.log(req.body.active_user_email);
+        const user_info_follower = await UserModel.findOne({ email: req.body.active_user_email });
+        console.log('user_info_follower: ' + JSON.stringify(user_info_follower, null, 2));
+
+        console.log('getting get user_info_target info by email from remote DB...');
+        console.log(req.body.target_email);
+        const user_info_target = await UserModel.findOne({ email: req.body.target_email });
+        console.log('user_info_target: ' + JSON.stringify(user_info_target, null, 2));
+
+        if (!user_info_follower || !user_info_target) {
+            return res.status(400).send({ error: 'not found registered user.' });
+        }
+
+
+        /* target */
+        const data1 = await UserModel.findOne( {email: user_info_target.email} , { my_followers: user_info_follower.email } );   // saves changes to remote db
+        console.log('data1 from remote DB: ' + JSON.stringify(data1, null, 2));
+
+        
+        console.log('isfollowing is complete, sending status 200 to client...');
+        if (!data1){
+            return res.status(200).send({ isfollowing: false });
+        }
+        return res.status(200).send({ isfollowing: true });
+    } catch (err) {
+        /* server might lost connection with DB */
+        console.log('error - get_user_info_by_email from remote DB: ' + err);
+        return sendDefaultError(res, 'Unexpected error');
+    }
+}
+
+
+/**
+ * unfollows a user(active_user_email) from seller(target_email)
+ *
+ * sends response to client: user info of one user. (status 200 - if user unfollowed successfully)
+ *                                                  (status 400 - failed)
+ *
+ * Sends fields: user_info.
+ *
+ * @param {*} req  Expected fields in body: active_user_email, target_email.
+ * @param {*} res
+ * @returns
+ */
+async function unfollow(req, res) {
+    try {
+        console.log('server got follow post request: \n' + JSON.stringify(req.body, null, 2));
+
+        if (!req.body || !req.body.active_user_email || !req.body.target_email) {
+            console.log('got corrupted request, sending get_user_info_by_email error...');
+            return sendDefaultError(res);
+        }
+
+        console.log('getting get active_user_email info by email from remote DB...');
+        console.log(req.body.active_user_email);
+        const user_info_follower = await UserModel.findOne({ email: req.body.active_user_email });
+        console.log('user_info_follower: ' + JSON.stringify(user_info_follower, null, 2));
+
+        console.log('getting get active_user_email info by email from remote DB...');
+        console.log(req.body.target_email);
+        const user_info_target = await UserModel.findOne({ email: req.body.target_email });
+        console.log('user_info_target: ' + JSON.stringify(user_info_target, null, 2));
+
+
+        if (!user_info_follower || !user_info_target) {
+            return res.status(400).send({ error: 'not found registered user.' });
+        }
+
+
+        /* add following user to follower */
+        const data1 = await UserModel.findOneAndUpdate( {email: user_info_follower.email} , { $pull: { i_following_to: user_info_target.email } } );   // saves changes to remote db
+
+
+        /* add follower to target */
+        const data2 = await UserModel.findOneAndUpdate( {email: user_info_target.email} , { $pull: { my_followers: user_info_follower.email } } );   // saves changes to remote db
+
+        console.log('unfollow is complete, sending status 200 to client...');
+        return res.status(200).send('user ' + user_info_follower.email + ' unfollowed user ' + user_info_target.email + ' successfully.');
+    } catch (err) {
+        /* server might lost connection with DB */
+        console.log('error - get_user_info_by_email from remote DB: ' + err);
+        return sendDefaultError(res, 'Unexpected error');
+    }
+}
+
 
 module.exports = {
     get_user_info_by_email,
@@ -343,5 +510,11 @@ module.exports = {
     edit_info,
     get_seller_rating_by_email, // is needed? *included in get_user_info_by_email
     update_seller_rating,
-    get_user_info_by_id
+
+    get_user_info_by_id,
+
+    follow,
+    isfollowing,
+    unfollow
+
 }

@@ -14,11 +14,11 @@ const PostModel = require('../models/PostModel');
 /* Access Global Variables */
 // require('dotenv').config();
 
-function sendDefaultError (res, error_msg = 'Something went wrong.') {
+function sendDefaultError(res, error_msg = 'Something went wrong.') {
     return res.status(400).send({ error: error_msg });
 }
 
-function sendCreatePostError (res, error_msg = 'Create post error, please try again later.') {
+function sendCreatePostError(res, error_msg = 'Create post error, please try again later.') {
     return sendDefaultError(res, error_msg);
 }
 
@@ -33,11 +33,11 @@ function sendCreatePostError (res, error_msg = 'Create post error, please try ag
  * @param {*} res
  * @returns
  */
-async function create (req, res) {
+async function create(req, res) {
     try {
         console.log('server got create post request: \n' + String(req.body));
 
-        if (!req.body || !req.body.post_tittle || !req.body.post_text || !req.body.author_email || !req.body.starting_price) {
+        if (!req.body || !req.body.post_tittle || !req.body.post_text || !req.body.author_email || !req.body.starting_price || !req.body.publication_time || !req.body.expiration_time) {
             console.log('got corrupted request, sending create post error...');
             return sendCreatePostError(res);
         }
@@ -50,7 +50,9 @@ async function create (req, res) {
             starting_price: req.body.starting_price,    // (Integer)
             current_price: req.body.starting_price,     // (Integer)
             leading_buyer_email: null,
-            post_likes: 0                               // (Integer)
+            post_likes: 0,                               // (Integer)
+            publication_time: req.body.publication_time,
+            expiration_time: req.body.expiration_time
         });
         await newPost.save();   // saves changes to remote db
 
@@ -131,7 +133,7 @@ async function create (req, res) {
  * @param {*} res
  * @returns
  */
-async function get_post_by_id (req, res) {
+async function get_post_by_id(req, res) {
     try {
         console.log('server got get_post_by_id post request: \n' + String(req.body));
 
@@ -141,7 +143,7 @@ async function get_post_by_id (req, res) {
         }
 
         console.log('getting post by id from remote DB...');
-        const a_post = await PostModel.find({ _id: req.body.post_id });
+        const a_post = await PostModel.find({ _id: req.body.post_id }).sort({ publication_time: -1 });
         console.log('post: ' + String(a_post));
 
         if (!a_post) {
@@ -169,7 +171,7 @@ async function get_post_by_id (req, res) {
  * @param {*} res
  * @returns
  */
-async function get_all_posts_by_author (req, res) {
+async function get_all_posts_by_author(req, res) {
     try {
         console.log('server got get_all_posts_by_author post request: \n' + String(req));
 
@@ -179,7 +181,7 @@ async function get_all_posts_by_author (req, res) {
         }
 
         console.log('getting all posts from remote DB...');
-        const posts = await PostModel.find({ author_email: req.body.author_email });
+        const posts = await PostModel.find({ author_email: req.body.author_email }).sort({ publication_time: -1 });
         console.log('all posts: ' + String(posts));
 
         if (!posts) {
@@ -207,14 +209,14 @@ async function get_all_posts_by_author (req, res) {
  * @param {*} res
  * @returns
  */
-async function get_all_posts (req, res) {
+async function get_all_posts(req, res) {
     try {
         console.log('server got get_all_posts get request: \n' + String(req));
 
 
 
         console.log('getting all posts from remote DB...');
-        const posts = await PostModel.find();
+        const posts = await PostModel.find().sort({ publication_time: -1 });
         console.log('all posts: ' + String(posts));
 
 
@@ -244,13 +246,14 @@ async function get_all_posts (req, res) {
  * @param {*} res
  * @returns
  */
-async function get_20_newest_posts (req, res) {
+async function get_20_newest_posts(req, res) {
     try {
         console.log('server got get_all_posts get request: \n' + String(req));
 
         console.log('getting get_20_newest_posts from remote DB...');
         /* finds 20 last records at DB */
-        const posts = await PostModel.find({ $query: {}, $orderby: { $natural: -1 } }).limit(20);
+        const posts = await PostModel.find().limit(20).sort({ publication_time: -1 });
+        // const posts = await PostModel.find({ $query: {}, $orderby: { $natural: -1 } }).limit(20);
         console.log('get_20_newest_posts: ' + String(posts));
 
         if (!posts) {

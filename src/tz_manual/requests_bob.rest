@@ -55,7 +55,9 @@ Content-Type: application/json
     "post_tittle": "Cars - plastic toys.",
     "post_text": "Old toys. Want to buy a new ones. Theese are in perfect condition. Make your bids!",
     "author_email": "example+bob@gmail.com",
-    "starting_price": 50
+    "starting_price": 50,
+    "publication_time": "2023-06-13",
+    "expiration_time": "2023-08-13"
 }
 
 ### create 2
@@ -66,7 +68,9 @@ Content-Type: application/json
     "post_tittle": "Brand new samsung TV.",
     "post_text": "A brand new samsung TV !!! The exclusive prototype model 315854521, directrly from a factory! Unanounced model! Hurry! Make your bids!",
     "author_email": "example+bob@gmail.com",
-    "starting_price": 999
+    "starting_price": 999,
+    "publication_time": "2023-06-13",
+    "expiration_time": "2023-08-13"
 }
 
 ### create 3
@@ -77,7 +81,9 @@ Content-Type: application/json
     "post_tittle": "Spam post.",
     "post_text": "It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha! It's a spam post ha-ha-ha!",
     "author_email": "example+bob@gmail.com",
-    "starting_price": 10000
+    "starting_price": 10000,
+    "publication_time": "2023-06-13T11:11:11.000Z",
+    "expiration_time": "2023-08-13T11:11:11.000Z"
 }
 
 ### get_all_posts
@@ -88,11 +94,14 @@ POST http://localhost:3080/post/get_all_posts_by_author
 Content-Type: application/json 
 
 {
-    "email": "example+bob@gmail.com"
+    "author_email": "example+bob@gmail.com"
 }
 
-### get_post_by_id
 ### get_20_newest_posts
+GET http://localhost:3080/post/get_20_newest_posts
+
+### get_post_by_id
+
 
 
 
@@ -102,11 +111,3 @@ Content-Type: application/json
 
 
 ### ---------- Notes ------------
-
-### get_user_info_by_email - local
-POST http://127.0.0.1:3080/user/get_user_info_by_email
-Content-Type: application/json 
-
-{
-    "email": "example+bob@gmail.com"
-}

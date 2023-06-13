@@ -52,9 +52,11 @@ Content-Type: application/json
 
 {
     "post_tittle": "The most expensive banana peel.",
-    "post_text": "Very long an beautiful explanation about my banana peel for sale. Then my neighbor's cat walk on keyboardd khi s drfgkluh dsfrvg kulh dsrg kul hsdrtfg ilug dfr tvliug sdrt g 87ilre54t !!!",
+    "post_text": "Very long and beautiful explanation about my banana peel for sale. Then my neighbor's cat walk on keyboardd khi s drfgkluh dsfrvg kulh dsrg kul hsdrtfg ilug dfr tvliug sdrt g 87ilre54t !!!",
     "author_email": "example+moshe@gmail.com",
-    "starting_price": 116
+    "starting_price": 116,
+    "publication_time": "2023-06-13",
+    "expiration_time": "2023-08-13"
 }
 
 ### get_all_posts
@@ -79,11 +81,3 @@ Content-Type: application/json
 
 
 ### ---------- Notes ------------
-
-### get_user_info_by_email - local
-POST http://127.0.0.1:3080/user/get_user_info_by_email
-Content-Type: application/json 
-
-{
-    "email": "example+moshe@gmail.com"
-}
