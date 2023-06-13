@@ -11,7 +11,7 @@
     "testpost": "jest --detectOpenHandles --forceExit src/tests/post.test.js",
     "testuser": "jest --detectOpenHandles --forceExit src/tests/user.test.js",
     "testmocha": "mocha src/testsmocha/*.spec.js --color",
-    "lint": "eslint \"src/tests/*.{js,jsx} --color \""
+    "lint": "eslint \"src/tests/*.{js,jsx}\" --color"
   },
   "repository": {
     "type": "git",
