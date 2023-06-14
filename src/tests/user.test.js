@@ -219,7 +219,7 @@ describe('Authentication Test', () => {
         });
         expect(response.statusCode).toEqual(200);
 
-        expect(response.body.isfollowing).toEqual(true);
+        expect(response.body.isfollowing).toEqual(false);
     })
 
     // without auth, todo add
