@@ -38,6 +38,10 @@ router.post('/like',
     post.like
 );
 
+router.post('/islikes',
+    post.islikes
+);
+
 
 // todo enable
 // router.post('/update', post.update);    /* path '/update' use func update from 'post' controller file */

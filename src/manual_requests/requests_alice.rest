@@ -132,3 +132,21 @@ Content-Type: application/json
     "active_user_email": "example+alice@gmail.com",
     "target_email": "example+dave@gmail.com"
 }
+
+### like
+POST http://localhost:3080/post/like
+Content-Type: application/json
+
+{
+    "post_id": "64895542f4afc120ec0cac28",
+    "email": "example+alice@gmail.com"
+}
+
+### islikes
+POST http://localhost:3080/post/islikes
+Content-Type: application/json
+
+{
+    "post_id": "64895542f4afc120ec0cac28",
+    "email": "example+alice@gmail.com"
+}
