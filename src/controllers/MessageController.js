@@ -18,11 +18,11 @@ async function new_message (req, res) {
         const new_message = new Message({
             sender: req.body.sender,
             text: req.body.text
-                              
-        });
-        await new_message.save();  
 
-        
+        });
+        await new_message.save();
+
+
         res.status(200).json(new_message);
     } catch (err) {
         res.status(500).json(err);

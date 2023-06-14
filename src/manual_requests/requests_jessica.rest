@@ -75,13 +75,22 @@ POST http://localhost:3080/post/get_post_by_id
 Content-Type: application/json 
 
 {
-    "post_id": "6486025f0c912a7cc0a898b7"
+    "post_id": "6488fbd516db2992eaa3d511"
 }
 
 ### get_20_newest_posts
 
 
+### get_post_by_id WORKSSSSSSSSSSSSSSS
+POST http://localhost:3080/post/update_post_by_id
+Content-Type: application/json 
 
+{
+    "_id": "6488fbd516db2992eaa3d511",
+    "post_tittle": "abc123",
+    "leading_buyer_email": "abc123",
+    "new_price": "480"
+}
 
 
 

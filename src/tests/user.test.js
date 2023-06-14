@@ -124,7 +124,7 @@ describe('Authentication Test', () => {
             'email': user1_email
         });
         expect(response.statusCode).toEqual(200);  // ok
-        
+
         expect(!response.body.user_info).toEqual(false);  // ok
     })
 
@@ -149,4 +149,87 @@ describe('Authentication Test', () => {
         const response = await supertest(index).get('/user/get_all_users_infos').send();
         expect(response.statusCode).toEqual(200);  // ok
     })
+
+
+    // --- Follow ---
+
+    // without auth, todo add
+    test('follow - valid', async () => {
+        const response = await supertest(index).post('/user/follow').send({
+            'active_user_email': user1_email,
+            'target_email': user2_email
+        });
+        expect(response.statusCode).toEqual(200);
+
+        expect(!response.body.msg).toEqual(false);
+    })
+
+    // without auth, todo add
+    test('follow - invalid - follow again ', async () => {
+        const response = await supertest(index).post('/user/follow').send({
+            'active_user_email': user1_email,
+            'target_email': user2_email
+        });
+        expect(response.statusCode).toEqual(400);
+    })
+
+    // without auth, todo add
+    test('follow - invalid - unregistered target email', async () => {
+        const response = await supertest(index).post('/user/follow').send({
+            'active_user_email': user1_email,
+            'target_email': user2_email+'abc'
+        });
+        expect(response.statusCode).toEqual(400);
+    })
+
+    // without auth, todo add
+    test('follow - invalid - unregistered active_user email', async () => {
+        const response = await supertest(index).post('/user/follow').send({
+            'active_user_email': user1_email+'abc',
+            'target_email': user2_email
+        });
+        expect(response.statusCode).toEqual(400);
+    })
+
+    // without auth, todo add
+    test('follow - invalid - follow myself', async () => {
+        const response = await supertest(index).post('/user/follow').send({
+            'active_user_email': user1_email,
+            'target_email': user1_email
+        });
+        expect(response.statusCode).toEqual(400);
+    })
+
+    // without auth, todo add
+    test('isfollowing - valid - yes ', async () => {
+        const response = await supertest(index).post('/user/isfollowing').send({
+            'active_user_email': user1_email,
+            'target_email': user2_email
+        });
+        expect(response.statusCode).toEqual(200);
+
+        expect(response.body.isfollowing).toEqual(true);
+    })
+
+    // without auth, todo add
+    test('isfollowing - valid - not following', async () => {
+        const response = await supertest(index).post('/user/isfollowing').send({
+            'active_user_email': user2_email,
+            'target_email': user1_email
+        });
+        expect(response.statusCode).toEqual(200);
+
+        expect(response.body.isfollowing).toEqual(false);
+    })
+
+    // without auth, todo add
+    test('isfollowing - invalid - not registered', async () => {
+        const response = await supertest(index).post('/user/isfollowing').send({
+            'active_user_email': user1_email,
+            'target_email': user1_email+'101'
+        });
+        expect(response.statusCode).toEqual(400);
+    })
+
+    
 })

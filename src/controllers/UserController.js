@@ -366,31 +366,38 @@ async function follow (req, res) {
             return sendDefaultError(res);
         }
 
+        if (req.body.active_user_email == req.body.target_email) {
+            return res.status(400).send({ error: 'user cannot follow himself.' });
+        }
+
+        /* check that both users registered */
         console.log('getting get active_user_email info by email from remote DB...');
         console.log(req.body.active_user_email);
-        const user_info_follower = await UserModel.findOne({ email: req.body.active_user_email });
-        console.log('user_info_follower: ' + JSON.stringify(user_info_follower, null, 2));
+        const active_user_info = await UserModel.findOne({ email: req.body.active_user_email });
+        console.log('active_user_info: ' + JSON.stringify(active_user_info, null, 2));
 
-        console.log('getting get active_user_email info by email from remote DB...');
+        console.log('getting get target_user_info info by email from remote DB...');
         console.log(req.body.target_email);
-        const user_info_target = await UserModel.findOne({ email: req.body.target_email });
-        console.log('user_info_target: ' + JSON.stringify(user_info_target, null, 2));
+        const target_user_info = await UserModel.findOne({ email: req.body.target_email });
+        console.log('target_user_info: ' + JSON.stringify(target_user_info, null, 2));
 
-
-        if (!user_info_follower || !user_info_target) {
+        if (!active_user_info || !target_user_info) {
             return res.status(400).send({ error: 'not found registered user.' });
         }
 
+        /* check that user is not following already */
+        if (active_user_info.i_following_to.includes(req.body.target_email) ){
+            return res.status(400).send({ error: 'active user is following already after target.' });
+        }
 
         /* add following user to follower */
-        const data1 = await UserModel.findOneAndUpdate({ email: user_info_follower.email }, { $push: { i_following_to: user_info_target.email } });   // saves changes to remote db
-
+        const active_user_updated_info = await UserModel.findOneAndUpdate({ email: active_user_info.email }, { $push: { i_following_to: target_user_info.email } });   // saves changes to remote db
 
         /* add follower to target */
-        const data2 = await UserModel.findOneAndUpdate({ email: user_info_target.email }, { $push: { my_followers: user_info_follower.email } });   // saves changes to remote db
+        const target_user_updated_info = await UserModel.findOneAndUpdate({ email: target_user_info.email }, { $push: { my_followers: active_user_info.email } });   // saves changes to remote db
 
         console.log('follow is complete, sending status 200 to client...');
-        return res.status(200).send({ msg: 'user ' + user_info_follower.email + ' followed user ' + user_info_target.email + ' successfully.' });
+        return res.status(200).send({ msg: 'user ' + active_user_info.email + ' followed user ' + target_user_info.email + ' successfully.' });
     } catch (err) {
         /* server might lost connection with DB */
         console.log('error - get_user_info_by_email from remote DB: ' + err);
@@ -422,28 +429,38 @@ async function isfollowing (req, res) {
 
         console.log('getting get user_info_follower info by email from remote DB...');
         console.log(req.body.active_user_email);
-        const user_info_follower = await UserModel.findOne({ email: req.body.active_user_email });
-        console.log('user_info_follower: ' + JSON.stringify(user_info_follower, null, 2));
+        const active_user_info = await UserModel.findOne({ email: req.body.active_user_email });
+        console.log('active_user_info: ' + JSON.stringify(active_user_info, null, 2));
 
-        console.log('getting get user_info_target info by email from remote DB...');
+        console.log('getting get target_user_info info by email from remote DB...');
         console.log(req.body.target_email);
-        const user_info_target = await UserModel.findOne({ email: req.body.target_email });
-        console.log('user_info_target: ' + JSON.stringify(user_info_target, null, 2));
+        const target_user_info = await UserModel.findOne({ email: req.body.target_email });
+        console.log('target_user_info: ' + JSON.stringify(target_user_info, null, 2));
 
-        if (!user_info_follower || !user_info_target) {
+        if (!active_user_info || !target_user_info) {
             return res.status(400).send({ error: 'not found registered user.' });
         }
 
 
         /* target */
-        const data1 = await UserModel.findOne({ email: user_info_target.email }, { my_followers: user_info_follower.email });   // saves changes to remote db
-        console.log('data1 from remote DB: ' + JSON.stringify(data1, null, 2));
+        // const data1 = await UserModel.findOne({ email: target_user_info.email }, { my_followers: active_user_info.email });   // saves changes to remote db
 
+        // console.log('data1 from remote DB: ' + JSON.stringify(data1, null, 2));
 
-        console.log('isfollowing is complete, sending status 200 to client...');
-        if (!data1) {
+        // if (!data1) {
+        //     console.log('isfollowing is complete, sending status 200 to client... false');
+        //     return res.status(200).send({ isfollowing: false });
+        // }
+
+        console.log('TEMP TAG: ', target_user_info.my_followers.indexOf(active_user_info.email));
+
+        if (target_user_info.my_followers.indexOf(active_user_info.email) == -1)
+        {
+            console.log('isfollowing is complete, sending status 200 to client... false');
             return res.status(200).send({ isfollowing: false });
         }
+
+        console.log('isfollowing is complete, sending status 200 to client... true');
         return res.status(200).send({ isfollowing: true });
     } catch (err) {
         /* server might lost connection with DB */
@@ -476,29 +493,29 @@ async function unfollow (req, res) {
 
         console.log('getting get active_user_email info by email from remote DB...');
         console.log(req.body.active_user_email);
-        const user_info_follower = await UserModel.findOne({ email: req.body.active_user_email });
-        console.log('user_info_follower: ' + JSON.stringify(user_info_follower, null, 2));
+        const active_user_info = await UserModel.findOne({ email: req.body.active_user_email });
+        console.log('active_user_info: ' + JSON.stringify(active_user_info, null, 2));
 
         console.log('getting get active_user_email info by email from remote DB...');
         console.log(req.body.target_email);
-        const user_info_target = await UserModel.findOne({ email: req.body.target_email });
-        console.log('user_info_target: ' + JSON.stringify(user_info_target, null, 2));
+        const target_user_info = await UserModel.findOne({ email: req.body.target_email });
+        console.log('target_user_info: ' + JSON.stringify(target_user_info, null, 2));
 
 
-        if (!user_info_follower || !user_info_target) {
+        if (!active_user_info || !target_user_info) {
             return res.status(400).send({ error: 'not found registered user.' });
         }
 
 
         /* add following user to follower */
-        const data1 = await UserModel.findOneAndUpdate({ email: user_info_follower.email }, { $pull: { i_following_to: user_info_target.email } });   // saves changes to remote db
+        const data1 = await UserModel.findOneAndUpdate({ email: active_user_info.email }, { $pull: { i_following_to: target_user_info.email } });   // saves changes to remote db
 
 
         /* add follower to target */
-        const data2 = await UserModel.findOneAndUpdate({ email: user_info_target.email }, { $pull: { my_followers: user_info_follower.email } });   // saves changes to remote db
+        const data2 = await UserModel.findOneAndUpdate({ email: target_user_info.email }, { $pull: { my_followers: active_user_info.email } });   // saves changes to remote db
 
         console.log('unfollow is complete, sending status 200 to client...');
-        return res.status(200).send({ msg: 'user ' + user_info_follower.email + ' unfollowed user ' + user_info_target.email + ' successfully.' });
+        return res.status(200).send({ msg: 'user ' + active_user_info.email + ' unfollowed user ' + target_user_info.email + ' successfully.' });
     } catch (err) {
         /* server might lost connection with DB */
         console.log('error - get_user_info_by_email from remote DB: ' + err);

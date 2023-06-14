@@ -32,8 +32,8 @@ const postSchema = new Schema({
         required: false
     },
     post_likes: {           /* saves count likes this post received */
-        type: Number,
-        required: true
+        type: Array,
+        required: false
     },
     publication_time: {           /* saves date and time of when post was published */
         type: Date,

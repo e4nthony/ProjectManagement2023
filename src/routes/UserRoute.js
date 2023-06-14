@@ -36,7 +36,7 @@ router.post('/get_user_info_by_id',      /* path '/get_user_info_by_id' use func
 
 
 
-router.post('/follow',     
+router.post('/follow',
     user.follow
 );
 
