@@ -111,11 +111,12 @@ async function update_post_by_id (req, res) {
             updated_values.current_price = req.body.new_price;
         }
 
-        const id = req.body.id;
+        // const id = req.body.id;
 
 
 
-        const data = await PostModel.findOneAndUpdate({ _id: req.body._id },
+        // const data = 
+        await PostModel.findOneAndUpdate({ _id: req.body._id },
             updated_values);   // saves changes to remote db
 
 
