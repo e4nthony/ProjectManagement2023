@@ -329,7 +329,7 @@ async function like (req, res) {
         console.log(req.body.post_id);
 
 
-        const user_info2 = await UserModel.findOneAndUpdate({ email: req.body.email }, { $push: { my_liked_posts: req.body.post_id } });
+        const user_info2 = await UserModel.findOneAndUpdate({ email: req.body.email }, { $push: { my_likes: req.body.post_id } });
         console.log('post_info: ' + JSON.stringify(post_info, null, 2))
 
 

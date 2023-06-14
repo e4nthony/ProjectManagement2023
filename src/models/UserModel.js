@@ -28,6 +28,10 @@ const userSchema = new Schema({
         type: Number,
         required: false
     },
+    my_likes: {
+        type: Array,
+        required: false
+    },
     my_followers: {
         type: Array,
         required: false
