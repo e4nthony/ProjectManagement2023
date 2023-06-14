@@ -15,6 +15,11 @@ router.post('/get_post_by_id',          /* path '/get_post_by_id' use func get_p
     post.get_post_by_id
 );
 
+router.post('/update_post_by_id',          
+    // AuthMiddleware.validateToken, // with authorization todo enable
+    post.update_post_by_id
+);
+
 router.post('/get_all_posts_by_author', /* path '/get_all_posts_by_author' use func get_all_posts_by_author from 'post' controller file */
     // AuthMiddleware.validateToken, // with authorization todo enable
     post.get_all_posts_by_author

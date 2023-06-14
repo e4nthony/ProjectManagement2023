@@ -66,59 +66,67 @@ async function create (req, res) {
     }
 }
 
-// function sendUpdatePostError (res, error_msg = 'Update post error, please try again later.') {
-//     return sendDefaultError(res, error_msg);
-// }
+function sendUpdatePostError (res, error_msg = 'Update post error, please try again later.') {
+    return sendDefaultError(res, error_msg);
+}
 
-// /**
-//  * Checks post's data,
-//  * updates existing post at DB,
-//  * sends response to client. (status 200 if post updated successfully)
-//  *
-//  * @param {*} req Expected fields in body: required: id (String)
-//  *                                         optional: post_tittle, post_text.
-//  * @param {*} res
-//  * @returns
-//  */
-// async function update_post_by_id (req, res) {
-//     try {
-//         console.log('server got update post request: \n' + String(req.body));
+/**
+ * Checks post's data,
+ * updates existing post at DB,
+ * sends response to client. (status 200 if post updated successfully)
+ *
+ * @param {*} req Expected fields in body: required: id (String)
+ *                                         optional: post_tittle, post_text.
+ * @param {*} res
+ * @returns
+ */
+async function update_post_by_id (req, res) {
+    try {
+        console.log('server got update post request: \n' + String(req.body));
 
-//         if (!req.body || !req.body.id) {
-//             console.log('got corrupted request, sending create post error...');
-//             return sendUpdatePostError(res);
-//         }
+        if (!req.body || !req.body._id) {
+            console.log('got corrupted request, sending create post error...');
+            return sendUpdatePostError(res);
+        }
 
-//         const updated_values = {}
+        const updated_values = {}
 
-//         if (req.body.post_tittle) {
-//             updated_values.post_tittle = req.body.post_tittle;
-//         }
+        if (req.body.post_tittle) {
+            updated_values.post_tittle = req.body.post_tittle;
+        }
 
-//         if (req.body.post_text) {
-//             updated_values.post_text = req.body.post_text;
-//         }
+        if (req.body.post_text) {
+            updated_values.post_text = req.body.post_text;
+        }
 
-//         const id = req.body.id;
+        if (req.body.leading_buyer_email) {
+            updated_values.leading_buyer_email = req.body.leading_buyer_email;
+        }
 
-//         /* create a filter for a post to update */
-//         const filter = { _id: PostModel.ObjectID(id), author_email };
+        if (req.body.post_text) {
+            updated_values.post_text = req.body.post_text;
+        }
 
-//         /* this option instructs the method NOT to create a document if no documents match the filter */
-//         const options = { upsert: false };
+        if (req.body.new_price) {
+            updated_values.current_price = req.body.new_price;
+        }
 
-//         const updated_document = { $set: updated_values };
+        const id = req.body.id;
 
-//         const result = await PostModel.updateOne(filter, updated_document, options);
 
-//         console.log('updating post is complete, sending message to client...');
-//         return res.status(200).send({ msg: 'Post updated successfully!' });
-//     } catch (err) {
-//         /* server might lost connection with DB */
-//         console.log('update post error: ' + err);
-//         return sendUpdatePostError(res, 'Unexpected error');
-//     }
-// }
+
+        const data = await PostModel.findOneAndUpdate({ _id: req.body._id },
+            updated_values);   // saves changes to remote db
+
+
+        console.log('updating post is complete, sending message to client...');
+        return res.status(200).send({ msg: 'Post updated successfully!' });
+    } catch (err) {
+        /* server might lost connection with DB */
+        console.log('update post error: ' + err);
+        return sendUpdatePostError(res, 'Unexpected error');
+    }
+}
 
 
 /**
@@ -152,7 +160,7 @@ async function get_post_by_id (req, res) {
         }
 
         console.log('get_post_by_id is complete, sending post to client...');
-        return res.status(200).send({ a_post });
+        return res.status(200).send({ post: a_post });
     } catch (err) {
         /* server might lost connection with DB */
         console.log('create post error: ' + err);
@@ -450,7 +458,7 @@ async function like (req, res) {
 
 module.exports = {
     create,
-    // update_post_by_id,
+    update_post_by_id,
     // delete_post_by_id,
     get_post_by_id,
     get_all_posts_by_author,

@@ -447,10 +447,12 @@ async function isfollowing (req, res) {
         console.log('data1 from remote DB: ' + JSON.stringify(data1, null, 2));
 
 
-        console.log('isfollowing is complete, sending status 200 to client...');
+        
         if (!data1) {
+            console.log('isfollowing is complete, sending status 200 to client... false');
             return res.status(200).send({ isfollowing: false });
         }
+        console.log('isfollowing is complete, sending status 200 to client... true');
         return res.status(200).send({ isfollowing: true });
     } catch (err) {
         /* server might lost connection with DB */
