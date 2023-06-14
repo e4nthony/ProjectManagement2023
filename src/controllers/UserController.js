@@ -443,15 +443,23 @@ async function isfollowing (req, res) {
 
 
         /* target */
-        const data1 = await UserModel.findOne({ email: target_user_info.email }, { my_followers: active_user_info.email });   // saves changes to remote db
-        console.log('data1 from remote DB: ' + JSON.stringify(data1, null, 2));
+        // const data1 = await UserModel.findOne({ email: target_user_info.email }, { my_followers: active_user_info.email });   // saves changes to remote db
 
+        // console.log('data1 from remote DB: ' + JSON.stringify(data1, null, 2));
 
-        
-        if (!data1) {
+        // if (!data1) {
+        //     console.log('isfollowing is complete, sending status 200 to client... false');
+        //     return res.status(200).send({ isfollowing: false });
+        // }
+
+        console.log('TEMP TAG: ', target_user_info.my_followers.indexOf(active_user_info.email));
+
+        if (target_user_info.my_followers.indexOf(active_user_info.email) == -1)
+        {
             console.log('isfollowing is complete, sending status 200 to client... false');
             return res.status(200).send({ isfollowing: false });
         }
+
         console.log('isfollowing is complete, sending status 200 to client... true');
         return res.status(200).send({ isfollowing: true });
     } catch (err) {
