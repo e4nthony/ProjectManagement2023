@@ -65,8 +65,22 @@ Content-Type: application/json
     "post_text": "Very long and beautiful explanation about my computer's motherboard for sale. Then my bestfriend's cat walk on keyboardd khi s drfgkluh dsfrvg kulh dsrg kul hsdrtfg ilug dfr tvliug sdrt g 87ilre54t !!!",
     "author_email": "example+alice@gmail.com",
     "starting_price": 200,
-    "publication_time": "2023-06-13",
+    "publication_time": "2023-01-13",
     "expiration_time": "2023-08-13"
+}
+
+
+### create ---TRUE_EXAMPLE---
+POST http://localhost:3080/post/create
+Content-Type: application/json 
+
+{
+    "post_tittle": "Unique laptop",
+    "post_text": "Very long and beautiful explanation about my unique laptop for sale. Then my bestfriend's cat walk on keyboardd khi s drfgkluh dsfrvg kulh dsrg kul hsdrtfg ilug dfr tvliug sdrt g 87ilre54t !!!",
+    "author_email": "example+alice@gmail.com",
+    "starting_price": 125,
+    "publication_time": "2023-01-11",
+    "expiration_time": "2024-01-13"
 }
 
 ### get_all_posts

@@ -59,6 +59,19 @@ Content-Type: application/json
     "expiration_time": "2023-08-13"
 }
 
+### create TRUE
+POST http://localhost:3080/post/create
+Content-Type: application/json 
+
+{
+    "post_tittle": "The most expensive cardboard.",
+    "post_text": "Very long and beautiful explanation about my expensive cardboard for sale. I keep treasures from Titanic in here.",
+    "author_email": "example+moshe@gmail.com",
+    "starting_price": 116,
+    "publication_time": "2023-01-11",
+    "expiration_time": "2023-09-28"
+}
+
 ### get_all_posts
 GET http://localhost:3080/post/get_all_posts
 

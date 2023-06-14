@@ -72,6 +72,35 @@ Content-Type: application/json
     "expiration_time": "2023-08-13"
 }
 
+
+
+### create TRUE
+POST http://localhost:3080/post/create
+Content-Type: application/json 
+
+{
+    "post_tittle": "An Autograph.",
+    "post_text": "Very long and beautiful explanation about my image of celebrity with his autograph. ",
+    "author_email": "example+dave@gmail.com",
+    "starting_price": 90,
+    "publication_time": "2023-05-13",
+    "expiration_time": "2023-10-28"
+}
+
+### create TRUE
+POST http://localhost:3080/post/create
+Content-Type: application/json 
+
+{
+    "post_tittle": "Brand New Scarf",
+    "post_text": "Very long and beautiful explanation about long and beautiful brand new scarf. Buy it! It really warm!!!",
+    "author_email": "example+dave@gmail.com",
+    "starting_price": 99,
+    "publication_time": "2023-01-28",
+    "expiration_time": "2023-11-01"
+}
+
+
 ### get_all_posts
 GET http://localhost:3080/post/get_all_posts
 

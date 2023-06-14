@@ -59,6 +59,19 @@ Content-Type: application/json
     "expiration_time": "2023-08-13"
 }
 
+### create  TRUE
+POST http://localhost:3080/post/create
+Content-Type: application/json 
+
+{
+    "post_tittle": "Rare Jewelerry",
+    "post_text": "Very long and beautiful explanation about my beautiful jewelerry of diamonds. Then my cat walk on keyboardd kjaeriluhf3 4598y4wg59p8y4g p9y8 4g5089yu 4g5098 r5g0pu9 jr45p98 w4r9h8eup !!!",
+    "author_email": "example+jessica@gmail.com",
+    "starting_price": 30,
+    "publication_time": "2023-04-14",
+    "expiration_time": "2023-12-19"
+}
+
 ### get_all_posts
 GET http://localhost:3080/post/get_all_posts
 
